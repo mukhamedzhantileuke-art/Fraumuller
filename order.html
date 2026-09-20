@@ -3,16 +3,17 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Заказ еды с доставкой из Frau Muller.">
+    <meta name="description" content="Быстрая доставка баварских блюд, стейков и пиццы из ресто-паба Frau Muller в Астане. Оформите онлайн-заказ свежей горячей еды с доставкой на дом или в офис.">
     <meta name="author" content="Nurmuhammadjon Abdurahmonov">
-    <title>Frau Muller | Доставка</title>
+    <title>Frau Muller | Доставка еды</title>
     <link rel="stylesheet" href="css/base.css">
     <link rel="stylesheet" href="css/nurmuhammadjon.css">
 </head>
 <body>
+    <!-- Author: Nurmuhammadjon Abdurahmonov -->
     <header>
-        <h1>Доставка еды</h1>
-        <p>Закажите любимые блюда на дом.</p>
+        <h1>Доставка еды Frau Muller</h1>
+        <p>Настоящая баварская кухня и гриль у вас дома в Астане.</p>
     </header>
 
     <nav>
@@ -29,38 +30,149 @@
     </nav>
 
     <main>
-        <section>
-            <h2>Корзина заказа</h2>
+        <!-- Section for delivery information and conditions -->
+        <section class="order-section">
+            <h2>Условия доставки по Астане</h2>
+            
+            <!-- Float and Clear demonstration with real content -->
+            <div class="delivery-info">
+                <!-- div used here as a non-semantic container for layout styling of float and text content -->
+                <img src="images/снаружи.jpg" alt="Ресто-паб Frau Muller на улице Жургенова" class="float-img">
+                <p>
+                    Служба доставки ресто-паба <strong>Frau Muller</strong> привозит горячие блюда прямо из печи и гриля. Наше заведение расположено по адресу: <em>г. Астана, ул. Темирбека Жургенова, 18/1 (Аллея Мынжылдык)</em>. Мы доставляем свежеприготовленные баварские колбаски, стейки прожарки на ваш выбор, хрустящую пиццу и фирменные салаты во все районы правого и левого берега столицы.
+                </p>
+                <p>
+                    Среднее время доставки составляет от 45 до 60 минут в зависимости от удаленности адреса. Минимальная сумма заказа для оформления бесплатной доставки по городу составляет <span class="price-tag">7 000 тенге</span>. При заказе на меньшую сумму стоимость курьерской доставки фиксированная и составляет 1 000 тенге. Все горячие блюда упаковываются в специальные термобоксы, сохраняющие температуру и аромат блюд до момента передачи клиенту.
+                </p>
+                <!-- Clear demonstration: prevents subsequent blocks from flowing around the float image -->
+                <div class="delivery-clear"></div>
+            </div>
+
+            <!-- Urgent notice banner demonstrating the single allowed !important rule in CSS -->
+            <aside class="urgent-notice">
+                Внимание: В праздничные и выходные дни время доставки может быть увеличено до 75 минут из-за загруженности кухни.
+            </aside>
+
+            <!-- Card container with relative positioning containing an absolute promo badge -->
+            <div class="order-card order-card-relative">
+                <!-- div used purely for card border styling and relative positioning context -->
+                <span class="promo-badge">Акция</span>
+                <h3>Специальное предложение на доставку</h3>
+                <p>
+                    При заказе любых двух пицц или порции фирменных колбасок — баночка авторского соуса и традиционный десерт в подарок! 
+                    Статус предложения: 
+                    <!-- Specificity experiment target: class .order-badge vs span.order-badge -->
+                    <span class="order-badge">Активно сегодня</span>
+                </p>
+            </div>
+
+            <!-- Steps of delivery: Flexbox container demonstration -->
+            <h3>Как мы доставляем ваш заказ</h3>
+            <ol class="order-steps">
+                <li class="step-item"><strong>1. Выбор блюд:</strong> заполните онлайн-форму ниже.</li>
+                <li class="step-item"><strong>2. Подтверждение:</strong> менеджер свяжется в течение 5 минут.</li>
+                <li class="step-item"><strong>3. Приготовление:</strong> повара готовят на открытом огне.</li>
+                <li class="step-item"><strong>4. Доставка:</strong> курьер привозит заказ в термосумке.</li>
+            </ol>
+        </section>
+
+        <!-- Centering technique 2: Flexbox Centering -->
+        <div class="center-flex-box">
+            <!-- div used as flex centering wrapper -->
+            <p><strong>Бесконтактная доставка доступна по запросу при онлайн-оплате через Kaspi QR.</strong></p>
+        </div>
+
+        <!-- Section containing the comprehensive order form -->
+        <section class="order-section">
+            <h2>Оформление доставки</h2>
+            
+            <!-- 
+                Form note: The form does not send anything yet because server-side processing 
+                has not been implemented yet. All submissions are processed locally for demonstration.
+            -->
             <form action="#" method="post" id="order-form" class="order-form">
                 <fieldset>
-                    <legend>Выбор блюд</legend>
-                    <label for="dish">Основное блюдо:</label>
-                    <select id="dish" name="dish" required>
-                        <option value="">-- Выберите блюдо --</option>
-                        <option value="steak">Стейк Рибай</option>
-                        <option value="sausages">Баварские колбаски</option>
-                        <option value="pizza">Пицца Пепперони</option>
+                    <legend>1. Выбор блюд и напитков</legend>
+                    
+                    <label for="dishSelect">Выберите основное блюдо:</label>
+                    <select id="dishSelect" name="dish" required>
+                        <option value="">-- Выберите из меню --</option>
+                        <option value="steak">Стейк Рибай (8 500 тг)</option>
+                        <option value="sausages">Баварские колбаски с капустой (3 200 тг)</option>
+                        <option value="pizza">Пицца Пепперони (3 500 тг)</option>
+                        <option value="salad">Салат Баварский с копченой говядиной (2 400 тг)</option>
+                        <option value="waffles">Бельгийские вафли с шоколадом (1 800 тг)</option>
                     </select>
-                    <br><br>
-                    
-                    <input type="checkbox" id="addSauce" name="addSauce">
-                    <label for="addSauce">Добавить фирменный соус (+300 тг)</label>
-                    <br><br>
-                    
-                    <label for="clientTel">Телефон:</label>
-                    <input type="tel" id="clientTel" name="clientTel" required>
-                    <br><br>
-                    
-                    <button type="submit">Оформить доставку</button>
+
+                    <label for="portionsCount">Количество порций:</label>
+                    <input type="number" id="portionsCount" name="portions" min="1" max="20" value="1" required>
+
+                    <label for="extraSauce">Дополнительные опции:</label>
+                    <input type="checkbox" id="extraSauce" name="extraSauce" value="yes">
+                    <span>Добавить фирменный горчичный соус Frau Muller (+300 тг)</span>
+                    <!-- span used to style inline label text next to checkbox without breaking semantic flow -->
                 </fieldset>
+
+                <fieldset>
+                    <legend>2. Данные получателя и адрес доставки</legend>
+                    
+                    <label for="clientName">Ваше имя:</label>
+                    <input type="text" id="clientName" name="clientName" placeholder="Нурмухаммаджон" required>
+
+                    <label for="clientEmail">Электронная почта (для чека):</label>
+                    <input type="email" id="clientEmail" name="clientEmail" placeholder="client@example.com" required>
+
+                    <label for="clientPhone">Номер телефона:</label>
+                    <input type="tel" id="clientPhone" name="clientPhone" placeholder="+7 (702) 672-40-66" required>
+
+                    <label for="deliveryStreet">Адрес доставки (улица, дом, подъезд, квартира):</label>
+                    <input type="text" id="deliveryStreet" name="deliveryAddress" placeholder="ул. Жургенова, дом 18/1, кв. 15" required>
+
+                    <label for="deliveryDate">Желаемая дата доставки:</label>
+                    <input type="date" id="deliveryDate" name="deliveryDate" required>
+                </fieldset>
+
+                <fieldset>
+                    <legend>3. Способ оплаты и комментарии</legend>
+                    
+                    <p><strong>Выберите способ оплаты:</strong></p>
+                    <input type="radio" id="payKaspi" name="paymentMethod" value="kaspi" checked>
+                    <label for="payKaspi">Kaspi QR / Kaspi Pay</label>
+                    
+                    <input type="radio" id="payCard" name="paymentMethod" value="card">
+                    <label for="payCard">Банковской картой курьеру</label>
+                    
+                    <input type="radio" id="payCash" name="paymentMethod" value="cash">
+                    <label for="payCash">Наличными при получении</label>
+
+                    <label for="orderComments">Комментарий к заказу (код домофона, этаж, пожелания к прожарке):</label>
+                    <textarea id="orderComments" name="orderComments" rows="4" placeholder="Например: домофон 42, позвонить за 10 минут..."></textarea>
+                </fieldset>
+
+                <!-- Centering technique 1: margin auto via .center-block container -->
+                <div class="center-block">
+                    <button type="submit">Оформить доставку</button>
+                    <button type="reset">Очистить форму</button>
+                </div>
             </form>
         </section>
+
+        <!-- Centering technique 3: Absolute positioning with transform -->
+        <div class="center-absolute-box">
+            <!-- div used as positioning canvas for absolute centering demo -->
+            <div class="center-absolute-item">
+                ✦ Frau Muller — Высокие стандарты баварского гостеприимства ✦
+            </div>
+        </div>
     </main>
+
+    <!-- Fixed positioning demonstration: Floating quick order call button -->
+    <a href="tel:+77026724066" class="fixed-order-btn">📞 Быстрый заказ</a>
 
     <footer>
         <hr>
         <p>Frau Muller &copy; 2026. Все права защищены.</p>
+        <address>г. Астана, ул. Темирбека Жургенова, 18/1 | Тел: +7 (702) 672-40-66</address>
     </footer>
 </body>
 </html>
-
