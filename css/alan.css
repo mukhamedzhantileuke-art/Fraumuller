@@ -1,0 +1,73 @@
+/* 
+ * Alan's Stylesheet 
+ * Pages: menu.html, contacts.html, feedback.html
+ */
+
+/* Specificity Experiment  */
+/* Rule 1: Specificity (0, 1, 0) - class selector */
+.contact-card {
+    border: 2px solid green;
+    background-color: #f9f9f9;
+}
+
+/* Rule 2: Specificity (0, 1, 1) - type selector + class selector */
+section.contact-card {
+    border: 2px solid DarkRed;
+    /* This rule wins because a type selector (section) added to a class (.contact-card) 
+       has higher specificity than just the class alone. Conflict resolved by letting this one win naturally. */
+}
+
+/* Flexbox Layout (contacts.html) */
+/* ID selector - used exactly once on contacts.html as the main flex container */
+#contact-main {
+    display: flex;
+    flex-direction: row; /* Flex direction */
+    flex-wrap: wrap;     /* Flex wrap */
+    justify-content: space-around;
+    align-items: stretch;
+    gap: 20px;
+}
+
+.contact-card {
+    /* Flex items that grow and shrink */
+    flex: 1 1 300px;
+    padding: 20px;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+}
+
+/* Grid Layout (menu.html) */
+.menu-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 25px;
+}
+
+.menu-grid section {
+    background: #fff;
+    padding: 20px;
+    border-radius: 5px;
+}
+
+/* Other Selectors */
+/* Adjacent sibling selector (+) */
+h2 + p {
+    margin-top: 15px;
+    font-style: italic;
+    color: #555;
+}
+
+/* Form styling */
+.feedback-form fieldset {
+    border: 1px solid #ccc;
+    padding: 20px;
+}
+
+/* Grouping selector */
+input[type="text"], input[type="email"], textarea {
+    width: 100%;
+    padding: 8px;
+    margin-top: 5px;
+    border: 1px solid #aaa;
+    border-radius: 4px;
+}
+
