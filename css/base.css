@@ -1,0 +1,96 @@
+/* 
+ * Frau Muller Palette 
+ * 1. #F5F2EB (Light Parchment/Beige) - Main background for good text readability.
+ * 2. rgba(43, 30, 22, 1) (Dark Wood) - Header and footer background for a classic pub feel.
+ * 3. #2C2C2C (Charcoal) - Main text color, softer on the eyes than pure black.
+ * 4. DarkRed (Named Color) - Accent color for borders/links, associated with meat and wine.
+ * 5. #D4AF37 (Mustard/Gold) - Hover effect color, reminiscent of beer and baking.
+ */
+
+/* Universal selector (*) to control the box model across all elements */
+* {
+    box-sizing: border-box; /* Padding and border are included in width */
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    /* Typography: sans-serif fallback stack for body text */
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 16px;
+    line-height: 1.6;
+    letter-spacing: 0.5px;
+    color: #2C2C2C;
+    background-color: #F5F2EB;
+}
+
+h1, h2, h3 {
+    /* Typography: serif fallback stack for headings */
+    font-family: Georgia, "Times New Roman", serif;
+    font-weight: bold;
+    letter-spacing: 1px;
+}
+
+/* Header styling */
+header {
+    background-color: rgba(43, 30, 22, 1);
+    color: #F5F2EB;
+    text-align: center;
+    padding: 20px;
+    /* Margin, padding, and border used deliberately to show box model */
+    border-bottom: 5px solid DarkRed;
+}
+
+header h1 {
+    font-size: 36px;
+    margin-bottom: 10px;
+}
+
+/* Navigation - Flex row requirement */
+nav {
+    background-color: #2C2C2C;
+}
+
+nav ul {
+    list-style-type: none;
+    /* Flex container */
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    gap: 20px; /* Spacing between nav links */
+    padding: 15px;
+}
+
+nav a {
+    color: #F5F2EB;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+/* Pseudo-classes :hover and :focus demonstrated here */
+nav a:hover, nav a:focus {
+    color: #D4AF37;
+}
+
+/* Main content styling */
+main {
+    /* Centering technique 1: margin auto */
+    /* Used to keep the main content block centered horizontally on wide screens */
+    max-width: 1000px;
+    margin: 30px auto; 
+    padding: 20px;
+    background-color: #FFFFFF;
+    /* Adding a subtle border to show box model */
+    border: 1px solid #ddd;
+}
+
+/* Footer styling */
+footer {
+    background-color: rgba(43, 30, 22, 1);
+    color: #F5F2EB;
+    text-align: center;
+    padding: 20px;
+    margin-top: 40px;
+}
+

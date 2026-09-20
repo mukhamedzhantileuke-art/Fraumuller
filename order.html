@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Заказ еды с доставкой из Frau Muller.">
+    <meta name="author" content="Nurmuhammadjon Abdurahmonov">
+    <title>Frau Muller | Доставка</title>
+    <link rel="stylesheet" href="css/base.css">
+    <link rel="stylesheet" href="css/nurmuhammadjon.css">
+</head>
+<body>
+    <header>
+        <h1>Доставка еды</h1>
+        <p>Закажите любимые блюда на дом.</p>
+    </header>
+
+    <nav>
+        <ul>
+            <li><a href="index.html">Главная</a></li>
+            <li><a href="menu.html">Меню</a></li>
+            <li><a href="order.html">Доставка</a></li>
+            <li><a href="about.html">О нас</a></li>
+            <li><a href="reservation.html">Бронь столов</a></li>
+            <li><a href="contacts.html">Контакты</a></li>
+            <li><a href="feedback.html">Отзывы</a></li>
+            <li><a href="colophon.html">О проекте</a></li>
+        </ul>
+    </nav>
+
+    <main>
+        <section>
+            <h2>Корзина заказа</h2>
+            <form action="#" method="post" id="order-form" class="order-form">
+                <fieldset>
+                    <legend>Выбор блюд</legend>
+                    <label for="dish">Основное блюдо:</label>
+                    <select id="dish" name="dish" required>
+                        <option value="">-- Выберите блюдо --</option>
+                        <option value="steak">Стейк Рибай</option>
+                        <option value="sausages">Баварские колбаски</option>
+                        <option value="pizza">Пицца Пепперони</option>
+                    </select>
+                    <br><br>
+                    
+                    <input type="checkbox" id="addSauce" name="addSauce">
+                    <label for="addSauce">Добавить фирменный соус (+300 тг)</label>
+                    <br><br>
+                    
+                    <label for="clientTel">Телефон:</label>
+                    <input type="tel" id="clientTel" name="clientTel" required>
+                    <br><br>
+                    
+                    <button type="submit">Оформить доставку</button>
+                </fieldset>
+            </form>
+        </section>
+    </main>
+
+    <footer>
+        <hr>
+        <p>Frau Muller &copy; 2026. Все права защищены.</p>
+    </footer>
+</body>
+</html>
+

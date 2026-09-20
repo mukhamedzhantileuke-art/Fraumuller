@@ -1,0 +1,81 @@
+/* 
+ * Tileuke's Stylesheet 
+ * Pages: index.html, about.html, reservation.html
+ */
+
+/* Grid Layout (index.html) */
+.main-grid {
+    /* CSS Grid */
+    display: grid;
+    /* Using repeat() and minmax() */
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 20px;
+    /* Grid suited this block better than Flexbox because we want a strict 
+       two-dimensional layout where items align into robust columns regardless of content size. */
+}
+
+/* Spanning item */
+.main-grid aside {
+    grid-column: 1 / -1; /* Spans across all available columns */
+    background-color: #fcfbf8;
+    padding: 15px;
+    border-left: 5px solid DarkRed;
+}
+
+/* Positioning (index.html) */
+.hero-article {
+    /* Relative as a containing block for the absolute figcaption */
+    position: relative; 
+}
+
+/* Absolute positioning for a caption overlaid on an image */
+.overlay-figure figcaption {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    background-color: rgba(43, 30, 22, 0.85);
+    color: white;
+    padding: 10px;
+    text-align: center;
+}
+
+/* Float and Clear (about.html) */
+.float-figure {
+    float: left;
+    margin-right: 20px;
+    margin-bottom: 15px;
+    border: 3px solid #ccc;
+}
+
+/* Clearfix demonstration */
+#history-section::after {
+    content: "";
+    display: table;
+    clear: both;
+    /* What would happen without the clear: The floating image might overflow out of its parent 
+       section, causing subsequent sections or footers to wrap awkwardly around it. */
+}
+
+/* ID selector - used exactly once on about.html */
+#history-section {
+    /* Static explained: Static is the default positioning. Elements render in order, as they appear in the document flow. Used here implicitly. */
+    position: static;
+    padding: 20px;
+}
+
+/* Other Selectors  */
+/* Attribute selector */
+input[type="date"], input[type="time"] {
+    padding: 5px;
+    border: 1px solid #aaa;
+    border-radius: 4px;
+}
+
+/* Child selector (>) */
+.booking-form > fieldset {
+    margin-bottom: 20px;
+    padding: 15px;
+    border: 1px solid DarkRed;
+}
+

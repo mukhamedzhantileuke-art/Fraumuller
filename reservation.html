@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Забронируйте столик в Frau Muller.">
+    <meta name="author" content="Tileuke Mukhamedzhan">
+    <title>Frau Muller | Бронирование</title>
+    <link rel="stylesheet" href="css/base.css">
+    <link rel="stylesheet" href="css/tileuke.css">
+</head>
+<body>
+    <header>
+        <h1>Бронирование столика</h1>
+        <p>Гарантируйте себе место на выходные.</p>
+    </header>
+
+    <nav>
+        <ul>
+            <li><a href="index.html">Главная</a></li>
+            <li><a href="menu.html">Меню</a></li>
+            <li><a href="order.html">Доставка</a></li>
+            <li><a href="about.html">О нас</a></li>
+            <li><a href="reservation.html">Бронь столов</a></li>
+            <li><a href="contacts.html">Контакты</a></li>
+            <li><a href="feedback.html">Отзывы</a></li>
+            <li><a href="colophon.html">О проекте</a></li>
+        </ul>
+    </nav>
+
+    <main>
+        <section>
+            <h2>Форма бронирования</h2>
+            <form action="#" method="post" id="booking-form" class="booking-form">
+                <fieldset>
+                    <legend>Данные гостя</legend>
+                    <label for="fullName">Ваше имя:</label>
+                    <input type="text" id="fullName" name="fullName" placeholder="Alan Nur" required>
+                    <br><br>
+                    
+                    <label for="phoneNumber">Номер телефона:</label>
+                    <input type="tel" id="phoneNumber" name="phoneNumber" placeholder="+7 778 777 00 03" required>
+                </fieldset>
+                <br>
+                <fieldset>
+                    <legend>Детали столика</legend>
+                    
+                    <label for="resDate">Дата визита:</label>
+                    <input type="date" id="resDate" name="resDate" required>
+                    <br><br>
+                    
+                    <label for="resTime">Время (с 12:00 до 02:00):</label>
+                    <input type="time" id="resTime" name="resTime" required>
+                    <br><br>
+                    
+                    <label for="guestCount">Количество гостей:</label>
+                    <input type="number" id="guestCount" name="guestCount" min="1" max="15" required>
+                    <br><br>
+                    
+                    <label for="zone">Выберите зал:</label>
+                    <select id="zone" name="zone">
+                        <option value="main">Основной зал</option>
+                        <option value="terrace">Летняя терраса</option>
+                        <option value="vip">VIP кабина</option>
+                    </select>
+                    <br><br>
+
+                    <p>Повод для визита:</p>
+                    <input type="radio" id="occDinner" name="occasion" value="dinner" checked>
+                    <label for="occDinner">Обычный ужин</label>
+                    
+                    <input type="radio" id="occBirthday" name="occasion" value="birthday">
+                    <label for="occBirthday">День рождения</label>
+                    
+                    <input type="radio" id="occCorporate" name="occasion" value="corporate">
+                    <label for="occCorporate">Корпоратив</label>
+                    <br><br>
+                    
+                    <input type="checkbox" id="wantsNotification" name="wantsNotification">
+                    <label for="wantsNotification">Подтвердить бронь по WhatsApp</label>
+                    <br><br>
+                    
+                    <label for="requests">Особые пожелания:</label><br>
+                    <textarea id="requests" name="requests" rows="4" ></textarea>
+                </fieldset>
+                <br>
+                <button type="submit">Забронировать</button>
+                <button type="reset">Очистить форму</button>
+            </form>
+        </section>
+    </main>
+
+    <footer>
+        <hr>
+        <p>Frau Muller &copy; 2026. Все права защищены.</p>
+    </footer>
+</body>
+</html>
+
