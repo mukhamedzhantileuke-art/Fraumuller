@@ -4,72 +4,98 @@ CSS Checklist - Assignment 2 (Grouped by Student/File)
 Base CSS (Team Collaboration)
 File: css/base.css
 ======================================================
-Color Palette (Comment + max 5 colors + reason): Line 2
-Hex Color Used: Line 25 (#F5F2EB)
-RGB/RGBA Color Used: Line 34 (rgba(43, 30, 22, 1))
-Named Color Used: Line 38 (DarkRed)
-Font Families with Fallbacks: Line 20, Line 29
-font-size deliberately set: Line 21
+Color Palette (Comment + max 5 colors + reason): Lines 1-8
+Hex Color Used: Line 24 (#F5F2EB)
+RGB/RGBA Color Used: Line 36 (rgba(43, 30, 22, 1))
+Named Color Used: Line 41 (DarkRed)
+Font Families with Fallbacks: Line 19, Line 29
+font-size deliberately set: Line 20, Line 45
 font-weight deliberately set: Line 30
-line-height deliberately set: Line 22
-letter-spacing deliberately set: Line 23
-box-sizing: Line 13
-margin deliberately used: Line 14
-padding deliberately used: Line 15
-border deliberately used: Line 38
-Centering 1 (margin auto): Line 76 (margin: 30px auto;)
-Type selector (h1, h2, h3): Line 28
-Universal selector (*): Line 12
-Pseudo-classes (:hover, :focus): Line 65
-Nav Flexbox (row, justify-content, align-items, gap): Lines 54-58
+line-height deliberately set: Line 21
+letter-spacing deliberately set: Line 22
+box-sizing: Line 12 (border-box)
+margin deliberately used: Line 13
+padding deliberately used: Line 14
+border deliberately used: Line 41
+Centering 1 (margin auto): Line 81 (margin: 30px auto;)
+Type selector (h1, h2, h3): Line 27
+Universal selector (*): Line 11
+Pseudo-classes (:hover, :focus): Line 72
+Nav Flexbox (row, justify-content, align-items, gap): Lines 57-61
 
 ======================================================
 Student: Tileuke Mukhamedzhan
 Files: css/tileuke.css (index, about, reservation)
 ======================================================
-Grid layout (grid-template-columns, repeat, minmax, gap): Lines 10-12
-Grid span (>1 col/row): Line 20 (grid-column: 1 / -1)
-Comment why Grid is better: Line 14
-Position static (with comment): Lines 48, 51
-Position relative: Line 29
-Position absolute: Line 34
-Float (image inside paragraph): Line 40 (float: left)
-Clear: Line 54 (clear: both)
-Comment without clear: Line 56
-Attribute selector ([type="date"]): Line 65
-Child selector (>): Line 72
-Class 1 (.main-grid): Line 9
-Class 2 (.hero-article): Line 27
-Class 3 (.overlay-figure): Line 33
-Class 4 (.float-figure): Line 39
-ID 1 (#history-section): Line 48
+Grid layout (grid-template-columns, repeat, minmax, gap): Lines 7-12
+Grid span (>1 col/row): Line 19 (grid-column: 1 / -1)
+Comment why Grid is better: Lines 13-15
+Position static (with comment): Lines 62-63
+Position relative: Line 28
+Position absolute: Line 33
+Float (image inside paragraph): Line 45 (float: left)
+Clear: Line 55 (clear: both)
+Comment without clear: Lines 56-58
+Attribute selector ([type="date"], [type="time"]): Line 69
+Child selector (>): Line 76
+Class 1 (.main-grid): Line 7
+Class 2 (.hero-article): Line 26
+Class 3 (.overlay-figure): Line 32
+Class 4 (.float-figure): Line 44
+ID 1 (#history-section): Line 61
 
 ======================================================
 Student: Alan Baiguzhinov
 Files: css/alan.css (menu, contacts, feedback)
 ======================================================
-Specificity Experiment: Lines 7, 13 (Conflict and resolution comment)
-Flex container with flex-wrap: Lines 22, 24
-Flex item grow/shrink (flex: 1 1 300px): Line 31
-Adjacent sibling selector (+): Line 46
-Grouping with commas (input, textarea): Line 58
-Class 5 (.contact-card): Line 7
-Class 6 (.menu-grid): Line 37
-Class 7 (.feedback-form): Line 53
-ID 2 (#contact-main): Line 21
-Internal <style> block: menu.html (Line 6)
-Inline style attribute: contacts.html (Line 13 - style="color: DarkRed;")
+Specificity Experiment: Lines 8, 14 (Conflict and resolution comments)
+Flex container with flex-wrap: Lines 22-25
+Flex item grow/shrink (flex: 1 1 300px): Line 33
+Adjacent sibling selector (+): Line 53
+Grouping with commas (input[type="text"], input[type="email"], textarea): Line 66
+Class 5 (.contact-card): Line 8
+Class 6 (.menu-grid): Line 39
+Class 7 (.feedback-form): Line 60
+ID 2 (#contact-main): Line 22
+Internal <style> block: menu.html (Line 11)
+Inline style attribute: contacts.html (Line 14 - style="color: DarkRed;")
 
 ======================================================
 Student: Nurmuhammadjon Abdurahmonov
-Files: css/nurmuhammadjon.css (colophon, order)
+Files: css/nurmuhammadjon.css (order, colophon)
 ======================================================
-Centering 2 (Flexbox layout): Line 27 (align-items: center)
-Centering 3 (Absolute + transform): Lines 37-39 (transform: translateX(-50%))
-Position fixed: Line 52 (position: fixed)
-Pseudo-class (:first-child): Line 15
-Pseudo-element (::after): Line 48
-Class 8 (.colophon-grid): Line 8
-Class 9 (.order-form): Line 20
-!important rule used exactly once: Line 63 (background-color: DarkRed !important)
-Comment justifying !important: Line 64
+Box Model & Margin Collapse comment: Lines 15-21
+Centering 2 (Flexbox layout): Line 347 (display: flex; justify-content: center; align-items: center;)
+Centering 3 (Absolute + transform): Lines 367-374 (transform: translate(-50%, -50%))
+Position static (with comment): Lines 268-271
+Position relative: Line 275
+Position absolute: Line 281
+Position fixed: Line 297 (position: fixed)
+Float & Clear (with comment): Lines 318-332
+Grid layout (repeat, minmax, gap): Lines 66-69
+Grid span (>1 col/row): Line 378 (grid-column: 1 / -1)
+Comment why Grid is better: Lines 70-74
+Flex container (flex-direction, flex-wrap, gap): Lines 86-94
+Flex items grow/shrink (flex: 1 1 180px): Line 99
+Specificity Experiment: Lines 122-141 (.order-badge vs span.order-badge)
+!important rule used exactly once: Line 147 (background-color: DarkRed !important)
+Comment justifying !important: Lines 154-159
+Type selector (legend): Line 167
+Descendant selector (.order-form label): Line 175
+Child selector (>): Line 183
+Adjacent sibling selector (+): Line 189
+Grouping selector with commas: Line 207
+Attribute selector ([type="submit"], [type="reset"]): Lines 219, 226
+Pseudo-classes (:hover, :focus): Lines 233, 237, 241
+Pseudo-class (:first-child): Line 250
+Pseudo-element (::after): Line 257
+Class 8 (.order-card): Line 47
+Class 9 (.order-form): Line 58
+Class 10 (.colophon-grid): Line 66
+Class 11 (.colophon-card): Line 78
+Class 12 (.order-steps): Line 86
+Class 13 (.step-item): Line 98
+Class 14 (.delivery-info): Line 108
+Class 15 (.price-tag): Line 114
+ID 3 (#order-form): Line 32
+ID 4 (#colophon-main): Line 42
