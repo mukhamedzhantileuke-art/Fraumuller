@@ -3,16 +3,17 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="О проекте Frau Muller (Colophon).">
+    <meta name="description" content="Техническое описание и спецификация веб-проекта Frau Muller Resto-Pub. Состав команды разработчиков, архитектура верстки и стандарты HTML5/CSS3.">
     <meta name="author" content="Nurmuhammadjon Abdurahmonov">
-    <title>Frau Muller | О проекте</title>
+    <title>Frau Muller | О проекте (Colophon)</title>
     <link rel="stylesheet" href="css/base.css">
     <link rel="stylesheet" href="css/nurmuhammadjon.css">
 </head>
 <body>
+    <!-- Author: Nurmuhammadjon Abdurahmonov -->
     <header>
         <h1>О проекте (Colophon)</h1>
-        <p>Техническая информация о сайте.</p>
+        <p>Техническая информация, архитектура верстки и состав команды.</p>
     </header>
 
     <nav>
@@ -28,35 +29,57 @@
         </ul>
     </nav>
 
+    <!-- CSS Grid Container for multi-column layout -->
     <main class="colophon-grid" id="colophon-main">
-        <section>
-            <h2>Команда</h2>
+        <section class="colophon-card">
+            <h2>Команда разработчиков</h2>
+            <p>Проект разработан студенческой командой в рамках курса Web Technologies:</p>
             <ol type="I">
-                <li><strong>Tileuke Mukhamedzhan</strong> &mdash; <code>index.html</code>, <code>about.html</code>, <code>reservation.html</code></li>
-                <li><strong>Alan Baiguzhinov</strong> &mdash; <code>menu.html</code>, <code>contacts.html</code>, <code>feedback.html</code></li>
-                <li><strong>Nurmuhammadjon Abdurahmonov</strong> &mdash; <code>colophon.html</code>, <code>order.html</code></li>
+                <li><strong>Tileuke Mukhamedzhan</strong> &mdash; страницы <code>index.html</code>, <code>about.html</code>, <code>reservation.html</code>, стили <code>css/tileuke.css</code>.</li>
+                <li><strong>Alan Baiguzhinov</strong> &mdash; страницы <code>menu.html</code>, <code>contacts.html</code>, <code>feedback.html</code>, стили <code>css/alan.css</code>.</li>
+                <li><strong>Nurmuhammadjon Abdurahmonov</strong> &mdash; страницы <code>colophon.html</code>, <code>order.html</code>, стили <code>css/nurmuhammadjon.css</code>.</li>
             </ol>
         </section>
         
-        <section>
-            <h2>Technical Details</h2>
+        <section class="colophon-card">
+            <h2>Технические стандарты</h2>
             <p>
-                The website is fully built on semantic <code>HTML5</code> without any external libraries. If updates are not visible, clear the cache using <kbd>F5</kbd>. 
-                W3C Validator output: <samp>0 errors</samp>.
+                Весь сайт построен строго на семантическом <code>HTML5</code> и нативном <code>CSS3</code> без использования сторонних CSS-фреймворков (таких как Bootstrap или Tailwind) и без скриптов JavaScript.
             </p>
-            <pre><code>
-<!-- Example of semantic structure -->
-&lt;header&gt;
-    &lt;h1&gt;Frau Muller&lt;/h1&gt;
-&lt;/header&gt;
-            </code></pre>
-            <p><small>Developed for WEB Technologies 1.</small></p>
+            <p>
+                В коде строго соблюдена семантическая иерархия тегов: <mark>header</mark>, <mark>nav</mark>, <mark>main</mark>, <mark>section</mark>, <mark>article</mark>, <mark>aside</mark>, <mark>footer</mark>. Все страницы валидируются через W3C Validator с результатом: <samp>0 errors</samp>.
+            </p>
+            <p>
+                Для обновления страницы и сброса кеша браузера используйте сочетание клавиш <kbd>Ctrl</kbd> + <kbd>F5</kbd>.
+            </p>
+        </section>
+
+        <!-- Grid spanning element demonstrating CSS Grid span across all columns -->
+        <section class="grid-span-all">
+            <h2>Архитектура стилей CSS</h2>
+            <p>
+                Стилизация проекта разделена на общекомандный базовый файл <code>css/base.css</code>, содержащий палитру из 5 цветов, типографику и оформление общих блоков (шапка, навигация, футер), а также персональные таблицы стилей каждого студента.
+            </p>
+            <!-- div used purely as layout container for code formatting block -->
+            <div class="code-container">
+                <pre><code>
+/* Пример структуры загрузки стилей */
+&lt;link rel="stylesheet" href="css/base.css"&gt;
+&lt;link rel="stylesheet" href="css/nurmuhammadjon.css"&gt;
+                </code></pre>
+            </div>
+            <p>
+                Текущий статус верстки: <span class="price-tag">Полная совместимость</span> со спецификацией W3C.
+                <!-- span used to highlight text status with accent color where no semantic inline tag fits -->
+            </p>
+            <p><small>Проект создан для реального ресто-паба Frau Muller (г. Астана, 2026).</small></p>
         </section>
     </main>
 
     <footer>
         <hr>
         <p>Frau Muller &copy; 2026. Все права защищены.</p>
+        <address>г. Астана, ул. Темирбека Жургенова, 18/1 | Тел: +7 (702) 672-40-66</address>
     </footer>
 </body>
 </html>

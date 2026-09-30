@@ -1,0 +1,22 @@
+/* 
+ * Alan's Stylesheet 
+ * Pages: menu.html, contacts.html, feedback.html*/
+
+
+.contact-card-custom {
+    border: 2px solid green;
+    background-color: #f9f9f9;
+}
+
+section.contact-card-custom {
+    border: 2px solid rgb(194, 10, 0);
+}
+
+h2 + p{
+    font-style: italic;
+    color: #555;
+}
+
+.menu-title-custom {
+    color: #800000;
+}

@@ -1,0 +1,383 @@
+/* 
+ * Stylesheet for Nurmuhammadjon Abdurahmonov
+ * Pages: order.html, colophon.html
+ * Theme: Frau Muller Resto-Pub (Astana)
+ */
+
+/* ======================================================
+ * 1. Box Model & Margin Collapse Demonstration
+ * ====================================================== */
+/* Universal box model rule */
+* {
+    box-sizing: border-box;
+}
+
+/* 
+ * Margin Collapse Explanation:
+ * The bottom margin of the delivery h2 heading (20px) collapses with 
+ * the top margin of the order-card container (20px) in the normal flow.
+ * Instead of totaling 40px, the margin collapses to 20px (the larger value).
+ * We account for this by managing vertical spacing via explicit container padding.
+ */
+.order-section h2 {
+    margin-bottom: 20px;
+}
+
+/* ======================================================
+ * 2. Classes, IDs and Typography (Meaningful names)
+ * ====================================================== */
+
+/* ID Selector 1: #order-form
+ * Justification: The unique checkout form on order.html; occurs exactly once per page. */
+#order-form {
+    background-color: #FFFFFF;
+    border: 2px solid rgba(43, 30, 22, 0.15);
+    border-radius: 6px;
+    padding: 25px;
+    margin-top: 15px;
+}
+
+/* ID Selector 2: #colophon-main
+ * Justification: The unique technical specifications container on colophon.html. */
+#colophon-main {
+    padding: 20px;
+}
+
+/* Class 1: .order-card - Reusable card container */
+.order-card {
+    background-color: #FFFFFF;
+    border: 1px solid #E0DCD3;
+    border-radius: 6px;
+    padding: 20px;
+    margin-bottom: 20px;
+    /* Position relative: acts as containing block for absolute badges */
+    position: relative;
+}
+
+/* Class 2: .order-form */
+.order-form fieldset {
+    border: 1px solid #D4AF37;
+    border-radius: 4px;
+    padding: 15px 20px 20px;
+    margin-bottom: 20px;
+}
+
+/* Class 3: .colophon-grid - CSS Grid container */
+.colophon-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 25px;
+    /* 
+     * Why Grid suited this block better than Flexbox:
+     * Grid allows strict 2D column and row alignment for team roles and tech specs,
+     * maintaining uniform row heights across columns regardless of dynamic content.
+     */
+}
+
+/* Class 4: .colophon-card */
+.colophon-card {
+    background-color: #FCFBF8;
+    border-left: 4px solid DarkRed;
+    padding: 20px;
+    border-radius: 4px;
+}
+
+/* Class 5: .order-steps - Flexbox container */
+.order-steps {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: stretch;
+    gap: 15px;
+    margin: 20px 0;
+    list-style-type: none;
+}
+
+/* Class 6: .step-item - Flex item with grow and shrink */
+.step-item {
+    flex: 1 1 180px;
+    background-color: #F5F2EB;
+    border: 1px solid #D4AF37;
+    padding: 15px;
+    border-radius: 4px;
+    text-align: center;
+}
+
+/* Class 7: .delivery-info - Informational container */
+.delivery-info {
+    line-height: 1.7;
+    margin-bottom: 25px;
+}
+
+/* Class 8: .price-tag - Inline highlighted element */
+.price-tag {
+    font-weight: bold;
+    color: DarkRed;
+}
+
+/* ======================================================
+ * 3. Specificity Experiment
+ * ====================================================== */
+/* Rule 1: Specificity (0, 1, 0) - Single class selector */
+.order-badge {
+    background-color: #D4AF37;
+    color: #2C2C2C;
+    padding: 5px 10px;
+    font-size: 13px;
+    border-radius: 3px;
+}
+
+/* Rule 2: Specificity (0, 1, 1) - Type selector combined with class selector */
+span.order-badge {
+    background-color: DarkRed;
+    color: #F5F2EB;
+    /* 
+     * Specificity Analysis:
+     * Rule 2 (0, 1, 1) wins over Rule 1 (0, 1, 0) because the type selector 'span' 
+     * adds 1 to the elements column, giving higher specificity.
+     * The conflict is resolved naturally by the cascade without needing !important.
+     */
+}
+
+/* ======================================================
+ * 4. Priority & Cascade: Exactly ONE !important Rule
+ * ====================================================== */
+.urgent-notice {
+    background-color: DarkRed !important;
+    color: #FFFFFF;
+    padding: 12px;
+    border-radius: 4px;
+    font-weight: bold;
+    text-align: center;
+    margin: 15px 0;
+    /* 
+     * Justification for !important:
+     * This rule styles critical delivery warning notices. It requires !important 
+     * to guarantee that high-priority alerts are never overridden by nested styling
+     * or third-party embeds in production.
+     */
+}
+
+/* ======================================================
+ * 5. Selectors Demonstration
+ * ====================================================== */
+
+/* Type selector */
+legend {
+    font-weight: bold;
+    color: DarkRed;
+    padding: 0 10px;
+    font-size: 18px;
+}
+
+/* Descendant selector */
+.order-form label {
+    display: block;
+    margin-top: 12px;
+    margin-bottom: 4px;
+    font-weight: bold;
+}
+
+/* Child selector (>) */
+fieldset > input[type="checkbox"] {
+    margin-right: 8px;
+    cursor: pointer;
+}
+
+/* Adjacent sibling selector (+) 
+ * Matches the input immediately following a label */
+label + input[type="text"],
+label + input[type="email"],
+label + input[type="tel"],
+label + input[type="date"],
+label + input[type="number"],
+label + select,
+label + textarea {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #CCC;
+    border-radius: 4px;
+    font-family: inherit;
+    font-size: 15px;
+    background-color: #FAFAFA;
+}
+
+/* Grouping selector with commas */
+button[type="submit"],
+button[type="reset"] {
+    padding: 12px 24px;
+    font-size: 15px;
+    font-weight: bold;
+    border-radius: 4px;
+    cursor: pointer;
+    margin-top: 15px;
+    margin-right: 10px;
+    transition: background-color 0.2s;
+}
+
+/* Attribute selector */
+button[type="submit"] {
+    background-color: DarkRed;
+    color: #F5F2EB;
+    border: 1px solid DarkRed;
+}
+
+button[type="reset"] {
+    background-color: #E0DCD3;
+    color: #2C2C2C;
+    border: 1px solid #CCC;
+}
+
+/* Pseudo-classes :hover and :focus */
+button[type="submit"]:hover {
+    background-color: #A00000;
+}
+
+button[type="reset"]:hover {
+    background-color: #D0CCC3;
+}
+
+input:focus, select:focus, textarea:focus {
+    outline: none;
+    border-color: DarkRed;
+    background-color: #FFFFFF;
+    box-shadow: 0 0 5px rgba(139, 0, 0, 0.3);
+}
+
+/* Pseudo-class :first-child
+ * Targets the very first item in the order steps list */
+.order-steps li:first-child {
+    border-left: 4px solid DarkRed;
+    font-weight: bold;
+}
+
+/* Pseudo-element ::after
+ * Adds a decorative badge indicator after legend title */
+legend::after {
+    content: " ★";
+    color: #D4AF37;
+    font-size: 14px;
+}
+
+/* ======================================================
+ * 6. Positioning: static, relative, absolute, fixed
+ * ====================================================== */
+
+/* 1. Static Positioning (Default document flow)
+ * Explanation: Elements render sequentially according to the natural document flow. */
+.static-content {
+    position: static;
+}
+
+/* 2. Relative Positioning
+ * Acts as the containing block for absolute children inside .order-card */
+.order-card-relative {
+    position: relative;
+}
+
+/* 3. Absolute Positioning
+ * Positions a promo badge in the top-right corner of .order-card-relative */
+.promo-badge {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    background-color: #D4AF37;
+    color: #2C2C2C;
+    font-size: 12px;
+    font-weight: bold;
+    padding: 4px 8px;
+    border-radius: 3px;
+    text-transform: uppercase;
+}
+
+/* 4. Fixed Positioning
+ * Anchors a floating quick-order call button to the bottom right of viewport */
+.fixed-order-btn {
+    position: fixed;
+    bottom: 25px;
+    right: 25px;
+    background-color: DarkRed;
+    color: #FFFFFF;
+    padding: 12px 20px;
+    border-radius: 30px;
+    text-decoration: none;
+    font-weight: bold;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.35);
+    z-index: 1000;
+    border: 2px solid #D4AF37;
+}
+
+.fixed-order-btn:hover {
+    background-color: #A00000;
+}
+
+/* ======================================================
+ * 7. Float, Clear and Clearfix
+ * ====================================================== */
+.float-img {
+    float: left;
+    margin: 0 20px 15px 0;
+    border: 2px solid #D4AF37;
+    border-radius: 4px;
+    max-width: 280px;
+    height: auto;
+}
+
+/* Clear demonstration:
+ * What would happen without the clear: The floated image would overflow its container,
+ * causing subsequent headings, form fieldsets, or footers to wrap unpredictably around it. */
+.delivery-clear {
+    clear: both;
+}
+
+/* ======================================================
+ * 8. Centering: 3 Different Techniques
+ * ====================================================== */
+
+/* Centering Technique 1: margin auto (in base.css on main, also demonstrated here)
+ * Why it fits: Best for centering fixed or max-width block-level elements horizontally */
+.center-block {
+    max-width: 600px;
+    margin: 0 auto;
+}
+
+/* Centering Technique 2: Flexbox layout
+ * Why it fits: Perfect for centering content both vertically and horizontally within a flexible container */
+.center-flex-box {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 80px;
+    background-color: #F5F2EB;
+    border-radius: 4px;
+    margin: 15px 0;
+}
+
+/* Centering Technique 3: Absolute positioning with transform
+ * Why it fits: Centers an overlay element exactly in the middle of a relative containing parent */
+.center-absolute-box {
+    position: relative;
+    height: 100px;
+    background-color: #F5F2EB;
+    border: 1px dashed #CCC;
+    margin: 15px 0;
+}
+
+.center-absolute-item {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-weight: bold;
+    color: DarkRed;
+}
+
+/* Grid spanning element for colophon.html */
+.grid-span-all {
+    grid-column: 1 / -1;
+    background-color: #F5F2EB;
+    padding: 15px;
+    border: 1px solid #D4AF37;
+    border-radius: 4px;
+}
