@@ -1,0 +1,30 @@
+CSS Removal Log (Assignment 3 - Tileuke Mukhamedzhan)
+=========================================================
+В рамках перехода на Bootstrap 5 мы удалили избыточный ручной CSS из Assignment 2 и заменили его на нативные классы фреймворка:
+
+1. Удалено: .main-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px; }
+   Заменено на: Классы сетки Bootstrap (.row, .col-12, .col-lg-8, .col-lg-4, .g-4).
+
+2. Удалено: .main-grid aside { grid-column: 1 / -1; }
+   Заменено на: Колонку Bootstrap (.col-12 .col-lg-4) с адаптивным перестроением.
+
+3. Удалено: .hero-article { position: relative; } и .overlay-figure figcaption { position: absolute; ... }
+   Заменено на: Адаптивную фигуру Bootstrap (.figure, .figure-caption) и компонент карточки (.card, .card-body).
+
+4. Удалено: .float-figure { float: left; margin-right: 20px; ... }
+   Заменено на: Сетку Bootstrap (.row, .col-12, .col-lg-7, .col-lg-5) и класс .img-fluid.
+
+5. Удалено: #history-section::after { clear: both; display: table; } (ручной Clearfix)
+   Заменено на: Автоматический клиринг и блочную модель сетки Bootstrap (.row, .col-*).
+
+6. Удалено: input[type="date"], input[type="time"] { padding: 5px; border: 1px solid #aaa; ... }
+   Заменено на: Классы форм Bootstrap (.form-control, .form-select, .form-check-input).
+
+7. Удалено: .booking-form > fieldset { padding: 15px; border: 1px solid DarkRed; }
+   Заменено на: Утилитные классы Bootstrap (.border, .p-3, .rounded-3, .bg-light).
+
+8. Удалено: Ручное оформление кнопок с абсолютным позиционированием
+   Заменено на: Систему кнопок Bootstrap (.btn, .btn-danger, .btn-outline-secondary, .btn-lg, .disabled).
+
+Итог:
+Файл css/tileuke.css сокращен с ~80 строк до ~35 строк и теперь служит исключительно легким слоем коррекции (цвета палитры DarkRed и шрифт Georgia).

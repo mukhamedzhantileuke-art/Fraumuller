@@ -1,99 +1,159 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
+    <!-- Bootstrap v5.3.3 -->
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="Забронируйте столик в Frau Muller.">
     <meta name="author" content="Tileuke Mukhamedzhan">
     <title>Frau Muller | Бронирование</title>
+    <!-- Подключение Bootstrap 5 CDN -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Собственные стили подключены после Bootstrap -->
     <link rel="stylesheet" href="css/base.css">
     <link rel="stylesheet" href="css/tileuke.css">
 </head>
-<body>
-    <header>
-        <h1>Бронирование столика</h1>
-        <p>Гарантируйте себе место на выходные.</p>
-    </header>
+<body class="d-flex flex-column min-vh-100 bg-light">
 
-    <nav>
-        <ul>
-            <li><a href="index.html">Главная</a></li>
-            <li><a href="menu.html">Меню</a></li>
-            <li><a href="order.html">Доставка</a></li>
-            <li><a href="about.html">О нас</a></li>
-            <li><a href="reservation.html">Бронь столов</a></li>
-            <li><a href="contacts.html">Контакты</a></li>
-            <li><a href="feedback.html">Отзывы</a></li>
-            <li><a href="colophon.html">О проекте</a></li>
-        </ul>
+    <!-- Адаптивная навигация с бургер-меню для мобильных экранов -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark shadow-sm">
+        <div class="container">
+            <a class="navbar-brand fw-bold" href="index.html">Frau Muller</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mainNav" aria-controls="mainNav" aria-expanded="false" aria-label="Переключить навигацию">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="mainNav">
+                <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+                    <li class="nav-item"><a class="nav-link" href="index.html">Главная</a></li>
+                    <li class="nav-item"><a class="nav-link" href="menu.html">Меню</a></li>
+                    <li class="nav-item"><a class="nav-link" href="contacts.html">Контакты</a></li>
+                    <li class="nav-item"><a class="nav-link" href="feedback.html">Отзывы</a></li>
+                    <li class="nav-item"><a class="nav-link" href="order.html">Доставка</a></li>
+                    <li class="nav-item"><a class="nav-link active" href="reservation.html">Бронь столов</a></li>
+                    <li class="nav-item"><a class="nav-link" href="about.html">О нас</a></li>
+                    <li class="nav-item"><a class="nav-link" href="colophon.html">О проекте</a></li>
+                </ul>
+            </div>
+        </div>
     </nav>
 
-    <main>
-        <section>
-            <h2>Форма бронирования</h2>
-            <form action="#" method="post" id="booking-form" class="booking-form">
-                <fieldset>
-                    <legend>Данные гостя</legend>
-                    <label for="fullName">Ваше имя:</label>
-                    <input type="text" id="fullName" name="fullName" placeholder="Alan Nur" required>
-                    <br><br>
-                    
-                    <label for="phoneNumber">Номер телефона:</label>
-                    <input type="tel" id="phoneNumber" name="phoneNumber" placeholder="+7 778 777 00 03" required>
-                </fieldset>
-                <br>
-                <fieldset>
-                    <legend>Детали столика</legend>
-                    
-                    <label for="resDate">Дата визита:</label>
-                    <input type="date" id="resDate" name="resDate" required>
-                    <br><br>
-                    
-                    <label for="resTime">Время (с 12:00 до 02:00):</label>
-                    <input type="time" id="resTime" name="resTime" required>
-                    <br><br>
-                    
-                    <label for="guestCount">Количество гостей:</label>
-                    <input type="number" id="guestCount" name="guestCount" min="1" max="15" required>
-                    <br><br>
-                    
-                    <label for="zone">Выберите зал:</label>
-                    <select id="zone" name="zone">
-                        <option value="main">Основной зал</option>
-                        <option value="terrace">Летняя терраса</option>
-                        <option value="vip">VIP кабина</option>
-                    </select>
-                    <br><br>
+    <!-- Заголовок страницы бронирования -->
+    <header class="container text-center py-4 my-2">
+        <h1 class="display-5 fw-bold text-dark">Бронирование столика</h1>
+        <p class="lead text-secondary">Гарантируйте себе лучшее место для уютного вечера.</p>
+    </header>
 
-                    <p>Повод для визита:</p>
-                    <input type="radio" id="occDinner" name="occasion" value="dinner" checked>
-                    <label for="occDinner">Обычный ужин</label>
+    <main class="container mb-5">
+        <div class="row justify-content-center">
+            <div class="col-12 col-lg-8">
+                
+                <!-- Bootstrap Component: Alert (Информационное уведомление)
+                     Компонент взят из документации Bootstrap 5 и адаптирован для ресторанов:
+                     добавлена кнопка закрытия и предупреждение о пиковых часах. -->
+                <div class="alert alert-warning alert-dismissible fade show shadow-sm mb-4" role="alert">
+                    <strong>Обратите внимание:</strong> Бронирование столиков на вечер пятницы и выходные дни подтверждается администратором в течение 15 минут.
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Закрыть"></button>
+                </div>
+
+                <section class="bg-white p-4 p-md-5 rounded-3 shadow-sm border">
+                    <h2 class="h3 fw-bold mb-4 border-bottom pb-2">Форма бронирования</h2>
                     
-                    <input type="radio" id="occBirthday" name="occasion" value="birthday">
-                    <label for="occBirthday">День рождения</label>
-                    
-                    <input type="radio" id="occCorporate" name="occasion" value="corporate">
-                    <label for="occCorporate">Корпоратив</label>
-                    <br><br>
-                    
-                    <input type="checkbox" id="wantsNotification" name="wantsNotification">
-                    <label for="wantsNotification">Подтвердить бронь по WhatsApp</label>
-                    <br><br>
-                    
-                    <label for="requests">Особые пожелания:</label><br>
-                    <textarea id="requests" name="requests" rows="4" ></textarea>
-                </fieldset>
-                <br>
-                <button type="submit">Забронировать</button>
-                <button type="reset">Очистить форму</button>
-            </form>
-        </section>
+                    <form action="#" method="post" id="booking-form" class="booking-form">
+                        
+                        <!-- Блок данных гостя -->
+                        <fieldset class="border p-3 rounded-3 mb-4 bg-light">
+                            <legend class="w-auto px-2 fs-5 fw-bold text-danger">Данные гостя</legend>
+                            
+                            <div class="mb-3">
+                                <label for="fullName" class="form-label fw-semibold">Ваше имя:</label>
+                                <input type="text" id="fullName" name="fullName" class="form-control" placeholder="Alan Nur" required>
+                            </div>
+                            
+                            <div class="mb-3">
+                                <label for="phoneNumber" class="form-label fw-semibold">Номер телефона:</label>
+                                <input type="tel" id="phoneNumber" name="phoneNumber" class="form-control" placeholder="+7 778 777 00 03" required>
+                            </div>
+                        </fieldset>
+
+                        <!-- Блок деталей бронирования с адаптивной сеткой -->
+                        <fieldset class="border p-3 rounded-3 mb-4 bg-light">
+                            <legend class="w-auto px-2 fs-5 fw-bold text-danger">Детали столика</legend>
+                            
+                            <!-- Вложенная сетка Bootstrap: 2 колонки на планшетах/ПК, 1 на мобилках -->
+                            <div class="row g-3 mb-3">
+                                <div class="col-12 col-md-6">
+                                    <label for="resDate" class="form-label fw-semibold">Дата визита:</label>
+                                    <input type="date" id="resDate" name="resDate" class="form-control" required>
+                                </div>
+                                
+                                <div class="col-12 col-md-6">
+                                    <label for="resTime" class="form-label fw-semibold">Время (с 12:00 до 02:00):</label>
+                                    <input type="time" id="resTime" name="resTime" class="form-control" required>
+                                </div>
+                            </div>
+                            
+                            <div class="row g-3 mb-3">
+                                <div class="col-12 col-md-6">
+                                    <label for="guestCount" class="form-label fw-semibold">Количество гостей:</label>
+                                    <input type="number" id="guestCount" name="guestCount" class="form-control" min="1" max="15" value="2" required>
+                                </div>
+                                
+                                <div class="col-12 col-md-6">
+                                    <label for="zone" class="form-label fw-semibold">Выберите зал:</label>
+                                    <select id="zone" name="zone" class="form-select">
+                                        <option value="main">Основной зал</option>
+                                        <option value="terrace">Летняя терраса</option>
+                                        <option value="vip">VIP кабина</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="mb-3">
+                                <p class="form-label fw-semibold mb-2">Повод для визита:</p>
+                                <div class="form-check form-check-inline">
+                                    <input type="radio" id="occDinner" name="occasion" value="dinner" class="form-check-input" checked>
+                                    <label for="occDinner" class="form-check-label">Обычный ужин</label>
+                                </div>
+                                <div class="form-check form-check-inline">
+                                    <input type="radio" id="occBirthday" name="occasion" value="birthday" class="form-check-input">
+                                    <label for="occBirthday" class="form-check-label">День рождения</label>
+                                </div>
+                                <div class="form-check form-check-inline">
+                                    <input type="radio" id="occCorporate" name="occasion" value="corporate" class="form-check-input">
+                                    <label for="occCorporate" class="form-check-label">Корпоратив</label>
+                                </div>
+                            </div>
+                            
+                            <div class="form-check mb-3">
+                                <input type="checkbox" id="wantsNotification" name="wantsNotification" class="form-check-input">
+                                <label for="wantsNotification" class="form-check-label text-secondary">Подтвердить бронь по WhatsApp</label>
+                            </div>
+                            
+                            <div class="mb-2">
+                                <label for="requests" class="form-label fw-semibold">Особые пожелания:</label>
+                                <textarea id="requests" name="requests" rows="3" class="form-control" placeholder="Например: столик у окна, детский стульчик..."></textarea>
+                            </div>
+                        </fieldset>
+
+                        <!-- Демонстрация 4 классов кнопок: размерная (.btn-lg, .btn-sm), контурная (.btn-outline-*), отключенная (disabled) -->
+                        <div class="d-flex flex-wrap align-items-center gap-2 mt-4 pt-2 border-top">
+                            <button type="submit" class="btn btn-danger btn-lg px-4 shadow-sm">Забронировать</button>
+                            <button type="reset" class="btn btn-outline-secondary">Очистить форму</button>
+                            <button type="button" class="btn btn-sm btn-outline-dark disabled ms-auto" disabled aria-disabled="true">VIP Зал (Занят)</button>
+                        </div>
+
+                    </form>
+                </section>
+
+            </div>
+        </div>
     </main>
 
-    <footer>
-        <hr>
-        <p>Frau Muller &copy; 2026. Все права защищены.</p>
+    <footer class="bg-dark text-white text-center py-3 mt-auto">
+        <p class="mb-0 small">Frau Muller &copy; 2026. Все права защищены.</p>
     </footer>
+
+    <!-- Bootstrap JS Bundle -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
-
