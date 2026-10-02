@@ -1,178 +1,310 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
+    <!-- Bootstrap v5.3.3 CDN -->
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="Быстрая доставка баварских блюд, стейков и пиццы из ресто-паба Frau Muller в Астане. Оформите онлайн-заказ свежей горячей еды с доставкой на дом или в офис.">
     <meta name="author" content="Nurmuhammadjon Abdurahmonov">
     <title>Frau Muller | Доставка еды</title>
+    <!-- Подключение стилей Bootstrap 5.3.3 -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Собственные таблицы стилей подключены после Bootstrap для переопределения палитры и шрифтов -->
     <link rel="stylesheet" href="css/base.css">
     <link rel="stylesheet" href="css/nurmuhammadjon.css">
 </head>
-<body>
+<body class="d-flex flex-column min-vh-100 bg-light">
     <!-- Author: Nurmuhammadjon Abdurahmonov -->
-    <header>
-        <h1>Доставка еды Frau Muller</h1>
-        <p>Настоящая баварская кухня и гриль у вас дома в Астане.</p>
-    </header>
 
-    <nav>
-        <ul>
-            <li><a href="index.html">Главная</a></li>
-            <li><a href="menu.html">Меню</a></li>
-            <li><a href="order.html">Доставка</a></li>
-            <li><a href="about.html">О нас</a></li>
-            <li><a href="reservation.html">Бронь столов</a></li>
-            <li><a href="contacts.html">Контакты</a></li>
-            <li><a href="feedback.html">Отзывы</a></li>
-            <li><a href="colophon.html">О проекте</a></li>
-        </ul>
+    <!-- Адаптивная навигация Bootstrap с кнопкой-гамбургером (toggler) для мобильных устройств -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark shadow-sm">
+        <div class="container">
+            <a class="navbar-brand fw-bold" href="index.html">Frau Muller</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mainNav" aria-controls="mainNav" aria-expanded="false" aria-label="Переключить навигацию">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="mainNav">
+                <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+                    <li class="nav-item"><a class="nav-link" href="index.html">Главная</a></li>
+                    <li class="nav-item"><a class="nav-link" href="menu.html">Меню</a></li>
+                    <li class="nav-item"><a class="nav-link" href="contacts.html">Контакты</a></li>
+                    <li class="nav-item"><a class="nav-link" href="feedback.html">Отзывы</a></li>
+                    <li class="nav-item"><a class="nav-link active" href="order.html">Доставка</a></li>
+                    <li class="nav-item"><a class="nav-link" href="reservation.html">Бронь столов</a></li>
+                    <li class="nav-item"><a class="nav-link" href="about.html">О нас</a></li>
+                    <li class="nav-item"><a class="nav-link" href="colophon.html">О проекте</a></li>
+                </ul>
+            </div>
+        </div>
     </nav>
 
-    <main>
-        <!-- Section for delivery information and conditions -->
-        <section class="order-section">
-            <h2>Условия доставки по Астане</h2>
-            
-            <!-- Float and Clear demonstration with real content -->
-            <div class="delivery-info">
-                <!-- div used here as a non-semantic container for layout styling of float and text content -->
-                <img src="images/снаружи.jpg" alt="Ресто-паб Frau Muller на улице Жургенова" class="float-img">
-                <p>
-                    Служба доставки ресто-паба <strong>Frau Muller</strong> привозит горячие блюда прямо из печи и гриля. Наше заведение расположено по адресу: <em>г. Астана, ул. Темирбека Жургенова, 18/1 (Аллея Мынжылдык)</em>. Мы доставляем свежеприготовленные баварские колбаски, стейки прожарки на ваш выбор, хрустящую пиццу и фирменные салаты во все районы правого и левого берега столицы.
-                </p>
-                <p>
-                    Среднее время доставки составляет от 45 до 60 минут в зависимости от удаленности адреса. Минимальная сумма заказа для оформления бесплатной доставки по городу составляет <span class="price-tag">7 000 тенге</span>. При заказе на меньшую сумму стоимость курьерской доставки фиксированная и составляет 1 000 тенге. Все горячие блюда упаковываются в специальные термобоксы, сохраняющие температуру и аромат блюд до момента передачи клиенту.
-                </p>
-                <!-- Clear demonstration: prevents subsequent blocks from flowing around the float image -->
-                <div class="delivery-clear"></div>
-            </div>
-
-            <!-- Urgent notice banner demonstrating the single allowed !important rule in CSS -->
-            <aside class="urgent-notice">
-                Внимание: В праздничные и выходные дни время доставки может быть увеличено до 75 минут из-за загруженности кухни.
-            </aside>
-
-            <!-- Card container with relative positioning containing an absolute promo badge -->
-            <div class="order-card order-card-relative">
-                <!-- div used purely for card border styling and relative positioning context -->
-                <span class="promo-badge">Акция</span>
-                <h3>Специальное предложение на доставку</h3>
-                <p>
-                    При заказе любых двух пицц или порции фирменных колбасок — баночка авторского соуса и традиционный десерт в подарок! 
-                    Статус предложения: 
-                    <!-- Specificity experiment target: class .order-badge vs span.order-badge -->
-                    <span class="order-badge">Активно сегодня</span>
-                </p>
-            </div>
-
-            <!-- Steps of delivery: Flexbox container demonstration -->
-            <h3>Как мы доставляем ваш заказ</h3>
-            <ol class="order-steps">
-                <li class="step-item"><strong>1. Выбор блюд:</strong> заполните онлайн-форму ниже.</li>
-                <li class="step-item"><strong>2. Подтверждение:</strong> менеджер свяжется в течение 5 минут.</li>
-                <li class="step-item"><strong>3. Приготовление:</strong> повара готовят на открытом огне.</li>
-                <li class="step-item"><strong>4. Доставка:</strong> курьер привозит заказ в термосумке.</li>
-            </ol>
-        </section>
-
-        <!-- Centering technique 2: Flexbox Centering -->
-        <div class="center-flex-box">
-            <!-- div used as flex centering wrapper -->
-            <p><strong>Бесконтактная доставка доступна по запросу при онлайн-оплате через Kaspi QR.</strong></p>
+    <!-- container-fluid выбран для шапки, чтобы фоновый баннер заведения растягивался на всю ширину любого экрана -->
+    <header class="container-fluid text-white text-center py-5 mb-4 shadow">
+        <div class="container">
+            <h1 class="display-5 fw-bold mb-2">Доставка еды Frau Muller</h1>
+            <p class="lead text-light-emphasis mb-0">Настоящая баварская кухня и гриль у вас дома в Астане.</p>
         </div>
+    </header>
 
-        <!-- Section containing the comprehensive order form -->
-        <section class="order-section">
-            <h2>Оформление доставки</h2>
-            
-            <!-- 
-                Form note: The form does not send anything yet because server-side processing 
-                has not been implemented yet. All submissions are processed locally for demonstration.
-            -->
-            <form action="#" method="post" id="order-form" class="order-form">
-                <fieldset>
-                    <legend>1. Выбор блюд и напитков</legend>
-                    
-                    <label for="dishSelect">Выберите основное блюдо:</label>
-                    <select id="dishSelect" name="dish" required>
-                        <option value="">-- Выберите из меню --</option>
-                        <option value="steak">Стейк Рибай (8 500 тг)</option>
-                        <option value="sausages">Баварские колбаски с капустой (3 200 тг)</option>
-                        <option value="pizza">Пицца Пепперони (3 500 тг)</option>
-                        <option value="salad">Салат Баварский с копченой говядиной (2 400 тг)</option>
-                        <option value="waffles">Бельгийские вафли с шоколадом (1 800 тг)</option>
-                    </select>
-
-                    <label for="portionsCount">Количество порций:</label>
-                    <input type="number" id="portionsCount" name="portions" min="1" max="20" value="1" required>
-
-                    <label for="extraSauce">Дополнительные опции:</label>
-                    <input type="checkbox" id="extraSauce" name="extraSauce" value="yes">
-                    <span>Добавить фирменный горчичный соус Frau Muller (+300 тг)</span>
-                    <!-- span used to style inline label text next to checkbox without breaking semantic flow -->
-                </fieldset>
-
-                <fieldset>
-                    <legend>2. Данные получателя и адрес доставки</legend>
-                    
-                    <label for="clientName">Ваше имя:</label>
-                    <input type="text" id="clientName" name="clientName" placeholder="Нурмухаммаджон" required>
-
-                    <label for="clientEmail">Электронная почта (для чека):</label>
-                    <input type="email" id="clientEmail" name="clientEmail" placeholder="client@example.com" required>
-
-                    <label for="clientPhone">Номер телефона:</label>
-                    <input type="tel" id="clientPhone" name="clientPhone" placeholder="+7 (702) 672-40-66" required>
-
-                    <label for="deliveryStreet">Адрес доставки (улица, дом, подъезд, квартира):</label>
-                    <input type="text" id="deliveryStreet" name="deliveryAddress" placeholder="ул. Жургенова, дом 18/1, кв. 15" required>
-
-                    <label for="deliveryDate">Желаемая дата доставки:</label>
-                    <input type="date" id="deliveryDate" name="deliveryDate" required>
-                </fieldset>
-
-                <fieldset>
-                    <legend>3. Способ оплаты и комментарии</legend>
-                    
-                    <p><strong>Выберите способ оплаты:</strong></p>
-                    <input type="radio" id="payKaspi" name="paymentMethod" value="kaspi" checked>
-                    <label for="payKaspi">Kaspi QR / Kaspi Pay</label>
-                    
-                    <input type="radio" id="payCard" name="paymentMethod" value="card">
-                    <label for="payCard">Банковской картой курьеру</label>
-                    
-                    <input type="radio" id="payCash" name="paymentMethod" value="cash">
-                    <label for="payCash">Наличными при получении</label>
-
-                    <label for="orderComments">Комментарий к заказу (код домофона, этаж, пожелания к прожарке):</label>
-                    <textarea id="orderComments" name="orderComments" rows="4" placeholder="Например: домофон 42, позвонить за 10 минут..."></textarea>
-                </fieldset>
-
-                <!-- Centering technique 1: margin auto via .center-block container -->
-                <div class="center-block">
-                    <button type="submit">Оформить доставку</button>
-                    <button type="reset">Очистить форму</button>
+    <!-- container выбран для основного контента, чтобы центрировать сетку колонок с комфортными полями по бокам -->
+    <main class="container mb-5">
+        
+        <!-- Секция условий доставки с адаптивным разделением на колонки: 7 и 5 колонок на десктопе, 12 на мобильных -->
+        <section class="mb-5">
+            <div class="row g-4 align-items-start">
+                
+                <!-- Левая колонка: Описание доставки и фото -->
+                <div class="col-12 col-lg-7">
+                    <div class="p-4 bg-white rounded-3 shadow-sm h-100">
+                        <h2 class="h3 fw-bold mb-3 border-bottom pb-2">Условия доставки по Астане</h2>
+                        <img src="images/снаружи.jpg" alt="Ресто-паб Frau Muller на улице Жургенова" class="img-fluid rounded-3 shadow-sm mb-3 w-100">
+                        <p class="text-secondary">
+                            Служба доставки ресто-паба <strong>Frau Muller</strong> привозит горячие блюда прямо из печи и гриля. Наше заведение расположено по адресу: <em>г. Астана, ул. Темирбека Жургенова, 18/1 (Аллея Мынжылдык)</em>. Мы доставляем свежеприготовленные баварские колбаски, сочные стейки Рибай прожарки на ваш выбор, хрустящую пиццу и фирменные салаты во все районы столицы.
+                        </p>
+                        <p class="text-secondary mb-0">
+                            Все блюда упаковываются в специальные термобоксы, сохраняющие температуру и непревзойденный аромат до момента вручения. Заказы принимаются ежедневно с 12:00 до 01:30.
+                        </p>
+                    </div>
                 </div>
-            </form>
+
+                <!-- Правая колонка: Вложенная сетка (Nested Grid) и карточка акции -->
+                <div class="col-12 col-lg-5">
+                    
+                    <!-- Вложенная сетка (Row inside Column) демонстрирует понимание многоуровневого грида -->
+                    <div class="row g-3 mb-3">
+                        <div class="col-6">
+                            <div class="p-3 bg-white border rounded-3 text-center shadow-sm">
+                                <span class="badge bg-danger mb-2">Время доставки</span>
+                                <div class="h5 fw-bold mb-0">45–60 мин</div>
+                                <small class="text-muted">по всей Астане</small>
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <div class="p-3 bg-white border rounded-3 text-center shadow-sm">
+                                <span class="badge bg-warning text-dark mb-2">Мин. заказ</span>
+                                <div class="h5 fw-bold mb-0">от 7 000 ₸</div>
+                                <small class="text-muted">бесплатная доставка</small>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Bootstrap Component 1: Card (Карточка спецпредложения) -->
+                    <!-- Markup adapted from official Bootstrap 5 Card documentation with customized badge and CTA button -->
+                    <div class="card border-0 shadow-sm bg-white mb-3">
+                        <div class="card-body p-4">
+                            <div class="d-flex justify-content-between align-items-center mb-2">
+                                <h3 class="h5 card-title fw-bold mb-0">Специальное предложение</h3>
+                                <span class="badge bg-danger">Акция</span>
+                            </div>
+                            <p class="card-text text-secondary">
+                                При заказе любых двух пицц или порции фирменных колбасок — баночка авторского горчичного соуса и традиционный десерт в подарок!
+                            </p>
+                            <a href="#order-form" class="btn btn-outline-danger btn-sm">Перейти к заказу &darr;</a>
+                        </div>
+                    </div>
+
+                    <!-- Bootstrap Component 2: Alert (Предупреждение о праздничных днях) -->
+                    <!-- Adapted from official Bootstrap Alert component with flex alignment -->
+                    <div class="alert alert-warning d-flex align-items-center shadow-sm mb-0" role="alert">
+                        <div>
+                            <strong>Внимание:</strong> В праздничные и выходные дни время доставки может быть увеличено до 75 минут из-за загруженности кухни.
+                        </div>
+                    </div>
+                </div>
+
+            </div>
         </section>
 
-        <!-- Centering technique 3: Absolute positioning with transform -->
-        <div class="center-absolute-box">
-            <!-- div used as positioning canvas for absolute centering demo -->
-            <div class="center-absolute-item">
-                ✦ Frau Muller — Высокие стандарты баварского гостеприимства ✦
+        <!-- Шаги выполнения заказа: Адаптивная сетка на 4 карточки (1 колонка на смартфонах, 2 на планшетах, 4 на десктопе) -->
+        <section class="mb-5">
+            <h2 class="h4 fw-bold mb-3">Как мы доставляем ваш заказ</h2>
+            <div class="row g-3">
+                <div class="col-12 col-sm-6 col-lg-3">
+                    <div class="card h-100 border-0 shadow-sm p-3 text-center bg-white">
+                        <div class="display-6 text-danger fw-bold mb-2">1</div>
+                        <h3 class="h6 fw-bold">Выбор блюд</h3>
+                        <p class="small text-secondary mb-0">Заполните онлайн-форму заказа ниже на странице.</p>
+                    </div>
+                </div>
+                <div class="col-12 col-sm-6 col-lg-3">
+                    <div class="card h-100 border-0 shadow-sm p-3 text-center bg-white">
+                        <div class="display-6 text-danger fw-bold mb-2">2</div>
+                        <h3 class="h6 fw-bold">Подтверждение</h3>
+                        <p class="small text-secondary mb-0">Менеджер свяжется с вами в течение 5 минут.</p>
+                    </div>
+                </div>
+                <div class="col-12 col-sm-6 col-lg-3">
+                    <div class="card h-100 border-0 shadow-sm p-3 text-center bg-white">
+                        <div class="display-6 text-danger fw-bold mb-2">3</div>
+                        <h3 class="h6 fw-bold">Приготовление</h3>
+                        <p class="small text-secondary mb-0">Шеф-повара готовят блюдо на открытом огне.</p>
+                    </div>
+                </div>
+                <div class="col-12 col-sm-6 col-lg-3">
+                    <div class="card h-100 border-0 shadow-sm p-3 text-center bg-white">
+                        <div class="display-6 text-danger fw-bold mb-2">4</div>
+                        <h3 class="h6 fw-bold">Быстрая доставка</h3>
+                        <p class="small text-secondary mb-0">Курьер привозит горячий заказ в термосумке.</p>
+                    </div>
+                </div>
             </div>
-        </div>
+        </section>
+
+        <!-- Bootstrap Component 3: Accordion (Часто задаваемые вопросы по доставке) -->
+        <!-- Markup copied from Bootstrap Documentation and adapted for Frau Muller delivery FAQ -->
+        <section class="mb-5">
+            <h2 class="h4 fw-bold mb-3">Часто задаваемые вопросы (FAQ)</h2>
+            <div class="accordion shadow-sm" id="deliveryFaqAccordion">
+                <div class="accordion-item">
+                    <h3 class="accordion-header" id="headingOne">
+                        <button class="accordion-button fw-semibold" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                            В какие районы Астаны осуществляется доставка?
+                        </button>
+                    </h3>
+                    <div id="collapseOne" class="accordion-collapse collapse show" aria-labelledby="headingOne" data-bs-parent="#deliveryFaqAccordion">
+                        <div class="accordion-body text-secondary">
+                            Мы доставляем заказы по всему правому и левому берегу г. Астана, включая район Аллеи Мынжылдык, Экспо, Есильский и Алматинский районы.
+                        </div>
+                    </div>
+                </div>
+                <div class="accordion-item">
+                    <h3 class="accordion-header" id="headingTwo">
+                        <button class="accordion-button collapsed fw-semibold" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+                            Какие способы оплаты поддерживаются?
+                        </button>
+                    </h3>
+                    <div id="collapseTwo" class="accordion-collapse collapse" aria-labelledby="headingTwo" data-bs-parent="#deliveryFaqAccordion">
+                        <div class="accordion-body text-secondary">
+                            Вы можете оплатить заказ удаленно через Kaspi QR / Kaspi Pay, банковской картой курьеру через переносной POS-терминал или наличными при получении.
+                        </div>
+                    </div>
+                </div>
+                <div class="accordion-item">
+                    <h3 class="accordion-header" id="headingThree">
+                        <button class="accordion-button collapsed fw-semibold" type="button" data-bs-toggle="collapse" data-bs-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
+                            Как упаковываются горячие блюда?
+                        </button>
+                    </h3>
+                    <div id="collapseThree" class="accordion-collapse collapse" aria-labelledby="headingThree" data-bs-parent="#deliveryFaqAccordion">
+                        <div class="accordion-body text-secondary">
+                            Все стейки, колбаски и гарниры помещаются в фольгированные термобоксы и транспортируются в курьерских термосумках с подогревом.
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Секция формы онлайн-заказа, построенная на Bootstrap Form Grid -->
+        <section class="order-section">
+            <div class="p-4 p-md-5 bg-white border rounded-3 shadow-sm">
+                <h2 class="h3 fw-bold mb-3 border-bottom pb-2">Оформление доставки</h2>
+                
+                <!-- 
+                    Примечание к форме: Серверный обработчик пока не реализован,
+                    форма работает в демонстрационном режиме в соответствии с заданием.
+                -->
+                <form action="#" method="post" id="order-form" class="order-form">
+                    
+                    <fieldset class="border p-3 rounded-3 mb-4">
+                        <legend class="float-none w-auto px-2 h5 fw-bold text-danger">1. Выбор блюд и количества</legend>
+                        <div class="row g-3">
+                            <div class="col-12 col-md-8">
+                                <label for="dishSelect" class="form-label fw-semibold">Основное блюдо:</label>
+                                <select id="dishSelect" name="dish" class="form-select" required>
+                                    <option value="">-- Выберите блюдо из меню --</option>
+                                    <option value="steak">Стейк Рибай (8 500 ₸)</option>
+                                    <option value="sausages">Баварские колбаски с тушеной капустой (3 200 ₸)</option>
+                                    <option value="pizza">Пицца Пепперони (3 500 ₸)</option>
+                                    <option value="salad">Салат "Баварский" с копченой говядиной (2 400 ₸)</option>
+                                    <option value="waffles">Бельгийские вафли с мороженым (1 800 ₸)</option>
+                                </select>
+                            </div>
+                            <div class="col-12 col-md-4">
+                                <label for="portionsCount" class="form-label fw-semibold">Количество порций:</label>
+                                <input type="number" id="portionsCount" name="portions" class="form-control" min="1" max="20" value="1" required>
+                            </div>
+                            <div class="col-12">
+                                <div class="form-check">
+                                    <input type="checkbox" id="extraSauce" name="extraSauce" value="yes" class="form-check-input">
+                                    <label for="extraSauce" class="form-check-label">Добавить фирменный горчичный соус Frau Muller (+300 ₸)</label>
+                                </div>
+                            </div>
+                        </div>
+                    </fieldset>
+
+                    <fieldset class="border p-3 rounded-3 mb-4">
+                        <legend class="float-none w-auto px-2 h5 fw-bold text-danger">2. Данные получателя и адрес</legend>
+                        <div class="row g-3">
+                            <div class="col-12 col-md-6">
+                                <label for="clientName" class="form-label fw-semibold">Ваше имя:</label>
+                                <input type="text" id="clientName" name="clientName" class="form-control" placeholder="Нурмухаммаджон" required>
+                            </div>
+                            <div class="col-12 col-md-6">
+                                <label for="clientPhone" class="form-label fw-semibold">Номер телефона:</label>
+                                <input type="tel" id="clientPhone" name="clientPhone" class="form-control" placeholder="+7 (702) 672-40-66" required>
+                            </div>
+                            <div class="col-12 col-md-6">
+                                <label for="clientEmail" class="form-label fw-semibold">Электронная почта (для чека):</label>
+                                <input type="email" id="clientEmail" name="clientEmail" class="form-control" placeholder="client@example.com" required>
+                            </div>
+                            <div class="col-12 col-md-6">
+                                <label for="deliveryDate" class="form-label fw-semibold">Желаемая дата доставки:</label>
+                                <input type="date" id="deliveryDate" name="deliveryDate" class="form-control" required>
+                            </div>
+                            <div class="col-12">
+                                <label for="deliveryAddress" class="form-label fw-semibold">Адрес доставки (улица, дом, квартира, подъезд):</label>
+                                <input type="text" id="deliveryAddress" name="deliveryAddress" class="form-control" placeholder="ул. Жургенова, дом 18/1, кв. 42" required>
+                            </div>
+                        </div>
+                    </fieldset>
+
+                    <fieldset class="border p-3 rounded-3 mb-4">
+                        <legend class="float-none w-auto px-2 h5 fw-bold text-danger">3. Оплата и комментарии</legend>
+                        <div class="mb-3">
+                            <label class="form-label fw-semibold d-block">Способ оплаты:</label>
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="radio" name="paymentMethod" id="payKaspi" value="kaspi" checked>
+                                <label class="form-check-label" for="payKaspi">Kaspi QR / Kaspi Pay</label>
+                            </div>
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="radio" name="paymentMethod" id="payCard" value="card">
+                                <label class="form-check-label" for="payCard">Банковской картой курьеру</label>
+                            </div>
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="radio" name="paymentMethod" id="payCash" value="cash">
+                                <label class="form-check-label" for="payCash">Наличными при получении</label>
+                            </div>
+                        </div>
+                        <div class="mb-2">
+                            <label for="orderComments" class="form-label fw-semibold">Пожелания к заказу (код домофона, этаж, прожарка мяса):</label>
+                            <textarea id="orderComments" name="orderComments" class="form-control" rows="3" placeholder="Например: домофон 42, позвонить за 10 минут..."></textarea>
+                        </div>
+                    </fieldset>
+
+                    <!-- Демонстрация 4 видов кнопок Bootstrap: standard, outline, size, disabled -->
+                    <div class="d-flex flex-wrap gap-2 pt-2">
+                        <button type="submit" class="btn btn-danger btn-lg">Оформить доставку</button>
+                        <button type="reset" class="btn btn-outline-secondary btn-lg">Очистить форму</button>
+                        <button type="button" class="btn btn-secondary btn-lg disabled" aria-disabled="true">Экспресс за 15 мин (Недоступно)</button>
+                    </div>
+                </form>
+            </div>
+        </section>
+
     </main>
 
-    <!-- Fixed positioning demonstration: Floating quick order call button -->
-    <a href="tel:+77026724066" class="fixed-order-btn">📞 Быстрый заказ</a>
+    <!-- Фиксированная кнопка быстрого заказа звонка -->
+    <a href="tel:+77026724066" class="fixed-order-btn btn btn-danger shadow-lg rounded-pill px-4 py-2">📞 Быстрый заказ</a>
 
-    <footer>
-        <hr>
-        <p>Frau Muller &copy; 2026. Все права защищены.</p>
-        <address>г. Астана, ул. Темирбека Жургенова, 18/1 | Тел: +7 (702) 672-40-66</address>
+    <!-- Футер страницы -->
+    <footer class="container-fluid text-white text-center py-4 mt-auto">
+        <div class="container">
+            <p class="mb-1">Frau Muller &copy; 2026. Все права защищены.</p>
+            <address class="small text-secondary mb-0">г. Астана, ул. Темирбека Жургенова, 18/1 | Телефон: +7 (702) 672-40-66</address>
+        </div>
     </footer>
+
+    <!-- Bootstrap 5.3.3 JavaScript Bundle CDN (необходим для работы Toggler и Accordion) -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
