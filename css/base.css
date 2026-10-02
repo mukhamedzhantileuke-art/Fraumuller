@@ -1,96 +1,64 @@
 /* 
- * Frau Muller Palette 
- * 1. #F5F2EB (Light Parchment/Beige) - Main background for good text readability.
- * 2. rgba(43, 30, 22, 1) (Dark Wood) - Header and footer background for a classic pub feel.
- * 3. #2C2C2C (Charcoal) - Main text color, softer on the eyes than pure black.
- * 4. DarkRed (Named Color) - Accent color for borders/links, associated with meat and wine.
- * 5. #D4AF37 (Mustard/Gold) - Hover effect color, reminiscent of beer and baking.
+ * Frau Muller — Base Stylesheet (Assignment 3 - Bootstrap Correction Layer)
+ * Shared palette and typography across all pages.
+ * 
+ * 1. #F5F2EB (Light Parchment/Beige) - Main background
+ * 2. rgba(43, 30, 22, 1) (Dark Wood) - Header and footer background
+ * 3. #2C2C2C (Charcoal) - Main body text color
+ * 4. DarkRed (Named Color) - Brand accent for badges, borders and primary actions
+ * 5. #D4AF37 (Mustard/Gold) - Interactive hover states and highlights
  */
 
-/* Universal selector (*) to control the box model across all elements */
-* {
-    box-sizing: border-box; /* Padding and border are included in width */
-    margin: 0;
-    padding: 0;
-}
-
 body {
-    /* Typography: sans-serif fallback stack for body text */
     font-family: Arial, Helvetica, sans-serif;
-    font-size: 16px;
-    line-height: 1.6;
-    letter-spacing: 0.5px;
     color: #2C2C2C;
     background-color: #F5F2EB;
 }
 
-h1, h2, h3 {
-    /* Typography: serif fallback stack for headings */
+/* Heading typography with traditional serif font stack */
+h1, h2, h3, h4, h5, h6, .navbar-brand {
     font-family: Georgia, "Times New Roman", serif;
     font-weight: bold;
-    letter-spacing: 1px;
+    letter-spacing: 0.5px;
 }
 
-/* Header styling */
-header {
-    background-color: rgba(43, 30, 22, 1);
-    color: #F5F2EB;
-    text-align: center;
-    padding: 20px;
-    /* Margin, padding, and border used deliberately to show box model */
-    border-bottom: 5px solid DarkRed;
-}
-
-header h1 {
-    font-size: 36px;
-    margin-bottom: 10px;
-}
-
-/* Navigation - Flex row requirement */
-nav {
-    background-color: #2C2C2C;
-}
-
-nav ul {
-    list-style-type: none;
-    /* Flex container */
-    display: flex;
-    flex-direction: row;
-    justify-content: center;
-    align-items: center;
-    gap: 20px; /* Spacing between nav links */
-    padding: 15px;
-}
-
-nav a {
-    color: #F5F2EB;
-    text-decoration: none;
-    font-weight: bold;
-}
-
-/* Pseudo-classes :hover and :focus demonstrated here */
-nav a:hover, nav a:focus {
-    color: #D4AF37;
-}
-
-/* Main content styling */
-main {
-    /* Centering technique 1: margin auto */
-    /* Used to keep the main content block centered horizontally on wide screens */
-    max-width: 1000px;
-    margin: 30px auto; 
-    padding: 20px;
-    background-color: #FFFFFF;
-    /* Adding a subtle border to show box model */
-    border: 1px solid #ddd;
+/* Custom brand header styling */
+header.container-fluid {
+    background-color: rgba(43, 30, 22, 1) !important;
+    border-bottom: 4px solid DarkRed;
 }
 
 /* Footer styling */
-footer {
-    background-color: rgba(43, 30, 22, 1);
-    color: #F5F2EB;
-    text-align: center;
-    padding: 20px;
-    margin-top: 40px;
+footer.container-fluid {
+    background-color: rgba(43, 30, 22, 1) !important;
+    border-top: 4px solid DarkRed;
 }
 
+/* Active navigation link and gold hover highlight */
+.navbar-dark .navbar-nav .nav-link:hover,
+.navbar-dark .navbar-nav .nav-link:focus,
+.navbar-dark .navbar-nav .nav-link.active {
+    color: #D4AF37 !important;
+}
+
+/* Brand button overrides */
+.btn-danger {
+    background-color: DarkRed;
+    border-color: DarkRed;
+}
+
+.btn-danger:hover, .btn-danger:focus {
+    background-color: #6e0000;
+    border-color: #6e0000;
+}
+
+.btn-outline-danger {
+    color: DarkRed;
+    border-color: DarkRed;
+}
+
+.btn-outline-danger:hover {
+    background-color: DarkRed;
+    border-color: DarkRed;
+    color: #FFFFFF;
+}
