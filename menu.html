@@ -20,7 +20,7 @@
                 <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse" id="mainNav">
-                <ul class="navbar-nav ms-auto">
+                <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
                     <li class="nav-item"><a class="nav-link" href="index.html">Главная</a></li>
                     <li class="nav-item"><a class="nav-link active" href="menu.html">Меню</a></li>
                     <li class="nav-item"><a class="nav-link" href="contacts.html">Контакты</a></li>
@@ -29,18 +29,47 @@
                     <li class="nav-item"><a class="nav-link" href="reservation.html">Бронь столов</a></li>
                     <li class="nav-item"><a class="nav-link" href="about.html">О нас</a></li>
                 </ul>
-                <!-- модальное окно -->
-                <button type="button" class="btn btn-outline-light btn-sm" data-bs-toggle="modal" data-bs-target="#loginModal">
-                    Вход / Регистрация
-                </button>
+                
+                <!-- Блок кнопок авторизации и профиля -->
+                <div class="d-flex align-items-center gap-2 ms-lg-3 mt-3 mt-lg-0">
+                    <!-- Кнопка вызова модального окна -->
+                    <button type="button" class="btn btn-outline-light btn-sm" id="login-btn" data-bs-toggle="modal" data-bs-target="#loginModal">
+                        Вход / Регистрация
+                    </button>
+                    
+                    <!-- Состояние залогиненного пользователя (скрыто для JS) -->
+                    <div class="dropdown is-hidden" id="user-profile-menu">
+                        <button class="btn btn-outline-light btn-sm dropdown-toggle" type="button" data-bs-toggle="dropdown">
+                            Профиль
+                        </button>
+                        <ul class="dropdown-menu dropdown-menu-end shadow-sm">
+                            <li><a class="dropdown-item" href="#">Мои заказы</a></li>
+                            <li><hr class="dropdown-divider"></li>
+                            <li><a class="dropdown-item text-danger" href="#" id="logout-btn">Выйти</a></li>
+                        </ul>
+                    </div>
+                </div>
             </div>
-        </div>
     </nav>
 
     <main class="container mb-5">
         <header class="text-center mb-5 bg-light p-4 p-md-5 rounded shadow-sm">
             <h1 class="display-4 fw-bold text-danger">Наше Меню</h1>
             <p class="lead text-muted">Сытные порции и богатый вкус.</p>
+
+            <!-- Блок поиска -->
+            <section class="mb-5">
+                <div class="input-group w-100 w-md-75 mx-auto shadow-sm">
+                    <input type="text" class="form-control form-control-lg border-danger" id="menu-search-input" placeholder="Поиск блюда (например, стейк или салат)...">
+                    <button class="btn btn-danger px-4" type="button" id="menu-search-btn">Найти</button>
+                </div>
+                <!-- Блок ошибки поиска (скрыт по умолчанию) -->
+                <div id="search-empty-message" class="alert alert-secondary text-center is-hidden mt-3 mx-auto w-100 w-md-75 shadow-sm">
+                    К сожалению, такого блюда нет в меню.
+                </div>
+            </section>
+
+            <div class="row g-4">
         </header>
 
         <div class="row g-4">
@@ -68,7 +97,8 @@
                                         </td>
                                         <th scope="row">Стейк Рибай</th>
                                         <td class="text-muted small">Мраморная говядина, прожарка на выбор.</td>
-                                        <td class="fw-bold pe-4">8500 ₸</td>
+                                        <td class="fw-bold pe-4">8500 ₸ <a href="order.html" class="btn btn-sm btn-outline-danger mt-2">Заказать</a></td>
+                                        
                                     </tr>
                                     <tr>
                                         <td class="ps-4">
@@ -76,7 +106,7 @@
                                         </td>
                                         <th scope="row">Баварские колбаски</th>
                                         <td class="text-muted small">Жареные колбаски с тушеной капустой.</td>
-                                        <td class="fw-bold pe-4">3200 ₸</td>
+                                        <td class="fw-bold pe-4">3200 ₸ <a href="order.html" class="btn btn-sm btn-outline-danger mt-2">Заказать</a></td>
                                     </tr>
                                     <tr>
                                         <td class="ps-4">
@@ -84,7 +114,7 @@
                                         </td>
                                         <th scope="row">Пицца Пепперони</th>
                                         <td class="text-muted small">Итальянская классика с острой салями.</td>
-                                        <td class="fw-bold pe-4">3500 ₸</td>
+                                        <td class="fw-bold pe-4">3500 ₸ <a href="order.html" class="btn btn-sm btn-outline-danger mt-2">Заказать</a></td>
                                     </tr>
                                 </tbody>
                             </table>
@@ -93,7 +123,7 @@
                 </section>
             </div>
             <div class="col-12 col-lg-8 mx-auto">
-                <section id="hot" class="card shadow-sm h-100 border-0">
+                <section id="snacks" class="card shadow-sm h-100 border-0">
                     <div class="card-header bg-warning text-white">
                         <h2 class="h4 mb-0">Закуски и Десерты</h2>
                     </div>
@@ -115,7 +145,7 @@
                                         </td>
                                         <th scope="row">Салат "Баварский"</th>
                                         <td class="text-muted small">Копченая говядина, картофель, маринованные огурцы, фирменный соус.</td>
-                                        <td class="fw-bold pe-4">4500 ₸</td>
+                                        <td class="fw-bold pe-4">4500 ₸ <a href="order.html" class="btn btn-sm btn-outline-danger mt-2">Заказать</a></td>
                                     </tr>
                                     <tr>
                                         <td class="ps-4">
@@ -123,13 +153,61 @@
                                         </td>
                                         <th scope="row">Бельгийские вафли</th>
                                         <td class="text-muted small">Теплые вафли с шариком ванильного мороженого и шоколадом.</td>
-                                        <td class="fw-bold pe-4">2200 ₸</td>
+                                        <td class="fw-bold pe-4">2200 ₸ <a href="order.html" class="btn btn-sm btn-outline-danger mt-2">Заказать</a></td>
                                     </tr>
                                 </tbody>
                             </table>
-                            <div class="mt-4 text-center text-md-start">
-                            <a href="#hot" class="btn btn-outline-dark btn-sm">Вернуться к горячему</a>
                         </div>
+                    </div>
+                </section>
+            </div>
+            <div class="col-12 col-lg-8 mx-auto">
+                <section id="drinks" class="card shadow-sm h-100 border-0">
+                    <div class="card-header bg-success text-white">
+                        <h2 class="h4 mb-0">Напитки</h2>
+                    </div>
+                    <div class="card-body p-0">
+                        <div class="table-responsive">
+                            <table class="table table-hover table-borderless align-middle mb-0">
+                                <thead class="table-light border-bottom">
+                                    <tr>
+                                        <th scope="col" class="ps-4">Фото</th>
+                                        <th scope="col">Название</th>
+                                        <th scope="col">Описание</th>
+                                        <th scope="col" class="pe-4">Цена</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td class="ps-4">
+                                            <img src="images/iStock-944300188-1024x897.jpg" alt="Бельгийские вафли" class="img-thumbnail rounded" style="width: 100px; height: 80px; object-fit: cover;">
+                                        </td>
+                                        <th scope="row">Чёрный чай</th>
+                                        <td class="text-muted small">Чай, приготовленный из чёрных листьев.</td>
+                                        <td class="fw-bold pe-4">400 ₸ <a href="order.html" class="btn btn-sm btn-outline-danger mt-2">Заказать</a></td>
+                                    </tr>
+                                    <tr>
+                                        <td class="ps-4">
+                                            <img src="images/Снимок экрана 2026-10-07 210802.png" alt="Бельгийские вафли" class="img-thumbnail rounded" style="width: 100px; height: 80px; object-fit: cover;">
+                                        </td>
+                                        <th scope="row">Экспрессо</th>
+                                        <td class="text-muted small">крепкий черный кофе, приготовленный в специально разработанном для этого устройстве.</td>
+                                        <td class="fw-bold pe-4">700 ₸ <a href="order.html" class="btn btn-sm btn-outline-danger mt-2">Заказать</a></td>
+                                    </tr>
+                                    <tr>
+                                        <td class="ps-4">
+                                            <img src="images/XXXL.png" alt="Салат Баварский" class="img-thumbnail rounded" style="width: 100px; height: 80px; object-fit: cover;">
+                                        </td>
+                                        <th scope="row">Апельсиновый сок</th>
+                                        <td class="text-muted small">Свежovыжитый вручную апельсиновый сок.</td>
+                                        <td class="fw-bold pe-4">600 ₸ <a href="order.html" class="btn btn-sm btn-outline-danger mt-2">Заказать</a></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+
+                            <div class="mt-6 text-center text-md-center">
+                            <a href="#hot" class="btn btn-outline-dark btn-sm">Вернуться к горячему</a>
+                            </div>
                         </div>
                     </div>
                 </section>
@@ -168,6 +246,7 @@
                                 </div>
                                 <button type="submit" class="btn btn-danger w-100">Войти</button>
                             </form>
+                            <div id="login-message-container" class="mt-3"></div>
                         </div>
                         <!-- Форма Регистрации -->
                         <div class="tab-pane fade" id="registerPane" role="tabpanel">
@@ -186,12 +265,15 @@
                                 </div>
                                 <button type="submit" class="btn btn-success w-100">Создать аккаунт</button>
                             </form>
+                            <div id="register-message-container" class="mt-3"></div>
                         </div>
+                        
                     </div>
                 </div>
             </div>
         </div>
     </div>
+
 
     <footer class="bg-dark text-white text-center py-3 mt-auto">
         <p class="mb-0 small">Frau Muller &copy; 2026.</p>
