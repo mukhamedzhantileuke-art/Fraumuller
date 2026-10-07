@@ -2,7 +2,6 @@
  * Alan's Stylesheet 
  * Pages: menu.html, contacts.html, feedback.html*/
 
-
 .contact-card-custom {
     border: 2px solid green;
     background-color: #f9f9f9;
@@ -13,10 +12,31 @@ section.contact-card-custom {
 }
 
 h2 + p{
-    font-style: italic;
-    color: #555;
+font-style: italic;
+color: #555;
 }
 
 .menu-title-custom {
-    color: #800000;
+color: #800000;
 }
+/* Подготовка UI для кнопок-фильтров */
+.filter-btn {
+    cursor: pointer;
+    transition: color 0.2s ease-in-out;
+}
+
+.filter-btn:hover {
+    color: #212529 !important; /* Наведение делает текст темным */
+}
+
+/* Классы состояний для JS (готовность к скриптам) */
+.active-filter {
+    color: #212529 !important;
+    border-bottom: 2px solid #212529;
+    padding-bottom: 0.25rem;
+}
+
+/* Классы состояний для JavaScript */
+.is-hidden { display: none !important; }
+.is-error { border-color: red !important; background-color: #ffe6e6; }
+.is-success { border-color: green !important; background-color: #e6ffe6; }
