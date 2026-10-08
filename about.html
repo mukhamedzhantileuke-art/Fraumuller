@@ -15,8 +15,8 @@
 </head>
 <body class="d-flex flex-column min-vh-100 bg-light">
 
-    <!-- Адаптивная навигация с бургер-меню для мобильных устройств -->
-    <nav class="navbar navbar-expand-lg navbar-dark bg-dark shadow-sm">
+    <!-- Адаптивная навигация с бургер-меню и кнопками авторизации -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark mb-4 shadow-sm">
         <div class="container">
             <a class="navbar-brand fw-bold" href="index.html">Frau Muller</a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mainNav" aria-controls="mainNav" aria-expanded="false" aria-label="Переключить навигацию">
@@ -28,20 +28,41 @@
                     <li class="nav-item"><a class="nav-link" href="menu.html">Меню</a></li>
                     <li class="nav-item"><a class="nav-link" href="contacts.html">Контакты</a></li>
                     <li class="nav-item"><a class="nav-link" href="feedback.html">Отзывы</a></li>
-                    <li class="nav-item"><a class="nav-link" href="order.html">Доставка</a></li>
+                    <li class="nav-item"><a class="nav-link" href="order.html">Заказ еды</a></li>
                     <li class="nav-item"><a class="nav-link" href="reservation.html">Бронь столов</a></li>
                     <li class="nav-item"><a class="nav-link active" href="about.html">О нас</a></li>
-                    <li class="nav-item"><a class="nav-link" href="colophon.html">О проекте</a></li>
                 </ul>
+
+                <!-- Блок кнопок авторизации и профиля -->
+                <div class="d-flex align-items-center gap-2 ms-lg-3 mt-3 mt-lg-0">
+                    <!-- Кнопка вызова модального окна -->
+                    <button type="button" class="btn btn-outline-light btn-sm" id="login-btn" data-bs-toggle="modal" data-bs-target="#loginModal">
+                        Вход / Регистрация
+                    </button>
+
+                    <!-- Состояние залогиненного пользователя (скрыто для JS) -->
+                    <div class="dropdown is-hidden" id="user-profile-menu">
+                        <button class="btn btn-outline-light btn-sm dropdown-toggle" type="button" data-bs-toggle="dropdown">
+                            Профиль
+                        </button>
+                        <ul class="dropdown-menu dropdown-menu-end shadow-sm">
+                            <li><a class="dropdown-item" href="#">Мои заказы</a></li>
+                            <li><hr class="dropdown-divider"></li>
+                            <li><a class="dropdown-item text-danger" href="#" id="logout-btn">Выйти</a></li>
+                        </ul>
+                    </div>
+                </div>
             </div>
         </div>
     </nav>
 
-    <!-- Заголовок страницы с типографикой Bootstrap -->
-    <header class="container text-center py-4 my-2">
-        <h1 class="display-5 fw-bold text-dark">О ресто-пабе Frau Muller</h1>
-        <p class="lead text-secondary">Секрет нашего успеха — любовь к деталям и верность традициям.</p>
-    </header>
+    <!-- Заголовок страницы в едином стиле с меню -->
+    <div class="container">
+        <header class="text-center mb-5 bg-white p-4 p-md-5 rounded shadow-sm border-top border-danger border-3">
+            <h1 class="display-4 fw-bold text-danger">О ресто-пабе Frau Muller</h1>
+            <p class="lead text-muted mb-0">Секрет нашего успеха — любовь к деталям и верность традициям.</p>
+        </header>
+    </div>
 
     <!-- container выбран для центральной части, чтобы контент аккуратно располагался в фокусе внимания -->
     <main class="container mb-5">
@@ -50,7 +71,7 @@
             
             <!-- Адаптивное выравнивание: text-center на телефонах, text-lg-start на экранах ноутбуков -->
             <div class="col-12 col-lg-7 text-center text-lg-start">
-                <section id="history-section" class="p-4 bg-white rounded-3 shadow-sm">
+                <section id="history-section" class="p-4 p-md-5 bg-white rounded-3 shadow-sm border">
                     <h2 class="h3 fw-bold mb-3 border-bottom pb-2">История открытия</h2>
                     <p class="text-secondary lead">
                         Мы открыли <b>Frau Muller</b>, чтобы подарить жителям Астаны частичку европейского гостеприимства. С самого первого дня мы используем только качественные продукты, одобренные <abbr title="Quality Assurance" class="initialism text-danger">QA</abbr>. 
@@ -58,8 +79,8 @@
                     <p class="text-secondary">
                         Температура гриля всегда достигает 250<sup>&deg;</sup>C, чтобы мясо оставалось сочным, а напитки подаются охлажденными до 4<sub>&deg;</sub>C. Как говорят наши постоянные клиенты: <q class="fst-italic">Это лучшее место для пятничного вечера!</q> <i>Мы рады каждому гостю.</i>
                     </p>
-                    <div class="mt-4">
-                        <a href="menu.html" class="btn btn-danger me-2 shadow-sm">Посмотреть меню</a>
+                    <div class="mt-4 d-flex flex-wrap gap-2 justify-content-center justify-content-lg-start">
+                        <a href="menu.html" class="btn btn-danger shadow-sm">Посмотреть меню</a>
                         <a href="reservation.html" class="btn btn-outline-danger shadow-sm">Забронировать стол</a>
                     </div>
                 </section>
@@ -67,14 +88,73 @@
 
             <!-- Колонка с изображением фасада (img-fluid защищает от горизонтального скролла на мобильных 375px) -->
             <div class="col-12 col-lg-5 text-center">
-                <figure class="figure p-2 bg-white rounded-3 shadow-sm mb-0">
-                    <img src="images/снаружи.jpg" alt="Фасад ресторана Frau Muller на Жургенова" class="img-fluid rounded-2 shadow-sm">
+                <figure class="figure p-3 bg-white rounded-3 shadow-sm border mb-0">
+                    <img src="images/снаружи.jpg" alt="Фасад ресторана Frau Muller на Жургенова" class="img-fluid rounded shadow-sm">
                     <figcaption class="figure-caption mt-2 text-muted small">Вход в ресторан со стороны улицы Темирбека Жургенова.</figcaption>
                 </figure>
             </div>
 
         </div>
     </main>
+
+    <!-- Bootstrap Component: Modal (Модальное окно для Входа/Регистрации) -->
+    <div class="modal fade" id="loginModal" tabindex="-1" aria-labelledby="loginModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header bg-light">
+                    <h5 class="modal-title fw-bold" id="loginModalLabel">Добро пожаловать</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Закрыть"></button>
+                </div>
+                <div class="modal-body">
+                    <!-- Tabs для переключения Вход / Регистрация -->
+                    <ul class="nav nav-tabs mb-3" id="authTabs" role="tablist">
+                        <li class="nav-item" role="presentation">
+                            <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#loginPane" type="button" role="tab">Вход</button>
+                        </li>
+                        <li class="nav-item" role="presentation">
+                            <button class="nav-link" data-bs-toggle="tab" data-bs-target="#registerPane" type="button" role="tab">Регистрация</button>
+                        </li>
+                    </ul>
+                    <div class="tab-content" id="authTabsContent">
+                        <!-- Форма Входа -->
+                        <div class="tab-pane fade show active" id="loginPane" role="tabpanel">
+                            <form>
+                                <div class="mb-3">
+                                    <label class="form-label">Email адрес</label>
+                                    <input type="email" class="form-control" required>
+                                </div>
+                                <div class="mb-3">
+                                    <label class="form-label">Пароль</label>
+                                    <input type="password" class="form-control" required>
+                                </div>
+                                <button type="submit" class="btn btn-danger w-100">Войти</button>
+                            </form>
+                            <div id="login-message-container" class="mt-3"></div>
+                        </div>
+                        <!-- Форма Регистрации -->
+                        <div class="tab-pane fade" id="registerPane" role="tabpanel">
+                            <form>
+                                <div class="mb-3">
+                                    <label class="form-label">Ваше имя</label>
+                                    <input type="text" class="form-control" required>
+                                </div>
+                                <div class="mb-3">
+                                    <label class="form-label">Email адрес</label>
+                                    <input type="email" class="form-control" required>
+                                </div>
+                                <div class="mb-3">
+                                    <label class="form-label">Придумайте пароль</label>
+                                    <input type="password" class="form-control" required>
+                                </div>
+                                <button type="submit" class="btn btn-success w-100">Создать аккаунт</button>
+                            </form>
+                            <div id="register-message-container" class="mt-3"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 
     <footer class="bg-dark text-white text-center py-3 mt-auto">
         <p class="mb-0 small">Frau Muller &copy; 2026. Все права защищены.</p>

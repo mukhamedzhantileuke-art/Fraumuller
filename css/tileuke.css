@@ -41,3 +41,8 @@ h1, h2, h3, h4, h5, .navbar-brand {
 .bg-light-custom {
     background-color: #F5F2EB;
 }
+
+/* Скрытие меню профиля до момента авторизации (согласовано с Аланом) */
+.is-hidden {
+    display: none !important;
+}
