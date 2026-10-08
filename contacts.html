@@ -18,7 +18,7 @@
                 <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse" id="mainNav">
-                <ul class="navbar-nav ms-auto">
+                <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
                     <li class="nav-item"><a class="nav-link" href="index.html">Главная</a></li>
                     <li class="nav-item"><a class="nav-link" href="menu.html">Меню</a></li>
                     <li class="nav-item"><a class="nav-link active" href="contacts.html">Контакты</a></li>
@@ -27,11 +27,27 @@
                     <li class="nav-item"><a class="nav-link" href="reservation.html">Бронь столов</a></li>
                     <li class="nav-item"><a class="nav-link" href="about.html">О нас</a></li>
                 </ul>
-                <button type="button" class="btn btn-outline-light btn-sm" data-bs-toggle="modal" data-bs-target="#loginModal">
-                    Вход / Регистрация
-                </button>
+                
+                <!-- Блок кнопок авторизации и профиля -->
+                <div class="d-flex align-items-center gap-2 ms-lg-3 mt-3 mt-lg-0">
+                    <!-- Кнопка вызова модального окна -->
+                    <button type="button" class="btn btn-outline-light btn-sm" id="login-btn" data-bs-toggle="modal" data-bs-target="#loginModal">
+                        Вход / Регистрация
+                    </button>
+                    
+                    <!-- Состояние залогиненного пользователя (скрыто для JS) -->
+                    <div class="dropdown is-hidden" id="user-profile-menu">
+                        <button class="btn btn-outline-light btn-sm dropdown-toggle" type="button" data-bs-toggle="dropdown">
+                            Профиль
+                        </button>
+                        <ul class="dropdown-menu dropdown-menu-end shadow-sm">
+                            <li><a class="dropdown-item" href="#">Мои заказы</a></li>
+                            <li><hr class="dropdown-divider"></li>
+                            <li><a class="dropdown-item text-danger" href="#" id="logout-btn">Выйти</a></li>
+                        </ul>
+                    </div>
+                </div>
             </div>
-        </div>
     </nav>
     <header class ="container-fliud bg-danger text-while text-center py-5 mb-4" style="color: rgb(122, 21, 21);">
         <h1 class="display-5 fw-bold">Контакты</h1>
@@ -79,6 +95,7 @@
                 </section>
             </div>
         </div>
+        <div id="contacts-message-container" class="is-hidden"></div>
     </main>
 
     <div class="modal fade" id="loginModal" tabindex="-1" aria-labelledby="loginModalLabel" aria-hidden="true">

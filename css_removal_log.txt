@@ -1,30 +1,85 @@
-CSS Removal Log (Assignment 3 - Tileuke Mukhamedzhan)
-=========================================================
-В рамках перехода на Bootstrap 5 мы удалили избыточный ручной CSS из Assignment 2 и заменили его на нативные классы фреймворка:
+CSS Removal Log (Assignment 3 - Frau Muller Web Project)
+======================================================================
+В рамках перехода на Bootstrap 5.3 избыточный ручной CSS из Assignment 2 был удален
+и заменен на нативные классы и компоненты фреймворка.
 
-1. Удалено: .main-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px; }
-   Заменено на: Классы сетки Bootstrap (.row, .col-12, .col-lg-8, .col-lg-4, .g-4).
+======================================================================
+1. Общие стили (css/base.css)
+======================================================================
+- Удалено: Ручной flexbox для навигации (nav ul { display: flex; gap: 20px; ... })
+  Заменено на: Нативный компонент .navbar .navbar-expand-lg с кнопкой .navbar-toggler.
 
-2. Удалено: .main-grid aside { grid-column: 1 / -1; }
-   Заменено на: Колонку Bootstrap (.col-12 .col-lg-4) с адаптивным перестроением.
+- Удалено: Ручное ограничение ширины и центрирование контента (main { max-width: 1000px; margin: 30px auto; })
+  Заменено на: Сетку и контейнеры Bootstrap (.container, .container-fluid, .row).
 
-3. Удалено: .hero-article { position: relative; } и .overlay-figure figcaption { position: absolute; ... }
-   Заменено на: Адаптивную фигуру Bootstrap (.figure, .figure-caption) и компонент карточки (.card, .card-body).
+- Удалено: Ручные сбросы отступов и блочной модели (* { box-sizing: border-box; margin: 0; padding: 0; })
+  Заменено на: Встроенный Reboot и нормализацию стилей Bootstrap 5.
 
-4. Удалено: .float-figure { float: left; margin-right: 20px; ... }
-   Заменено на: Сетку Bootstrap (.row, .col-12, .col-lg-7, .col-lg-5) и класс .img-fluid.
+======================================================================
+2. Студент: Tileuke Mukhamedzhan (css/tileuke.css)
+======================================================================
+- Удалено: .main-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px; }
+  Заменено на: Классы сетки Bootstrap (.row, .col-12, .col-lg-8, .col-lg-4, .g-4).
 
-5. Удалено: #history-section::after { clear: both; display: table; } (ручной Clearfix)
-   Заменено на: Автоматический клиринг и блочную модель сетки Bootstrap (.row, .col-*).
+- Удалено: .main-grid aside { grid-column: 1 / -1; }
+  Заменено на: Колонку Bootstrap (.col-12 .col-lg-4) с адаптивным перестроением.
 
-6. Удалено: input[type="date"], input[type="time"] { padding: 5px; border: 1px solid #aaa; ... }
-   Заменено на: Классы форм Bootstrap (.form-control, .form-select, .form-check-input).
+- Удалено: .hero-article { position: relative; } и .overlay-figure figcaption { position: absolute; ... }
+  Заменено на: Адаптивную фигуру Bootstrap (.figure, .figure-caption) и компонент карточки (.card, .card-body).
 
-7. Удалено: .booking-form > fieldset { padding: 15px; border: 1px solid DarkRed; }
-   Заменено на: Утилитные классы Bootstrap (.border, .p-3, .rounded-3, .bg-light).
+- Удалено: .float-figure { float: left; margin-right: 20px; ... }
+  Заменено на: Сетку Bootstrap (.row, .col-12, .col-lg-7, .col-lg-5) и класс .img-fluid.
 
-8. Удалено: Ручное оформление кнопок с абсолютным позиционированием
-   Заменено на: Систему кнопок Bootstrap (.btn, .btn-danger, .btn-outline-secondary, .btn-lg, .disabled).
+- Удалено: #history-section::after { clear: both; display: table; } (ручной Clearfix)
+  Заменено на: Автоматический клиринг и блочную модель сетки Bootstrap (.row, .col-*).
+
+- Удалено: input[type="date"], input[type="time"] { padding: 5px; border: 1px solid #aaa; ... }
+  Заменено на: Классы форм Bootstrap (.form-control, .form-select, .form-check-input).
+
+- Удалено: .booking-form > fieldset { padding: 15px; border: 1px solid DarkRed; }
+  Заменено на: Утилитные классы Bootstrap (.border, .p-3, .rounded-3, .bg-light).
+
+======================================================================
+3. Студент: Alan Baiguzhinov (css/alan.css)
+======================================================================
+- Удалено: Ручной flexbox для контактов (#contact-main { display: flex; flex-wrap: wrap; ... })
+  Заменено на: Сетку Bootstrap (.row, .col-12, .col-md-6, .col-lg-4).
+
+- Удалено: Ручной грид меню (.menu-grid { display: grid; ... })
+  Заменено на: Карточки в сетке (.row, .col-12, .col-md-6, .col-lg-4, .card).
+
+- Удалено: Стили полей формы (.feedback-form fieldset { ... }, input, textarea { width: 100%; ... })
+  Заменено на: Форменные классы Bootstrap (.form-control, .form-label, .form-check).
+
+======================================================================
+4. Студент: Nurmuhammadjon Abdurahmonov (css/nurmuhammadjon.css)
+======================================================================
+- Удалено: Ручная сетка грид для Colophon (.colophon-grid { display: grid; grid-template-columns: ... })
+  Заменено на: Адаптивную сетку Bootstrap (.row .g-4, .col-12 .col-md-4, .col-12 .col-lg-6).
+
+- Удалено: Ручной span грида (.grid-span-all { grid-column: 1 / -1; })
+  Заменено на: Полноширинную колонку .col-12 внутри строки .row.
+
+- Удалено: Ручной flexbox для шагов заказа (.order-steps { display: flex; flex-wrap: wrap; ... })
+  Заменено на: Адаптивную сетку карточек (.row .g-3, .col-12 .col-sm-6 .col-lg-3, .card).
+
+- Удалено: Ручной float и clearfix (.float-img { float: left; ... } и .delivery-clear { clear: both; })
+  Заменено на: Двухколоночную сетку (.row .col-lg-7 и .col-lg-5) с классом .img-fluid.
+
+- Удалено: Ручные 3 техники центрирования (.center-block, .center-flex-box, .center-absolute-box)
+  Заменено на: Утилиты выравнивания Bootstrap (.text-center, .d-flex .justify-content-center, .mx-auto).
+
+- Удалено: Ручные стили формы заказа (#order-form, label + input, button { ... })
+  Заменено на: Классы форм (.form-control, .form-select, .form-check-input, .row .g-3).
+
+- Удалено: Ручное позиционирование бейджа (.order-card-relative, .promo-badge { position: absolute; ... })
+  Заменено на: Нативный компонент .badge .bg-danger и flex-выравнивание внутри .card-body.
+
+- Удалено: Ручное оформление кнопок с псевдоклассами :hover, :focus
+  Заменено на: Систему кнопок Bootstrap (.btn .btn-danger, .btn-outline-secondary, .btn-lg, .disabled).
+
+- Удалено: Ручные правила отступов и границ для карточек (.order-card, .colophon-card)
+  Заменено на: Утилитные классы Bootstrap (.bg-white, .p-4, .rounded-3, .shadow-sm, .border).
 
 Итог:
-Файл css/tileuke.css сокращен с ~80 строк до ~35 строк и теперь служит исключительно легким слоем коррекции (цвета палитры DarkRed и шрифт Georgia).
+Файл css/nurmuhammadjon.css сокращен с ~384 строк до ~48 строк (< 50 строк) и содержит только точечную настройку фирменных цветов (DarkRed, #D4AF37) и шрифта Georgia.
