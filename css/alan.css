@@ -1,6 +1,4 @@
-/* 
- * Alan's Stylesheet 
- * Pages: menu.html, contacts.html, feedback.html*/
+/* Pages: menu.html, contacts.html, feedback.html*/
 
 .contact-card-custom {
     border: 2px solid green;
@@ -23,6 +21,10 @@ color: #800000;
 .filter-btn {
     cursor: pointer;
     transition: color 0.2s ease-in-out;
+}
+
+.table-responsive {
+    overflow-y: hidden;
 }
 
 .filter-btn:hover {

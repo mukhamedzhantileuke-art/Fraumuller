@@ -5,18 +5,16 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="Оставьте отзыв о ресторане Frau Muller.">
     <meta name="author" content="Alan Baiguzhinov">
-
     <title>Frau Muller | Отзывы</title>
-
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="css/base.css">
     <link rel="stylesheet" href="css/alan.css">
 </head>
 <body class="d-flex flex-column min-vh-100 bg-light">
-    <nav class="navbar navbar-expand-lg navbar-dark bg-dark shadow-sm">
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark mb-4 shadow-sm">
         <div class="container">
-            <a class="navbar-brand fw-bold" href="index.html">Frau Muller</a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mainNav" aria-controls="mainNav" aria-expanded="false" aria-label="Переключить навигацию">
+            <a class="navbar-brand" href="index.html">Frau Muller</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mainNav">
                 <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse" id="mainNav">
@@ -29,14 +27,28 @@
                     <li class="nav-item"><a class="nav-link" href="reservation.html">Бронь столов</a></li>
                     <li class="nav-item"><a class="nav-link" href="about.html">О нас</a></li>
                 </ul>
+                
+                <div class="d-flex align-items-center gap-2 ms-lg-3 mt-3 mt-lg-0">
+                    <button type="button" class="btn btn-outline-light btn-sm" id="login-btn" data-bs-toggle="modal" data-bs-target="#loginModal">
+                        Вход / Регистрация
+                    </button>
+                    <div class="dropdown is-hidden" id="user-profile-menu">
+                        <button class="btn btn-outline-light btn-sm dropdown-toggle" type="button" data-bs-toggle="dropdown">
+                            Профиль
+                        </button>
+                        <ul class="dropdown-menu dropdown-menu-end shadow-sm">
+                            <li><a class="dropdown-item" href="order.html">Мои заказы</a></li>
+                            <li><hr class="dropdown-divider"></li>
+                            <li><a class="dropdown-item text-danger" href="index.html" id="logout-btn">Выйти</a></li>
+                        </ul>
+                    </div>
+                </div>
             </div>
         </div>
     </nav>
-
     <main class="container my-5">
         <h1 class="text-center mb-4 display-6">Вот что о нас говорят наши клиенты:</h1>
-
-        <!-- Блок статистики отзывов (как на картинке) -->
+        <!-- Блок статистики отзывов -->
         <div class="card mb-4 border-0 shadow-sm rounded-0 border-top border-danger border-3">
             <div class="card-header bg-white pb-0 border-0 pt-3">
                 <h2 class="h5 fw-bold">Отзывы покупателей (16)</h2>
@@ -52,10 +64,8 @@
                         <div class="display-5 fw-bold text-dark">5<span class="fs-5 text-muted">/5</span></div>
                         <p class="small text-muted mb-0 mt-2">На основе 16 оценок</p>
                     </div>
-
                     <!-- Центральная часть: Прогресс-бары -->
                     <div class="col-md-6 px-4">
-                        <!-- 5 звезд -->
                         <div class="d-flex align-items-center mb-2">
                             <span class="text-danger me-2 fw-bold" style="min-width: 60px;">5 звезд</span>
                             <div class="progress flex-grow-1 rounded-0" style="height: 12px;">
@@ -63,7 +73,6 @@
                             </div>
                             <span class="ms-2 small fw-bold text-muted">100%</span>
                         </div>
-                        <!-- Остальные пустые звезды -->
                         <div class="d-flex align-items-center mb-2 text-muted">
                             <span class="me-2" style="min-width: 60px;">4 звезды</span>
                             <div class="progress flex-grow-1 rounded-0 bg-light" style="height: 12px;"></div>
@@ -75,11 +84,9 @@
                             <span class="ms-2 small">0%</span>
                         </div>
                     </div>
-
                     <!-- Правая часть: Кнопка оставить отзыв -->
                     <div class="col-md-3 text-center">
                         <p class="fw-bold mb-3">Отзывы о ресторане Frau Muller</p>
-                        <!-- Кнопка триггерит открытие формы ниже -->
                         <button class="btn btn-danger btn-lg rounded-1 shadow-sm px-4" data-bs-toggle="collapse" data-bs-target="#reviewFormCollapse">
                             ✎ Оставить свой отзыв
                         </button>
@@ -87,103 +94,184 @@
                 </div>
             </div>
             <div class="card-footer bg-white border-top py-2">
+                <!-- ИСПРАВЛЕНО: Добавлены ID, классы и атрибуты data-sort для JS -->
                 <div class="d-flex small text-muted">
                     <span class="me-3">Сортировать по:</span>
-                    <a href="#reviews-list" class="text-dark fw-bold me-3 text-decoration-none border-bottom border-dark">Дате ↓</a>
-                    <a href="#reviews-list" class="text-muted text-decoration-none me-3">Рейтингу ↓</a>
-                    <a href="#reviews-list" class="text-muted text-decoration-none">Полезности ↓</a>
+                    <span class="text-dark fw-bold me-3 border-bottom border-dark sort-btn" id="sort-date" data-sort="date" style="cursor: pointer;">Дате ↓</span>
+                    <span class="text-muted me-3 sort-btn" id="sort-rating" data-sort="rating" style="cursor: pointer;">Рейтингу ↓</span>
+                    <span class="text-muted sort-btn" id="sort-usefulness" data-sort="usefulness" style="cursor: pointer;">Полезности ↓</span>
                 </div>
             </div>
         </div>
-
-        <!-- Скрытая форма для написания отзыва (компонент Collapse) -->
+        
+        <!-- Скрытая форма для написания отзыва -->
         <div class="collapse mb-4" id="reviewFormCollapse">
             <div class="card card-body shadow-sm border-danger">
                 <h3 class="h5 border-bottom pb-2 mb-3">Написать отзыв</h3>
                 <form action="#" method="post" id="feedback-form">
                     <div class="row">
+                        <!-- ИСПРАВЛЕНО: Добавлены ID и связи for-id для label и input -->
                         <div class="col-md-6 mb-3">
-                            <label for="review-rating" class="form-label fw-bold">Оценка (1-5):</label>
-                            <input type="number" id="review-rating" name="rating" class="form-control" min="1" max="5" required>
+                            <label for="feedback-rating" class="form-label fw-bold">Оценка (1-5):</label>
+                            <input type="number" id="feedback-rating" class="form-control" min="1" max="5" required>
                         </div>
                     </div>
                     <div class="mb-3">
-                        <label for="review-pros" class="form-label fw-bold text-success">Достоинства:</label>
-                        <input type="text" id="review-pros" name="pros" class="form-control">
+                        <label for="feedback-pros" class="form-label fw-bold text-success">Достоинства:</label>
+                        <input type="text" id="feedback-pros" class="form-control">
                     </div>
                     <div class="mb-3">
-                        <label for="review-cons" class="form-label fw-bold text-danger">Недостатки:</label>
-                        <input type="text" id="review-cons" name="cons" class="form-control">
+                        <label for="feedback-cons" class="form-label fw-bold text-danger">Недостатки:</label>
+                        <input type="text" id="feedback-cons" class="form-control">
                     </div>
                     <div class="mb-3">
-                        <label for="review-comment" class="form-label fw-bold">Комментарий:</label>
-                        <textarea id="review-comment" name="comment" class="form-control" rows="3" required></textarea>
+                        <label for="feedback-comment" class="form-label fw-bold">Комментарий:</label>
+                        <textarea id="feedback-comment" class="form-control" rows="3" required></textarea>
                     </div>
-                    <div class="d-flex gap-2">
-                        <button type="submit" class="btn btn-danger">Отправить отзыв</button>
-                        <button type="button" class="btn btn-outline-secondary" data-bs-toggle="collapse" data-bs-target="#reviewFormCollapse">Отмена</button>
-                    </div>
-                    <!-- JS выведет сюда сообщение об успешной отправке или ошибке -->
-                    <div id="review-confirmation" class="hidden mt-3"></div>
+                    <!-- ИСПРАВЛЕНО: Добавлены ID кнопкам -->
+                    <button type="submit" id="feedback-submit-btn" class="btn btn-primary">Отправить отзыв</button>
+                    <button type="button" id="feedback-cancel-btn" class="btn btn-outline-secondary" data-bs-toggle="collapse" data-bs-target="#reviewFormCollapse">Отмена</button>
                 </form>
+                <div id="feedback-message-container" class="mt-3"></div>
             </div>
         </div>
 
-        <!-- Фильтры по звездам -->
-        <div id="reviews-list" class="d-flex gap-3 mb-4 small fw-bold text-muted border-bottom pb-3">
-            <span class="text-dark border-bottom border-2 border-dark pb-1">5 звезд</span>
-            <span>4 звезды</span>
-            <span>3 звезды</span>
+        <!-- Фильтры по звездам (подготовлено для JS) -->
+        <div class="d-flex gap-3 mb-4 small fw-bold text-muted border-bottom pb-3" id="star-filters">
+            <span class="filter-btn active-filter text-dark border-bottom border-2 border-dark pb-1" data-filter="all">Все</span>
+            <span class="filter-btn" data-filter="5">5 звезд</span>
+            <span class="filter-btn" data-filter="4">4 звезды</span>
+            <span class="filter-btn" data-filter="3">3 звезды</span>
+            <span class="filter-btn" data-filter="2">2 звезды</span>
+            <span class="filter-btn" data-filter="1">1 звезда</span>
         </div>
-
-        <!-- Карточка отдельного отзыва (как на картинке) -->
-        <div class="card border-0 shadow-sm rounded-0 mb-3">
-            <div class="card-body">
-                <!-- Заголовок отзыва -->
-                <div class="d-flex justify-content-between align-items-center mb-3">
-                    <div class="d-flex align-items-center">
-                        <!-- Аватар заглушка -->
-                        <div class="bg-secondary rounded-circle d-flex justify-content-center align-items-center text-white me-3" style="width: 40px; height: 40px;">Р</div>
-                        <div>
-                            <span class="fw-bold me-2">Мага</span>
-                            <span class="text-danger me-2">★ ★ ★ ★ ★</span>
-                            <span class="text-muted small"> 21.01.2026</span>
+        
+        <!-- Контейнер для отзывов -->
+        <div id="reviews-container">
+            <!-- Карточка отдельного отзыва -->
+            <div class="card border-0 shadow-sm rounded-0 mb-3 review-card" data-rating="5">
+                <!-- ИСПРАВЛЕНО: Убран дублирующийся класс card-body -->
+                <div class="card-body">
+                    <!-- Заголовок отзыва -->
+                    <div class="d-flex justify-content-between align-items-center mb-3">
+                        <div class="d-flex align-items-center">
+                            <!-- Аватар заглушка -->
+                            <div class="bg-secondary rounded-circle d-flex justify-content-center align-items-center text-white me-3" style="width: 40px; height: 40px;">М</div>
+                            <div>
+                                <span class="fw-bold me-2">Мага</span>
+                                <span class="text-danger me-2">★ ★ ★ ★ ★</span>
+                                <span class="text-muted small"> 21.01.2026</span>
+                            </div>
+                        </div>
+                        <span class="text-primary small fw-bold">#22</span>
+                    </div>
+                    
+                    <h4 class="h6 text-danger fst-italic mb-3">благодарность персоналу</h4>
+                    <!-- Текст отзыва -->
+                    <table class="table table-borderless table-sm mb-3">
+                        <tbody>
+                            <tr>
+                                <td class="fw-bold text-success" style="width: 120px;">Достоинства</td>
+                                <td class="text-success">Обслуживание на высоте. Спасибо за вкусные блюда, самый лучший!!!</td>
+                            </tr>
+                            <tr>
+                                <td class="fw-bold text-danger">Недостатки</td>
+                                <td class="text-danger">Нет</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    
+                    <p class="fw-bold mb-1">Комментарий</p>
+                    <p class="text-muted small mb-3">Официанты самые вежливые, приветливые всегда помогают с выбором, хорошо знают меню. Если нет нужного блюда, быстро предложат альтернативу. Я являюсь постоянным клиентом в этом заведении.</p>
+                    
+                    <!-- Прикрепленные фото -->
+                    <div>
+                        <p class="fw-bold small mb-2">Файлы</p>
+                        <div class="d-flex gap-2">
+                            <img src="images/внутри 2.jpg" alt="Фото гостя 1" class="img-thumbnail" style="width: 80px; height: 100px; object-fit: cover;">
+                            <img src="images/лого.jpg" alt="Фото гостя 2" class="img-thumbnail" style="width: 80px; height: 100px; object-fit: cover;">
                         </div>
                     </div>
-                    <span class="text-primary small fw-bold">#22</span>
                 </div>
-                
-                <h4 class="h6 text-danger fst-italic mb-3">благодарность персоналу</h4>
-
-                <!-- Текст отзыва -->
-                <table class="table table-borderless table-sm mb-3">
-                    <tbody>
-                        <tr>
-                            <td class="fw-bold text-success" style="width: 120px;">Достоинства</td>
-                            <td class="text-success">Обслуживание на высоте. Спасибо за вкусные блюда, самый лучший!!!</td>
-                        </tr>
-                        <tr>
-                            <td class="fw-bold text-danger">Недостатки</td>
-                            <td class="text-danger">Нет</td>
-                        </tr>
-                    </tbody>
-                </table>
-                
-                <p class="fw-bold mb-1">Комментарий</p>
-                <p class="text-muted small mb-3">Официанты самые вежливые, приветливые всегда помогают с выбором, хорошо знают меню. Если нет нужного блюда, быстро предложат альтернативу. Я являюсь постоянным клиентом в этом заведении.</p>
-                
-                <!-- Прикрепленные фото -->
-                <div>
-                    <p class="fw-bold small mb-2">Файлы</p>
-                    <div class="d-flex gap-2">
-                        <img src="images/внутри 2.jpg" alt="Фото гостя 1" class="img-thumbnail" style="width: 80px; height: 100px; object-fit: cover;">
-                        <img src="images/лого.jpg" alt="Фото гостя 2" class="img-thumbnail" style="width: 80px; height: 100px; object-fit: cover;">
+            </div>
+            
+            <!-- Пример еще одного отзыва на 4 звезды для проверки работы фильтра -->
+            <div class="card border-0 shadow-sm rounded-0 mb-3 review-card" data-rating="4">
+                <div class="card-body">
+                    <div class="d-flex justify-content-between align-items-center mb-3">
+                        <div class="d-flex align-items-center">
+                            <div class="bg-secondary rounded-circle d-flex justify-content-center align-items-center text-white me-3" style="width: 40px; height: 40px;">А</div>
+                            <div>
+                                <span class="fw-bold me-2">Айгерим</span>
+                                <span class="text-danger me-2">★ ★ ★ ★ ☆</span>
+                                <span class="text-muted small"> 20.01.2026</span>
+                            </div>
+                        </div>
+                        <span class="text-primary small fw-bold">#21</span>
                     </div>
+                    <p class="text-muted small mb-3">Вкусная еда, но доставку пришлось подождать чуть дольше обычного.</p>
                 </div>
             </div>
         </div>
     </main>
-
+    
+    <!-- Модальное окно -->
+    <div class="modal fade" id="loginModal" tabindex="-1" aria-labelledby="loginModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header bg-light">
+                    <h5 class="modal-title fw-bold" id="loginModalLabel">Добро пожаловать</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Закрыть"></button>
+                </div>
+                <div class="modal-body">
+                    <ul class="nav nav-tabs mb-3" id="authTabs" role="tablist">
+                        <li class="nav-item" role="presentation">
+                            <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#loginPane" type="button" role="tab">Вход</button>
+                        </li>
+                        <li class="nav-item" role="presentation">
+                            <button class="nav-link" data-bs-toggle="tab" data-bs-target="#registerPane" type="button" role="tab">Регистрация</button>
+                        </li>
+                    </ul>
+                    <div class="tab-content" id="authTabsContent">
+                        <!-- Вкладка Входа -->
+                        <div class="tab-pane fade show active" id="loginPane" role="tabpanel">
+                            <form id="login-form" action="javascript:void(0);">
+                                <div class="mb-3">
+                                    <label class="form-label" for="login-email">Email адрес</label>
+                                    <input type="email" class="form-control" id="login-email" required>
+                                </div>
+                                <div class="mb-3">
+                                    <label class="form-label" for="login-password">Пароль</label>
+                                    <input type="password" class="form-control" id="login-password" required>
+                                </div>
+                                <button type="submit" class="btn btn-danger w-100" id="login-submit-btn">Войти</button>
+                            </form>
+                            <div id="login-message-container" class="mt-3 text-center"></div>
+                        </div>
+                        <!-- Вкладка Регистрации -->
+                        <div class="tab-pane fade" id="registerPane" role="tabpanel">
+                            <form id="register-form" action="javascript:void(0);">
+                                <div class="mb-3">
+                                    <label class="form-label" for="register-name">Ваше имя</label>
+                                    <input type="text" class="form-control" id="register-name" required>
+                                </div>
+                                <div class="mb-3">
+                                    <label class="form-label" for="register-email">Email адрес</label>
+                                    <input type="email" class="form-control" id="register-email" required>
+                                </div>
+                                <div class="mb-3">
+                                    <label class="form-label" for="register-password">Придумайте пароль</label>
+                                    <input type="password" class="form-control" id="register-password" required>
+                                </div>
+                                <button type="submit" class="btn btn-success w-100" id="register-submit-btn">Создать аккаунт</button>
+                            </form>
+                            <div id="register-message-container" class="mt-3 text-center"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
     <footer class="bg-dark text-white text-center py-3 mt-auto">
         <p class="mb-0 small">Frau Muller &copy; 2026.</p>
     </footer>
