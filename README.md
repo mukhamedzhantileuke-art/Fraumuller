@@ -17,7 +17,7 @@
 |---|---|---|---|
 | **Tileuke Mukhamedzhan** | `index.html`, `about.html`, `reservation.html` | `css/tileuke.css` | Landing page, history, table booking form with confirmation container, layout alignment. |
 | **Alan Baiguzhinov** | `menu.html`, `contacts.html`, `feedback.html` | `css/alan.css` | Menu dishes & drinks, contacts & business hours, customer feedback with collapse form. |
-| **Nurmuhammadjon Abdurahmonov** | `order.html`, `colophon.html` | `css/nurmuhammadjon.css` | Online food delivery checkout, Colophon technical specifications, project CSS optimization. |
+| **Nurmuhammadjon Abdurahmonov** | `order.html` | `css/nurmuhammadjon.css` | Online food delivery checkout, delivery process grid, project CSS optimization. |
 
 * **Shared Stylesheet:** `css/base.css` (Shared palette, serif headings, and JavaScript state classes).
 
@@ -72,7 +72,7 @@ Every journey described below can be performed completely and independently by a
 ---
 
 ## 5. Site Consistency & Standards Applied
-* **Единая навигация:** Все 8 страниц содержат одинаковый `<nav class="navbar navbar-expand-lg navbar-dark bg-dark">` с 8 ссылками (`Главная`, `Меню`, `Контакты`, `Отзывы`, `Доставка`, `Бронь столов`, `О нас`, `О проекте`), активная ссылка подсвечена золотым цветом (`.nav-link.active`).
+* **Единая навигация:** Все 7 страниц содержат одинаковый `<nav class="navbar navbar-expand-lg navbar-dark bg-dark">` с 7 ссылками (`Главная`, `Меню`, `Контакты`, `Отзывы`, `Доставка`, `Бронь столов`, `О нас`), активная ссылка подсвечена золотым цветом (`.nav-link.active`).
 * **Единая палитра:** Тёмное дерево (`rgba(43, 30, 22, 1)`), пергамент (`#F5F2EB`), фирменный DarkRed (`DarkRed` / `#6e0000`), благородное золото (`#D4AF37`).
 * **Единая шапка и футер:** Тёмный `header.container-fluid` и `footer.container-fluid` с единым копирайтом «Frau Muller © 2026».
 * **Отсутствие мертвых ссылок:** Все ссылки ведут на реальные страницы или существующие якорные секции, ссылки `href="#"` полностью устранены.
