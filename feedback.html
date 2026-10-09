@@ -29,6 +29,24 @@
                     <li class="nav-item"><a class="nav-link" href="reservation.html">Бронь столов</a></li>
                     <li class="nav-item"><a class="nav-link" href="about.html">О нас</a></li>
                 </ul>
+                <div class="d-flex align-items-center gap-2 ms-lg-3 mt-3 mt-lg-0">
+                    <!-- Кнопка вызова модального окна -->
+                    <button type="button" class="btn btn-outline-light btn-sm" id="login-btn" data-bs-toggle="modal" data-bs-target="#loginModal">
+                        Вход / Регистрация
+                    </button>
+
+                    <!-- Состояние залогиненного пользователя (скрыто для JS) -->
+                    <div class="dropdown is-hidden" id="user-profile-menu">
+                        <button class="btn btn-outline-light btn-sm dropdown-toggle" type="button" data-bs-toggle="dropdown">
+                            Профиль
+                        </button>
+                        <ul class="dropdown-menu dropdown-menu-end shadow-sm">
+                            <li><a class="dropdown-item" href="order.html">Мои заказы</a></li>
+                            <li><hr class="dropdown-divider"></li>
+                            <li><a class="dropdown-item text-danger" href="index.html" id="logout-btn">Выйти</a></li>
+                        </ul>
+                    </div>
+                </div>
             </div>
         </div>
     </nav>
