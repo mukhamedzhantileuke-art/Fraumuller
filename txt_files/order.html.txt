@@ -46,7 +46,7 @@
     </nav>
 
     <!-- container-fluid выбран для шапки, чтобы фоновый баннер заведения растягивался на всю ширину любого экрана -->
-    <header class="container-fluid text-white text-center py-5 mb-4 shadow">
+    <header class="container-fluid bg-dark text-white text-center py-5 mb-4 shadow border-bottom border-danger border-3">
         <div class="container">
             <h1 class="display-5 fw-bold mb-2">Доставка еды Frau Muller</h1>
             <p class="lead text-light-emphasis mb-0">Настоящая баварская кухня и гриль у вас дома в Астане.</p>
@@ -378,5 +378,7 @@
 
     <!-- Bootstrap 5.3.3 JavaScript Bundle CDN (необходим для работы Toggler и Accordion) -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- Assignment 4-5 Shared Script -->
+    <script defer src="js/main.js"></script>
 </body>
 </html>

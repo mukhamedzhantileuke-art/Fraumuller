@@ -11,7 +11,7 @@
     <link rel="stylesheet" href="css/alan.css">
 </head>
 <body class="d-flex flex-column min-vh-100 bg-light">
-    <nav class="navbar navbar-expand-lg navbar-dark bg-dark mb-4 shadow-sm">
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark shadow-sm">
         <div class="container">
             <a class="navbar-brand" href="index.html">Frau Muller</a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mainNav">
@@ -46,9 +46,11 @@
             </div>
         </div>
     </nav>
-    <header class ="container-fliud bg-danger text-while text-center py-5 mb-4" style="color: rgb(122, 21, 21);">
-        <h1 class="display-5 fw-bold">Отзывы</h1>
-        <p class="lead mb-0">Вот что о нас говорят наши клиенты</p>
+    <header class="container-fluid bg-dark text-white text-center py-5 mb-4 shadow border-bottom border-danger border-3">
+        <div class="container">
+            <h1 class="display-5 fw-bold">Отзывы гостей</h1>
+            <p class="lead text-secondary mb-0">Вот что о нас говорят наши постоянные клиенты</p>
+        </div>
     </header>
     <main class="container my-5">
         <!-- Блок статистики отзывов -->
@@ -64,27 +66,31 @@
                         <div class="text-danger fs-4 mb-1">
                             ★ ★ ★ ★ ★
                         </div>
-                        <div class="display-5 fw-bold text-dark">5<span class="fs-5 text-muted">/5</span></div>
-                        <p class="small text-muted mb-0 mt-2">На основе 16 оценок</p>
+                        <div class="display-5 fw-bold text-dark">4.8<span class="fs-5 text-muted">/5</span></div>
+                        <p class="small text-muted mb-0 mt-2">На основе реальных отзывов гостей</p>
                     </div>
                     <!-- Центральная часть: Прогресс-бары -->
                     <div class="col-md-6 px-4">
                         <div class="d-flex align-items-center mb-2">
                             <span class="text-danger me-2 fw-bold" style="min-width: 60px;">5 звезд</span>
                             <div class="progress flex-grow-1 rounded-0" style="height: 12px;">
-                                <div class="progress-bar bg-danger" role="progressbar" style="width: 100%" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100"></div>
+                                <div class="progress-bar bg-danger" role="progressbar" style="width: 75%" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100"></div>
                             </div>
-                            <span class="ms-2 small fw-bold text-muted">100%</span>
+                            <span class="ms-2 small fw-bold text-muted">75%</span>
                         </div>
                         <div class="d-flex align-items-center mb-2 text-muted">
                             <span class="me-2" style="min-width: 60px;">4 звезды</span>
-                            <div class="progress flex-grow-1 rounded-0 bg-light" style="height: 12px;"></div>
-                            <span class="ms-2 small">0%</span>
+                            <div class="progress flex-grow-1 rounded-0 bg-light" style="height: 12px;">
+                                <div class="progress-bar bg-danger opacity-75" role="progressbar" style="width: 15%" aria-valuenow="15" aria-valuemin="0" aria-valuemax="100"></div>
+                            </div>
+                            <span class="ms-2 small fw-bold text-muted">15%</span>
                         </div>
                         <div class="d-flex align-items-center mb-2 text-muted">
                             <span class="me-2" style="min-width: 60px;">3 звезды</span>
-                            <div class="progress flex-grow-1 rounded-0 bg-light" style="height: 12px;"></div>
-                            <span class="ms-2 small">0%</span>
+                            <div class="progress flex-grow-1 rounded-0 bg-light" style="height: 12px;">
+                                <div class="progress-bar bg-warning" role="progressbar" style="width: 10%" aria-valuenow="10" aria-valuemin="0" aria-valuemax="100"></div>
+                            </div>
+                            <span class="ms-2 small fw-bold text-muted">10%</span>
                         </div>
                     </div>
                     <!-- Правая часть: Кнопка оставить отзыв -->
@@ -150,15 +156,13 @@
         </div>
         
         <!-- Контейнер для отзывов -->
+        <!-- Контейнер для отзывов -->
         <div id="reviews-container">
-            <!-- Карточка отдельного отзыва -->
-            <div class="card border-0 shadow-sm rounded-0 mb-3 review-card" data-rating="5">
-                <!-- ИСПРАВЛЕНО: Убран дублирующийся класс card-body -->
+            <!-- Отзыв #22: Мага -->
+            <div class="card border-0 shadow-sm rounded-0 mb-3 review-card" data-rating="5" data-date="2026-01-21" data-usefulness="25">
                 <div class="card-body">
-                    <!-- Заголовок отзыва -->
                     <div class="d-flex justify-content-between align-items-center mb-3">
                         <div class="d-flex align-items-center">
-                            <!-- Аватар заглушка -->
                             <div class="bg-secondary rounded-circle d-flex justify-content-center align-items-center text-white me-3" style="width: 40px; height: 40px;">М</div>
                             <div>
                                 <span class="fw-bold me-2">Мага</span>
@@ -169,37 +173,35 @@
                         <span class="text-primary small fw-bold">#22</span>
                     </div>
                     
-                    <h4 class="h6 text-danger fst-italic mb-3">благодарность персоналу</h4>
-                    <!-- Текст отзыва -->
+                    <h4 class="h6 text-danger fst-italic mb-3">Благодарность персоналу ресто-паба</h4>
                     <table class="table table-borderless table-sm mb-3">
                         <tbody>
                             <tr>
                                 <td class="fw-bold text-success" style="width: 120px;">Достоинства</td>
-                                <td class="text-success">Обслуживание на высоте. Спасибо за вкусные блюда, самый лучший!!!</td>
+                                <td class="text-success">Обслуживание на высоте. Спасибо за вкусные блюда, самый лучший паб в Астане!</td>
                             </tr>
                             <tr>
                                 <td class="fw-bold text-danger">Недостатки</td>
-                                <td class="text-danger">Нет</td>
+                                <td class="text-danger">Не обнаружено.</td>
                             </tr>
                         </tbody>
                     </table>
                     
                     <p class="fw-bold mb-1">Комментарий</p>
-                    <p class="text-muted small mb-3">Официанты самые вежливые, приветливые всегда помогают с выбором, хорошо знают меню. Если нет нужного блюда, быстро предложат альтернативу. Я являюсь постоянным клиентом в этом заведении.</p>
+                    <p class="text-muted small mb-3">Официанты самые вежливые, приветливые, всегда помогают с выбором, отлично знают меню. Если нет нужного напитка, быстро предложат альтернативу. Являюсь постоянным клиентом этого заведения.</p>
                     
-                    <!-- Прикрепленные фото -->
                     <div>
-                        <p class="fw-bold small mb-2">Файлы</p>
+                        <p class="fw-bold small mb-2">Прикрепленные фото</p>
                         <div class="d-flex gap-2">
-                            <img src="images/внутри 2.jpg" alt="Фото гостя 1" class="img-thumbnail" style="width: 80px; height: 100px; object-fit: cover;">
-                            <img src="images/лого.jpg" alt="Фото гостя 2" class="img-thumbnail" style="width: 80px; height: 100px; object-fit: cover;">
+                            <img src="images/внутри 2.jpg" alt="Интерьер ресто-паба Frau Muller" class="img-thumbnail" style="width: 80px; height: 100px; object-fit: cover;">
+                            <img src="images/лого.jpg" alt="Логотип Frau Muller" class="img-thumbnail" style="width: 80px; height: 100px; object-fit: cover;">
                         </div>
                     </div>
                 </div>
             </div>
             
-            <!-- Пример еще одного отзыва на 4 звезды для проверки работы фильтра -->
-            <div class="card border-0 shadow-sm rounded-0 mb-3 review-card" data-rating="4">
+            <!-- Отзыв #21: Айгерим -->
+            <div class="card border-0 shadow-sm rounded-0 mb-3 review-card" data-rating="4" data-date="2026-01-20" data-usefulness="19">
                 <div class="card-body">
                     <div class="d-flex justify-content-between align-items-center mb-3">
                         <div class="d-flex align-items-center">
@@ -212,7 +214,213 @@
                         </div>
                         <span class="text-primary small fw-bold">#21</span>
                     </div>
-                    <p class="text-muted small mb-3">Вкусная еда, но доставку пришлось подождать чуть дольше обычного.</p>
+                    <h4 class="h6 text-danger fst-italic mb-3">Отличная кухня и атмосфера</h4>
+                    <table class="table table-borderless table-sm mb-3">
+                        <tbody>
+                            <tr>
+                                <td class="fw-bold text-success" style="width: 120px;">Достоинства</td>
+                                <td class="text-success">Вкусный сочный стейк Рибай, свежие салаты и оригинальная подача десертов.</td>
+                            </tr>
+                            <tr>
+                                <td class="fw-bold text-danger">Недостатки</td>
+                                <td class="text-danger">В пятницу вечером очень плотная посадка, заказ ждали немного дольше обычного.</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <p class="fw-bold mb-1">Комментарий</p>
+                    <p class="text-muted small mb-0">Отмечали с подругами день рождения. Официанты поздравили от заведения приятным десертом со свечой. Впечатления самые теплые!</p>
+                </div>
+            </div>
+
+            <!-- Отзыв #20: Дамир -->
+            <div class="card border-0 shadow-sm rounded-0 mb-3 review-card" data-rating="5" data-date="2026-01-18" data-usefulness="22">
+                <div class="card-body">
+                    <div class="d-flex justify-content-between align-items-center mb-3">
+                        <div class="d-flex align-items-center">
+                            <div class="bg-secondary rounded-circle d-flex justify-content-center align-items-center text-white me-3" style="width: 40px; height: 40px;">Д</div>
+                            <div>
+                                <span class="fw-bold me-2">Дамир Касымов</span>
+                                <span class="text-danger me-2">★ ★ ★ ★ ★</span>
+                                <span class="text-muted small"> 18.01.2026</span>
+                            </div>
+                        </div>
+                        <span class="text-primary small fw-bold">#20</span>
+                    </div>
+                    <h4 class="h6 text-danger fst-italic mb-3">Настоящие немецкие колбаски на гриле</h4>
+                    <table class="table table-borderless table-sm mb-3">
+                        <tbody>
+                            <tr>
+                                <td class="fw-bold text-success" style="width: 120px;">Достоинства</td>
+                                <td class="text-success">Сочные баварские колбаски с тушеной капустой, хрустящий бретцель с теплым сырным соусом.</td>
+                            </tr>
+                            <tr>
+                                <td class="fw-bold text-danger">Недостатки</td>
+                                <td class="text-danger">Порции просто огромные, одному осилить шницель тяжело :)</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <p class="fw-bold mb-1">Комментарий</p>
+                    <p class="text-muted small mb-0">Приходили с коллегами после тяжелой рабочей недели. Атмосфера классического мюнхенского паба, играет ненавязчивый качественный рок, деревянная массивная мебель создает невероятный уют.</p>
+                </div>
+            </div>
+
+            <!-- Отзыв #19: Екатерина -->
+            <div class="card border-0 shadow-sm rounded-0 mb-3 review-card" data-rating="5" data-date="2026-01-15" data-usefulness="17">
+                <div class="card-body">
+                    <div class="d-flex justify-content-between align-items-center mb-3">
+                        <div class="d-flex align-items-center">
+                            <div class="bg-secondary rounded-circle d-flex justify-content-center align-items-center text-white me-3" style="width: 40px; height: 40px;">Е</div>
+                            <div>
+                                <span class="fw-bold me-2">Екатерина Белова</span>
+                                <span class="text-danger me-2">★ ★ ★ ★ ★</span>
+                                <span class="text-muted small"> 15.01.2026</span>
+                            </div>
+                        </div>
+                        <span class="text-primary small fw-bold">#19</span>
+                    </div>
+                    <h4 class="h6 text-danger fst-italic mb-3">Идеальные десерты для всей семьи</h4>
+                    <table class="table table-borderless table-sm mb-3">
+                        <tbody>
+                            <tr>
+                                <td class="fw-bold text-success" style="width: 120px;">Достоинства</td>
+                                <td class="text-success">Теплые бельгийские вафли с шариком пломбира и яблочный австрийский штрудель с корицей. Дети в восторге!</td>
+                            </tr>
+                            <tr>
+                                <td class="fw-bold text-danger">Недостатки</td>
+                                <td class="text-danger">В воскресный полдень было много гостей, десерты ждали около 15 минут.</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <p class="fw-bold mb-1">Комментарий</p>
+                    <p class="text-muted small mb-0">Прекрасное место для семейного бранча на Аллее Мынжылдык. Официант был очень внимателен, принес детский стульчик и раскраски. Отдельное спасибо шеф-повару за десертное меню.</p>
+                </div>
+            </div>
+
+            <!-- Отзыв #18: Нурлан -->
+            <div class="card border-0 shadow-sm rounded-0 mb-3 review-card" data-rating="5" data-date="2026-01-12" data-usefulness="14">
+                <div class="card-body">
+                    <div class="d-flex justify-content-between align-items-center mb-3">
+                        <div class="d-flex align-items-center">
+                            <div class="bg-secondary rounded-circle d-flex justify-content-center align-items-center text-white me-3" style="width: 40px; height: 40px;">Н</div>
+                            <div>
+                                <span class="fw-bold me-2">Нурлан Сериков</span>
+                                <span class="text-danger me-2">★ ★ ★ ★ ★</span>
+                                <span class="text-muted small"> 12.01.2026</span>
+                            </div>
+                        </div>
+                        <span class="text-primary small fw-bold">#18</span>
+                    </div>
+                    <h4 class="h6 text-danger fst-italic mb-3">Быстрая доставка на дом</h4>
+                    <table class="table table-borderless table-sm mb-3">
+                        <tbody>
+                            <tr>
+                                <td class="fw-bold text-success" style="width: 120px;">Достоинства</td>
+                                <td class="text-success">Привезли за 45 минут, все блюда горячие в термобоксах. Мясо сочное, крылья BBQ хрустящие.</td>
+                            </tr>
+                            <tr>
+                                <td class="fw-bold text-danger">Недостатки</td>
+                                <td class="text-danger">Забыли положить дополнительный соус BBQ, но курьер извинился.</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <p class="fw-bold mb-1">Комментарий</p>
+                    <p class="text-muted small mb-0">Заказывали домой под просмотр футбольного матча. Стейк Рибай и сет острых крыльев BBQ превзошли все ожидания. Будем заказывать снова через онлайн-форму доставки.</p>
+                </div>
+            </div>
+
+            <!-- Отзыв #17: Сабина -->
+            <div class="card border-0 shadow-sm rounded-0 mb-3 review-card" data-rating="4" data-date="2026-01-08" data-usefulness="11">
+                <div class="card-body">
+                    <div class="d-flex justify-content-between align-items-center mb-3">
+                        <div class="d-flex align-items-center">
+                            <div class="bg-secondary rounded-circle d-flex justify-content-center align-items-center text-white me-3" style="width: 40px; height: 40px;">С</div>
+                            <div>
+                                <span class="fw-bold me-2">Сабина Ахметова</span>
+                                <span class="text-danger me-2">★ ★ ★ ★ ☆</span>
+                                <span class="text-muted small"> 08.01.2026</span>
+                            </div>
+                        </div>
+                        <span class="text-primary small fw-bold">#17</span>
+                    </div>
+                    <h4 class="h6 text-danger fst-italic mb-3">Отличная VIP кабина</h4>
+                    <table class="table table-borderless table-sm mb-3">
+                        <tbody>
+                            <tr>
+                                <td class="fw-bold text-success" style="width: 120px;">Достоинства</td>
+                                <td class="text-success">Приватная VIP кабина с качественной звукоизоляцией, стильным освещением и персональным сервисом.</td>
+                            </tr>
+                            <tr>
+                                <td class="fw-bold text-danger">Недостатки</td>
+                                <td class="text-danger">Сложно найти свободную парковку возле аллеи Мынжылдык вечером в пятницу.</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <p class="fw-bold mb-1">Комментарий</p>
+                    <p class="text-muted small mb-0">Бронировали VIP зал на юбилей. Все блюда подавали вовремя, закуски и горячее всем гостям очень понравились. Администратор помог с рассадкой.</p>
+                </div>
+            </div>
+
+            <!-- Отзыв #16: Арман -->
+            <div class="card border-0 shadow-sm rounded-0 mb-3 review-card" data-rating="5" data-date="2026-01-03" data-usefulness="15">
+                <div class="card-body">
+                    <div class="d-flex justify-content-between align-items-center mb-3">
+                        <div class="d-flex align-items-center">
+                            <div class="bg-secondary rounded-circle d-flex justify-content-center align-items-center text-white me-3" style="width: 40px; height: 40px;">А</div>
+                            <div>
+                                <span class="fw-bold me-2">Арман Тулегенов</span>
+                                <span class="text-danger me-2">★ ★ ★ ★ ★</span>
+                                <span class="text-muted small"> 03.01.2026</span>
+                            </div>
+                        </div>
+                        <span class="text-primary small fw-bold">#16</span>
+                    </div>
+                    <h4 class="h6 text-danger fst-italic mb-3">Лучший стейк Рибай Прайм в Астане</h4>
+                    <table class="table table-borderless table-sm mb-3">
+                        <tbody>
+                            <tr>
+                                <td class="fw-bold text-success" style="width: 120px;">Достоинства</td>
+                                <td class="text-success">Прожарка medium rare выдержана с ювелирной точностью. Чесночное фермерское масло и розмарин дают потрясающий аромат.</td>
+                            </tr>
+                            <tr>
+                                <td class="fw-bold text-danger">Недостатки</td>
+                                <td class="text-danger">Минусов не нашел.</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <p class="fw-bold mb-1">Комментарий</p>
+                    <p class="text-muted small mb-0">Захожу во Frau Muller регулярно. Всегда стабильное качество мяса и доброжелательный коллектив. Однозначно лучший паб в районе Аллеи Мынжылдык.</p>
+                </div>
+            </div>
+
+            <!-- Отзыв #15: Бауыржан -->
+            <div class="card border-0 shadow-sm rounded-0 mb-3 review-card" data-rating="3" data-date="2025-12-28" data-usefulness="8">
+                <div class="card-body">
+                    <div class="d-flex justify-content-between align-items-center mb-3">
+                        <div class="d-flex align-items-center">
+                            <div class="bg-secondary rounded-circle d-flex justify-content-center align-items-center text-white me-3" style="width: 40px; height: 40px;">Б</div>
+                            <div>
+                                <span class="fw-bold me-2">Бауыржан Омаров</span>
+                                <span class="text-danger me-2">★ ★ ★ ☆ ☆</span>
+                                <span class="text-muted small"> 28.12.2025</span>
+                            </div>
+                        </div>
+                        <span class="text-primary small fw-bold">#15</span>
+                    </div>
+                    <h4 class="h6 text-danger fst-italic mb-3">Вкусная еда, но лучше бронировать заранее</h4>
+                    <table class="table table-borderless table-sm mb-3">
+                        <tbody>
+                            <tr>
+                                <td class="fw-bold text-success" style="width: 120px;">Достоинства</td>
+                                <td class="text-success">Шницель по-мюнхенски и хрустящий картофель фри приготовлены на твердую пятерку.</td>
+                            </tr>
+                            <tr>
+                                <td class="fw-bold text-danger">Недостатки</td>
+                                <td class="text-danger">Пришли без брони в субботу вечером, пришлось ждать свободного столика около 25 минут.</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <p class="fw-bold mb-1">Комментарий</p>
+                    <p class="text-muted small mb-0">Еда отличная, но в пиковые часы посадка стопроцентная. Советую обязательно оформлять бронь заранее через сайт, чтобы сразу сесть за стол.</p>
                 </div>
             </div>
         </div>
@@ -279,5 +487,8 @@
         <p class="mb-0 small">Frau Muller &copy; 2026.</p>
     </footer>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- Assignment 4-5 Scripts -->
+    <script defer src="js/main.js"></script>
+    <script defer src="js/feedback.js"></script>
 </body>
 </html>

@@ -422,7 +422,7 @@ FILE: about.html
 <body class="d-flex flex-column min-vh-100 bg-light">
 
     <!-- Адаптивная навигация с бургер-меню и кнопками авторизации -->
-    <nav class="navbar navbar-expand-lg navbar-dark bg-dark mb-4 shadow-sm">
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark shadow-sm">
         <div class="container">
             <a class="navbar-brand fw-bold" href="index.html">Frau Muller</a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mainNav" aria-controls="mainNav" aria-expanded="false" aria-label="Переключить навигацию">
@@ -463,12 +463,12 @@ FILE: about.html
     </nav>
 
     <!-- Заголовок страницы в едином стиле с меню -->
-    <div class="container">
-        <header class="container-fluid bg-dark text-white text-center py-5 mb-4 shadow border-bottom border-danger border-3">
+    <header class="container-fluid bg-dark text-white text-center py-5 mb-4 shadow border-bottom border-danger border-3">
+        <div class="container">
             <h1 class="display-4 fw-bold text-white">О ресторане Frau Muller</h1>
-            <p class="lead text-white mb-0">Секрет нашего успеха — любовь к деталям и верность традициям.</p>
-        </header>
-    </div>
+            <p class="lead text-secondary mb-0">Секрет нашего успеха — любовь к деталям и верность традициям.</p>
+        </div>
+    </header>
 
     <!-- container выбран для центральной части, чтобы контент аккуратно располагался в фокусе внимания -->
     <main class="container mb-5">
@@ -783,7 +783,7 @@ FILE: contacts.html
     </nav>
 
     <!-- container-fluid: тёмный фон заголовка растягивается на всю ширину экрана -->
-    <header class="container-fluid bg-dark text-white text-center py-5 mb-4 shadow">
+    <header class="container-fluid bg-dark text-white text-center py-5 mb-4 shadow border-bottom border-danger border-3">
         <div class="container">
             <h1 class="display-5 fw-bold">Контакты</h1>
             <p class="lead mb-0">Ждём вас в гости!</p>
@@ -912,6 +912,8 @@ FILE: contacts.html
     </footer>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- Assignment 4-5 Shared Script -->
+    <script defer src="js/main.js"></script>
 </body>
 </html>
 
@@ -1230,7 +1232,7 @@ FILE: feedback.html
     <link rel="stylesheet" href="css/alan.css">
 </head>
 <body class="d-flex flex-column min-vh-100 bg-light">
-    <nav class="navbar navbar-expand-lg navbar-dark bg-dark mb-4 shadow-sm">
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark shadow-sm">
         <div class="container">
             <a class="navbar-brand" href="index.html">Frau Muller</a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mainNav">
@@ -1265,9 +1267,11 @@ FILE: feedback.html
             </div>
         </div>
     </nav>
-    <header class ="container-fliud bg-danger text-while text-center py-5 mb-4" style="color: rgb(122, 21, 21);">
-        <h1 class="display-5 fw-bold">Отзывы</h1>
-        <p class="lead mb-0">Вот что о нас говорят наши клиенты</p>
+    <header class="container-fluid bg-dark text-white text-center py-5 mb-4 shadow border-bottom border-danger border-3">
+        <div class="container">
+            <h1 class="display-5 fw-bold">Отзывы гостей</h1>
+            <p class="lead text-secondary mb-0">Вот что о нас говорят наши постоянные клиенты</p>
+        </div>
     </header>
     <main class="container my-5">
         <!-- Блок статистики отзывов -->
@@ -1283,27 +1287,31 @@ FILE: feedback.html
                         <div class="text-danger fs-4 mb-1">
                             ★ ★ ★ ★ ★
                         </div>
-                        <div class="display-5 fw-bold text-dark">5<span class="fs-5 text-muted">/5</span></div>
-                        <p class="small text-muted mb-0 mt-2">На основе 16 оценок</p>
+                        <div class="display-5 fw-bold text-dark">4.8<span class="fs-5 text-muted">/5</span></div>
+                        <p class="small text-muted mb-0 mt-2">На основе реальных отзывов гостей</p>
                     </div>
                     <!-- Центральная часть: Прогресс-бары -->
                     <div class="col-md-6 px-4">
                         <div class="d-flex align-items-center mb-2">
                             <span class="text-danger me-2 fw-bold" style="min-width: 60px;">5 звезд</span>
                             <div class="progress flex-grow-1 rounded-0" style="height: 12px;">
-                                <div class="progress-bar bg-danger" role="progressbar" style="width: 100%" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100"></div>
+                                <div class="progress-bar bg-danger" role="progressbar" style="width: 75%" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100"></div>
                             </div>
-                            <span class="ms-2 small fw-bold text-muted">100%</span>
+                            <span class="ms-2 small fw-bold text-muted">75%</span>
                         </div>
                         <div class="d-flex align-items-center mb-2 text-muted">
                             <span class="me-2" style="min-width: 60px;">4 звезды</span>
-                            <div class="progress flex-grow-1 rounded-0 bg-light" style="height: 12px;"></div>
-                            <span class="ms-2 small">0%</span>
+                            <div class="progress flex-grow-1 rounded-0 bg-light" style="height: 12px;">
+                                <div class="progress-bar bg-danger opacity-75" role="progressbar" style="width: 15%" aria-valuenow="15" aria-valuemin="0" aria-valuemax="100"></div>
+                            </div>
+                            <span class="ms-2 small fw-bold text-muted">15%</span>
                         </div>
                         <div class="d-flex align-items-center mb-2 text-muted">
                             <span class="me-2" style="min-width: 60px;">3 звезды</span>
-                            <div class="progress flex-grow-1 rounded-0 bg-light" style="height: 12px;"></div>
-                            <span class="ms-2 small">0%</span>
+                            <div class="progress flex-grow-1 rounded-0 bg-light" style="height: 12px;">
+                                <div class="progress-bar bg-warning" role="progressbar" style="width: 10%" aria-valuenow="10" aria-valuemin="0" aria-valuemax="100"></div>
+                            </div>
+                            <span class="ms-2 small fw-bold text-muted">10%</span>
                         </div>
                     </div>
                     <!-- Правая часть: Кнопка оставить отзыв -->
@@ -1369,15 +1377,13 @@ FILE: feedback.html
         </div>
         
         <!-- Контейнер для отзывов -->
+        <!-- Контейнер для отзывов -->
         <div id="reviews-container">
-            <!-- Карточка отдельного отзыва -->
-            <div class="card border-0 shadow-sm rounded-0 mb-3 review-card" data-rating="5">
-                <!-- ИСПРАВЛЕНО: Убран дублирующийся класс card-body -->
+            <!-- Отзыв #22: Мага -->
+            <div class="card border-0 shadow-sm rounded-0 mb-3 review-card" data-rating="5" data-date="2026-01-21" data-usefulness="25">
                 <div class="card-body">
-                    <!-- Заголовок отзыва -->
                     <div class="d-flex justify-content-between align-items-center mb-3">
                         <div class="d-flex align-items-center">
-                            <!-- Аватар заглушка -->
                             <div class="bg-secondary rounded-circle d-flex justify-content-center align-items-center text-white me-3" style="width: 40px; height: 40px;">М</div>
                             <div>
                                 <span class="fw-bold me-2">Мага</span>
@@ -1388,37 +1394,35 @@ FILE: feedback.html
                         <span class="text-primary small fw-bold">#22</span>
                     </div>
                     
-                    <h4 class="h6 text-danger fst-italic mb-3">благодарность персоналу</h4>
-                    <!-- Текст отзыва -->
+                    <h4 class="h6 text-danger fst-italic mb-3">Благодарность персоналу ресто-паба</h4>
                     <table class="table table-borderless table-sm mb-3">
                         <tbody>
                             <tr>
                                 <td class="fw-bold text-success" style="width: 120px;">Достоинства</td>
-                                <td class="text-success">Обслуживание на высоте. Спасибо за вкусные блюда, самый лучший!!!</td>
+                                <td class="text-success">Обслуживание на высоте. Спасибо за вкусные блюда, самый лучший паб в Астане!</td>
                             </tr>
                             <tr>
                                 <td class="fw-bold text-danger">Недостатки</td>
-                                <td class="text-danger">Нет</td>
+                                <td class="text-danger">Не обнаружено.</td>
                             </tr>
                         </tbody>
                     </table>
                     
                     <p class="fw-bold mb-1">Комментарий</p>
-                    <p class="text-muted small mb-3">Официанты самые вежливые, приветливые всегда помогают с выбором, хорошо знают меню. Если нет нужного блюда, быстро предложат альтернативу. Я являюсь постоянным клиентом в этом заведении.</p>
+                    <p class="text-muted small mb-3">Официанты самые вежливые, приветливые, всегда помогают с выбором, отлично знают меню. Если нет нужного напитка, быстро предложат альтернативу. Являюсь постоянным клиентом этого заведения.</p>
                     
-                    <!-- Прикрепленные фото -->
                     <div>
-                        <p class="fw-bold small mb-2">Файлы</p>
+                        <p class="fw-bold small mb-2">Прикрепленные фото</p>
                         <div class="d-flex gap-2">
-                            <img src="images/внутри 2.jpg" alt="Фото гостя 1" class="img-thumbnail" style="width: 80px; height: 100px; object-fit: cover;">
-                            <img src="images/лого.jpg" alt="Фото гостя 2" class="img-thumbnail" style="width: 80px; height: 100px; object-fit: cover;">
+                            <img src="images/внутри 2.jpg" alt="Интерьер ресто-паба Frau Muller" class="img-thumbnail" style="width: 80px; height: 100px; object-fit: cover;">
+                            <img src="images/лого.jpg" alt="Логотип Frau Muller" class="img-thumbnail" style="width: 80px; height: 100px; object-fit: cover;">
                         </div>
                     </div>
                 </div>
             </div>
             
-            <!-- Пример еще одного отзыва на 4 звезды для проверки работы фильтра -->
-            <div class="card border-0 shadow-sm rounded-0 mb-3 review-card" data-rating="4">
+            <!-- Отзыв #21: Айгерим -->
+            <div class="card border-0 shadow-sm rounded-0 mb-3 review-card" data-rating="4" data-date="2026-01-20" data-usefulness="19">
                 <div class="card-body">
                     <div class="d-flex justify-content-between align-items-center mb-3">
                         <div class="d-flex align-items-center">
@@ -1431,7 +1435,213 @@ FILE: feedback.html
                         </div>
                         <span class="text-primary small fw-bold">#21</span>
                     </div>
-                    <p class="text-muted small mb-3">Вкусная еда, но доставку пришлось подождать чуть дольше обычного.</p>
+                    <h4 class="h6 text-danger fst-italic mb-3">Отличная кухня и атмосфера</h4>
+                    <table class="table table-borderless table-sm mb-3">
+                        <tbody>
+                            <tr>
+                                <td class="fw-bold text-success" style="width: 120px;">Достоинства</td>
+                                <td class="text-success">Вкусный сочный стейк Рибай, свежие салаты и оригинальная подача десертов.</td>
+                            </tr>
+                            <tr>
+                                <td class="fw-bold text-danger">Недостатки</td>
+                                <td class="text-danger">В пятницу вечером очень плотная посадка, заказ ждали немного дольше обычного.</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <p class="fw-bold mb-1">Комментарий</p>
+                    <p class="text-muted small mb-0">Отмечали с подругами день рождения. Официанты поздравили от заведения приятным десертом со свечой. Впечатления самые теплые!</p>
+                </div>
+            </div>
+
+            <!-- Отзыв #20: Дамир -->
+            <div class="card border-0 shadow-sm rounded-0 mb-3 review-card" data-rating="5" data-date="2026-01-18" data-usefulness="22">
+                <div class="card-body">
+                    <div class="d-flex justify-content-between align-items-center mb-3">
+                        <div class="d-flex align-items-center">
+                            <div class="bg-secondary rounded-circle d-flex justify-content-center align-items-center text-white me-3" style="width: 40px; height: 40px;">Д</div>
+                            <div>
+                                <span class="fw-bold me-2">Дамир Касымов</span>
+                                <span class="text-danger me-2">★ ★ ★ ★ ★</span>
+                                <span class="text-muted small"> 18.01.2026</span>
+                            </div>
+                        </div>
+                        <span class="text-primary small fw-bold">#20</span>
+                    </div>
+                    <h4 class="h6 text-danger fst-italic mb-3">Настоящие немецкие колбаски на гриле</h4>
+                    <table class="table table-borderless table-sm mb-3">
+                        <tbody>
+                            <tr>
+                                <td class="fw-bold text-success" style="width: 120px;">Достоинства</td>
+                                <td class="text-success">Сочные баварские колбаски с тушеной капустой, хрустящий бретцель с теплым сырным соусом.</td>
+                            </tr>
+                            <tr>
+                                <td class="fw-bold text-danger">Недостатки</td>
+                                <td class="text-danger">Порции просто огромные, одному осилить шницель тяжело :)</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <p class="fw-bold mb-1">Комментарий</p>
+                    <p class="text-muted small mb-0">Приходили с коллегами после тяжелой рабочей недели. Атмосфера классического мюнхенского паба, играет ненавязчивый качественный рок, деревянная массивная мебель создает невероятный уют.</p>
+                </div>
+            </div>
+
+            <!-- Отзыв #19: Екатерина -->
+            <div class="card border-0 shadow-sm rounded-0 mb-3 review-card" data-rating="5" data-date="2026-01-15" data-usefulness="17">
+                <div class="card-body">
+                    <div class="d-flex justify-content-between align-items-center mb-3">
+                        <div class="d-flex align-items-center">
+                            <div class="bg-secondary rounded-circle d-flex justify-content-center align-items-center text-white me-3" style="width: 40px; height: 40px;">Е</div>
+                            <div>
+                                <span class="fw-bold me-2">Екатерина Белова</span>
+                                <span class="text-danger me-2">★ ★ ★ ★ ★</span>
+                                <span class="text-muted small"> 15.01.2026</span>
+                            </div>
+                        </div>
+                        <span class="text-primary small fw-bold">#19</span>
+                    </div>
+                    <h4 class="h6 text-danger fst-italic mb-3">Идеальные десерты для всей семьи</h4>
+                    <table class="table table-borderless table-sm mb-3">
+                        <tbody>
+                            <tr>
+                                <td class="fw-bold text-success" style="width: 120px;">Достоинства</td>
+                                <td class="text-success">Теплые бельгийские вафли с шариком пломбира и яблочный австрийский штрудель с корицей. Дети в восторге!</td>
+                            </tr>
+                            <tr>
+                                <td class="fw-bold text-danger">Недостатки</td>
+                                <td class="text-danger">В воскресный полдень было много гостей, десерты ждали около 15 минут.</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <p class="fw-bold mb-1">Комментарий</p>
+                    <p class="text-muted small mb-0">Прекрасное место для семейного бранча на Аллее Мынжылдык. Официант был очень внимателен, принес детский стульчик и раскраски. Отдельное спасибо шеф-повару за десертное меню.</p>
+                </div>
+            </div>
+
+            <!-- Отзыв #18: Нурлан -->
+            <div class="card border-0 shadow-sm rounded-0 mb-3 review-card" data-rating="5" data-date="2026-01-12" data-usefulness="14">
+                <div class="card-body">
+                    <div class="d-flex justify-content-between align-items-center mb-3">
+                        <div class="d-flex align-items-center">
+                            <div class="bg-secondary rounded-circle d-flex justify-content-center align-items-center text-white me-3" style="width: 40px; height: 40px;">Н</div>
+                            <div>
+                                <span class="fw-bold me-2">Нурлан Сериков</span>
+                                <span class="text-danger me-2">★ ★ ★ ★ ★</span>
+                                <span class="text-muted small"> 12.01.2026</span>
+                            </div>
+                        </div>
+                        <span class="text-primary small fw-bold">#18</span>
+                    </div>
+                    <h4 class="h6 text-danger fst-italic mb-3">Быстрая доставка на дом</h4>
+                    <table class="table table-borderless table-sm mb-3">
+                        <tbody>
+                            <tr>
+                                <td class="fw-bold text-success" style="width: 120px;">Достоинства</td>
+                                <td class="text-success">Привезли за 45 минут, все блюда горячие в термобоксах. Мясо сочное, крылья BBQ хрустящие.</td>
+                            </tr>
+                            <tr>
+                                <td class="fw-bold text-danger">Недостатки</td>
+                                <td class="text-danger">Забыли положить дополнительный соус BBQ, но курьер извинился.</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <p class="fw-bold mb-1">Комментарий</p>
+                    <p class="text-muted small mb-0">Заказывали домой под просмотр футбольного матча. Стейк Рибай и сет острых крыльев BBQ превзошли все ожидания. Будем заказывать снова через онлайн-форму доставки.</p>
+                </div>
+            </div>
+
+            <!-- Отзыв #17: Сабина -->
+            <div class="card border-0 shadow-sm rounded-0 mb-3 review-card" data-rating="4" data-date="2026-01-08" data-usefulness="11">
+                <div class="card-body">
+                    <div class="d-flex justify-content-between align-items-center mb-3">
+                        <div class="d-flex align-items-center">
+                            <div class="bg-secondary rounded-circle d-flex justify-content-center align-items-center text-white me-3" style="width: 40px; height: 40px;">С</div>
+                            <div>
+                                <span class="fw-bold me-2">Сабина Ахметова</span>
+                                <span class="text-danger me-2">★ ★ ★ ★ ☆</span>
+                                <span class="text-muted small"> 08.01.2026</span>
+                            </div>
+                        </div>
+                        <span class="text-primary small fw-bold">#17</span>
+                    </div>
+                    <h4 class="h6 text-danger fst-italic mb-3">Отличная VIP кабина</h4>
+                    <table class="table table-borderless table-sm mb-3">
+                        <tbody>
+                            <tr>
+                                <td class="fw-bold text-success" style="width: 120px;">Достоинства</td>
+                                <td class="text-success">Приватная VIP кабина с качественной звукоизоляцией, стильным освещением и персональным сервисом.</td>
+                            </tr>
+                            <tr>
+                                <td class="fw-bold text-danger">Недостатки</td>
+                                <td class="text-danger">Сложно найти свободную парковку возле аллеи Мынжылдык вечером в пятницу.</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <p class="fw-bold mb-1">Комментарий</p>
+                    <p class="text-muted small mb-0">Бронировали VIP зал на юбилей. Все блюда подавали вовремя, закуски и горячее всем гостям очень понравились. Администратор помог с рассадкой.</p>
+                </div>
+            </div>
+
+            <!-- Отзыв #16: Арман -->
+            <div class="card border-0 shadow-sm rounded-0 mb-3 review-card" data-rating="5" data-date="2026-01-03" data-usefulness="15">
+                <div class="card-body">
+                    <div class="d-flex justify-content-between align-items-center mb-3">
+                        <div class="d-flex align-items-center">
+                            <div class="bg-secondary rounded-circle d-flex justify-content-center align-items-center text-white me-3" style="width: 40px; height: 40px;">А</div>
+                            <div>
+                                <span class="fw-bold me-2">Арман Тулегенов</span>
+                                <span class="text-danger me-2">★ ★ ★ ★ ★</span>
+                                <span class="text-muted small"> 03.01.2026</span>
+                            </div>
+                        </div>
+                        <span class="text-primary small fw-bold">#16</span>
+                    </div>
+                    <h4 class="h6 text-danger fst-italic mb-3">Лучший стейк Рибай Прайм в Астане</h4>
+                    <table class="table table-borderless table-sm mb-3">
+                        <tbody>
+                            <tr>
+                                <td class="fw-bold text-success" style="width: 120px;">Достоинства</td>
+                                <td class="text-success">Прожарка medium rare выдержана с ювелирной точностью. Чесночное фермерское масло и розмарин дают потрясающий аромат.</td>
+                            </tr>
+                            <tr>
+                                <td class="fw-bold text-danger">Недостатки</td>
+                                <td class="text-danger">Минусов не нашел.</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <p class="fw-bold mb-1">Комментарий</p>
+                    <p class="text-muted small mb-0">Захожу во Frau Muller регулярно. Всегда стабильное качество мяса и доброжелательный коллектив. Однозначно лучший паб в районе Аллеи Мынжылдык.</p>
+                </div>
+            </div>
+
+            <!-- Отзыв #15: Бауыржан -->
+            <div class="card border-0 shadow-sm rounded-0 mb-3 review-card" data-rating="3" data-date="2025-12-28" data-usefulness="8">
+                <div class="card-body">
+                    <div class="d-flex justify-content-between align-items-center mb-3">
+                        <div class="d-flex align-items-center">
+                            <div class="bg-secondary rounded-circle d-flex justify-content-center align-items-center text-white me-3" style="width: 40px; height: 40px;">Б</div>
+                            <div>
+                                <span class="fw-bold me-2">Бауыржан Омаров</span>
+                                <span class="text-danger me-2">★ ★ ★ ☆ ☆</span>
+                                <span class="text-muted small"> 28.12.2025</span>
+                            </div>
+                        </div>
+                        <span class="text-primary small fw-bold">#15</span>
+                    </div>
+                    <h4 class="h6 text-danger fst-italic mb-3">Вкусная еда, но лучше бронировать заранее</h4>
+                    <table class="table table-borderless table-sm mb-3">
+                        <tbody>
+                            <tr>
+                                <td class="fw-bold text-success" style="width: 120px;">Достоинства</td>
+                                <td class="text-success">Шницель по-мюнхенски и хрустящий картофель фри приготовлены на твердую пятерку.</td>
+                            </tr>
+                            <tr>
+                                <td class="fw-bold text-danger">Недостатки</td>
+                                <td class="text-danger">Пришли без брони в субботу вечером, пришлось ждать свободного столика около 25 минут.</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <p class="fw-bold mb-1">Комментарий</p>
+                    <p class="text-muted small mb-0">Еда отличная, но в пиковые часы посадка стопроцентная. Советую обязательно оформлять бронь заранее через сайт, чтобы сразу сесть за стол.</p>
                 </div>
             </div>
         </div>
@@ -1498,6 +1708,9 @@ FILE: feedback.html
         <p class="mb-0 small">Frau Muller &copy; 2026.</p>
     </footer>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- Assignment 4-5 Scripts -->
+    <script defer src="js/main.js"></script>
+    <script defer src="js/feedback.js"></script>
 </body>
 </html>
 
@@ -1525,7 +1738,7 @@ FILE: index.html
 <body class="d-flex flex-column min-vh-100 bg-light">
 
     <!-- Адаптивная навигация Bootstrap с кнопкой-гамбургером и авторизацией -->
-    <nav class="navbar navbar-expand-lg navbar-dark bg-dark mb-4 shadow-sm">
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark shadow-sm">
         <div class="container">
             <a class="navbar-brand fw-bold" href="index.html">Frau Muller</a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mainNav" aria-controls="mainNav" aria-expanded="false" aria-label="Переключить навигацию">
@@ -1721,6 +1934,341 @@ FILE: index.html
     <script defer src="js/index.js"></script>
 </body>
 </html>
+
+
+
+======================================================================
+FILE: js\feedback.js
+======================================================================
+
+/**
+ * Frau Muller Resto-Pub - Customer Feedback Script (feedback.html)
+ * Assignment 4-5: Dynamic Review Filtering, Sorting & Submission
+ */
+
+'use strict';
+
+/**
+ * Initializes review filters, sorting controls, and dynamic submission
+ */
+function initFeedbackInteractivity() {
+    const reviewsContainer = document.getElementById('reviews-container');
+    const starFiltersContainer = document.getElementById('star-filters');
+    const sortDateBtn = document.getElementById('sort-date');
+    const sortRatingBtn = document.getElementById('sort-rating');
+    const sortUsefulnessBtn = document.getElementById('sort-usefulness');
+    const feedbackForm = document.getElementById('feedback-form');
+    const feedbackMessageContainer = document.getElementById('feedback-message-container');
+
+    if (!reviewsContainer) {
+        return;
+    }
+
+    let activeFilter = 'all';
+    let currentSort = 'date';
+    let sortDirection = 'desc';
+
+    // 1. Star Filters
+    if (starFiltersContainer) {
+        const filterButtons = starFiltersContainer.querySelectorAll('.filter-btn');
+
+        filterButtons.forEach(function (btn) {
+            btn.style.cursor = 'pointer';
+            btn.addEventListener('click', function () {
+                activeFilter = btn.getAttribute('data-filter') || 'all';
+
+                filterButtons.forEach(function (b) {
+                    b.classList.remove('active-filter', 'text-dark', 'border-bottom', 'border-2', 'border-dark', 'pb-1');
+                    b.classList.add('text-muted');
+                });
+
+                btn.classList.remove('text-muted');
+                btn.classList.add('active-filter', 'text-dark', 'border-bottom', 'border-2', 'border-dark', 'pb-1');
+
+                applyFiltersAndSort();
+            });
+        });
+    }
+
+    // 2. Sorting Controls
+    function updateSortButtonsUI(activeBtn, labelText) {
+        [sortDateBtn, sortRatingBtn, sortUsefulnessBtn].forEach(function (btn) {
+            if (btn) {
+                btn.classList.remove('text-dark', 'fw-bold', 'border-bottom', 'border-dark');
+                btn.classList.add('text-muted');
+            }
+        });
+
+        if (activeBtn) {
+            activeBtn.classList.remove('text-muted');
+            activeBtn.classList.add('text-dark', 'fw-bold', 'border-bottom', 'border-dark');
+            const arrow = sortDirection === 'desc' ? ' ↓' : ' ↑';
+            activeBtn.textContent = labelText + arrow;
+        }
+    }
+
+    if (sortDateBtn) {
+        sortDateBtn.addEventListener('click', function () {
+            if (currentSort === 'date') {
+                sortDirection = sortDirection === 'desc' ? 'asc' : 'desc';
+            } else {
+                currentSort = 'date';
+                sortDirection = 'desc';
+            }
+            updateSortButtonsUI(sortDateBtn, 'Дате');
+            applyFiltersAndSort();
+        });
+    }
+
+    if (sortRatingBtn) {
+        sortRatingBtn.addEventListener('click', function () {
+            if (currentSort === 'rating') {
+                sortDirection = sortDirection === 'desc' ? 'asc' : 'desc';
+            } else {
+                currentSort = 'rating';
+                sortDirection = 'desc';
+            }
+            updateSortButtonsUI(sortRatingBtn, 'Рейтингу');
+            applyFiltersAndSort();
+        });
+    }
+
+    if (sortUsefulnessBtn) {
+        sortUsefulnessBtn.addEventListener('click', function () {
+            if (currentSort === 'usefulness') {
+                sortDirection = sortDirection === 'desc' ? 'asc' : 'desc';
+            } else {
+                currentSort = 'usefulness';
+                sortDirection = 'desc';
+            }
+            updateSortButtonsUI(sortUsefulnessBtn, 'Полезности');
+            applyFiltersAndSort();
+        });
+    }
+
+    /**
+     * Reorders and toggles visibility of review cards based on active filter and sort state
+     */
+    function applyFiltersAndSort() {
+        const cards = Array.from(reviewsContainer.querySelectorAll('.review-card'));
+        let visibleCount = 0;
+
+        // Sort cards
+        cards.sort(function (a, b) {
+            let valA = 0;
+            let valB = 0;
+
+            if (currentSort === 'date') {
+                const dateA = a.getAttribute('data-date') || '2026-01-01';
+                const dateB = b.getAttribute('data-date') || '2026-01-01';
+                return sortDirection === 'desc' ? dateB.localeCompare(dateA) : dateA.localeCompare(dateB);
+            }
+
+            if (currentSort === 'rating') {
+                valA = parseInt(a.getAttribute('data-rating') || '0', 10);
+                valB = parseInt(b.getAttribute('data-rating') || '0', 10);
+            } else if (currentSort === 'usefulness') {
+                valA = parseInt(a.getAttribute('data-usefulness') || '0', 10);
+                valB = parseInt(b.getAttribute('data-usefulness') || '0', 10);
+            }
+
+            return sortDirection === 'desc' ? valB - valA : valA - valB;
+        });
+
+        // Filter cards and re-append in sorted order
+        cards.forEach(function (card) {
+            const cardRating = card.getAttribute('data-rating');
+            const isMatch = activeFilter === 'all' || cardRating === activeFilter;
+
+            if (isMatch) {
+                card.classList.remove('d-none');
+                visibleCount++;
+            } else {
+                card.classList.add('d-none');
+            }
+
+            reviewsContainer.appendChild(card);
+        });
+
+        // Empty state check
+        let emptyMsg = reviewsContainer.querySelector('#empty-reviews-alert');
+        if (visibleCount === 0) {
+            if (!emptyMsg) {
+                emptyMsg = document.createElement('div');
+                emptyMsg.id = 'empty-reviews-alert';
+                emptyMsg.className = 'alert alert-info text-center py-4 my-3';
+                emptyMsg.textContent = 'Отзывов с такой оценкой пока нет. Вы можете стать первым!';
+                reviewsContainer.appendChild(emptyMsg);
+            }
+        } else if (emptyMsg) {
+            emptyMsg.remove();
+        }
+    }
+
+    // 3. New Review Submission
+    if (feedbackForm) {
+        feedbackForm.addEventListener('submit', function (event) {
+            event.preventDefault();
+
+            const ratingInput = document.getElementById('feedback-rating');
+            const prosInput = document.getElementById('feedback-pros');
+            const consInput = document.getElementById('feedback-cons');
+            const commentInput = document.getElementById('feedback-comment');
+
+            const ratingVal = parseInt(ratingInput.value, 10);
+            const prosVal = prosInput.value.trim();
+            const consVal = consInput.value.trim();
+            const commentVal = commentInput.value.trim();
+
+            if (isNaN(ratingVal) || ratingVal < 1 || ratingVal > 5) {
+                ratingInput.classList.add('is-invalid');
+                ratingInput.focus();
+                return;
+            }
+            ratingInput.classList.remove('is-invalid');
+
+            if (commentVal.length < 5) {
+                commentInput.classList.add('is-invalid');
+                commentInput.focus();
+                return;
+            }
+            commentInput.classList.remove('is-invalid');
+
+            // Format current date: DD.MM.YYYY
+            const now = new Date();
+            const dayStr = String(now.getDate()).padStart(2, '0');
+            const monthStr = String(now.getMonth() + 1).padStart(2, '0');
+            const yearStr = now.getFullYear();
+            const formattedDate = dayStr + '.' + monthStr + '.' + yearStr;
+            const isoDate = yearStr + '-' + monthStr + '-' + dayStr;
+
+            // Generate star string
+            let starsStr = '';
+            for (let i = 0; i < 5; i++) {
+                starsStr += i < ratingVal ? '★ ' : '☆ ';
+            }
+
+            // Create new review card safely via DOM
+            const newCard = document.createElement('div');
+            newCard.className = 'card border-0 shadow-sm rounded-0 mb-3 review-card border-top border-success border-3';
+            newCard.setAttribute('data-rating', String(ratingVal));
+            newCard.setAttribute('data-date', isoDate);
+            newCard.setAttribute('data-usefulness', '1');
+
+            const cardBody = document.createElement('div');
+            cardBody.className = 'card-body';
+
+            const headerRow = document.createElement('div');
+            headerRow.className = 'd-flex justify-content-between align-items-center mb-3';
+
+            const userLeft = document.createElement('div');
+            userLeft.className = 'd-flex align-items-center';
+
+            const avatar = document.createElement('div');
+            avatar.className = 'bg-success rounded-circle d-flex justify-content-center align-items-center text-white me-3';
+            avatar.style.width = '40px';
+            avatar.style.height = '40px';
+            avatar.textContent = 'Г';
+
+            const userMeta = document.createElement('div');
+            const nameSpan = document.createElement('span');
+            nameSpan.className = 'fw-bold me-2';
+            nameSpan.textContent = 'Гость сайта';
+
+            const starsSpan = document.createElement('span');
+            starsSpan.className = 'text-danger me-2';
+            starsSpan.textContent = starsStr.trim();
+
+            const dateSpan = document.createElement('span');
+            dateSpan.className = 'text-muted small';
+            dateSpan.textContent = ' ' + formattedDate;
+
+            userMeta.appendChild(nameSpan);
+            userMeta.appendChild(starsSpan);
+            userMeta.appendChild(dateSpan);
+
+            userLeft.appendChild(avatar);
+            userLeft.appendChild(userMeta);
+
+            const badge = document.createElement('span');
+            badge.className = 'badge bg-success small';
+            badge.textContent = 'Новый отзыв';
+
+            headerRow.appendChild(userLeft);
+            headerRow.appendChild(badge);
+
+            const commentHeading = document.createElement('p');
+            commentHeading.className = 'fw-bold mb-1';
+            commentHeading.textContent = 'Комментарий:';
+
+            const commentP = document.createElement('p');
+            commentP.className = 'text-muted small mb-0';
+            commentP.textContent = commentVal;
+
+            cardBody.appendChild(headerRow);
+
+            if (prosVal || consVal) {
+                const table = document.createElement('table');
+                table.className = 'table table-borderless table-sm mb-3';
+                const tbody = document.createElement('tbody');
+
+                if (prosVal) {
+                    const trPros = document.createElement('tr');
+                    const tdLabel = document.createElement('td');
+                    tdLabel.className = 'fw-bold text-success';
+                    tdLabel.style.width = '120px';
+                    tdLabel.textContent = 'Достоинства';
+                    const tdVal = document.createElement('td');
+                    tdVal.className = 'text-success';
+                    tdVal.textContent = prosVal;
+                    trPros.appendChild(tdLabel);
+                    trPros.appendChild(tdVal);
+                    tbody.appendChild(trPros);
+                }
+
+                if (consVal) {
+                    const trCons = document.createElement('tr');
+                    const tdLabel = document.createElement('td');
+                    tdLabel.className = 'fw-bold text-danger';
+                    tdLabel.style.width = '120px';
+                    tdLabel.textContent = 'Недостатки';
+                    const tdVal = document.createElement('td');
+                    tdVal.className = 'text-danger';
+                    tdVal.textContent = consVal;
+                    trCons.appendChild(tdLabel);
+                    trCons.appendChild(tdVal);
+                    tbody.appendChild(trCons);
+                }
+
+                table.appendChild(tbody);
+                cardBody.appendChild(table);
+            }
+
+            cardBody.appendChild(commentHeading);
+            cardBody.appendChild(commentP);
+            newCard.appendChild(cardBody);
+
+            // Prepend new card to container
+            reviewsContainer.insertBefore(newCard, reviewsContainer.firstChild);
+
+            // Show success feedback
+            if (feedbackMessageContainer) {
+                feedbackMessageContainer.textContent = '';
+                const alert = document.createElement('div');
+                alert.className = 'alert alert-success py-2 small';
+                alert.textContent = 'Спасибо за ваш отзыв! Он успешно добавлен и отображается в списке.';
+                feedbackMessageContainer.appendChild(alert);
+            }
+
+            feedbackForm.reset();
+            applyFiltersAndSort();
+        });
+    }
+}
+
+document.addEventListener('DOMContentLoaded', function () {
+    initFeedbackInteractivity();
+});
 
 
 
@@ -3243,9 +3791,11 @@ FILE: menu.html
         </div>
     </nav>
 
-    <header class="text-center mb-5 bg-white p-4 p-md-5 rounded shadow-sm style="color: rgb(122, 21, 21);">
-        <h1 class="display-4 fw-bold text-danger text-center">Наше Меню</h1>
-        <p class="lead text-muted">Сытные порции и богатый вкус.</p>
+    <header class="container-fluid bg-dark text-white text-center py-5 mb-4 shadow border-bottom border-danger border-3">
+        <div class="container">
+            <h1 class="display-4 fw-bold text-white text-center">Наше Меню</h1>
+            <p class="lead text-secondary mb-0">Сытные порции и богатый вкус традиционной немецкой кухни.</p>
+        </div>
     </header>
 
     <main class="container mb-5">
@@ -3480,6 +4030,8 @@ FILE: menu.html
     </footer>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- Assignment 4-5 Shared Script -->
+    <script defer src="js/main.js"></script>
 </body>
 </html>
 
@@ -3537,7 +4089,7 @@ FILE: order.html
     </nav>
 
     <!-- container-fluid выбран для шапки, чтобы фоновый баннер заведения растягивался на всю ширину любого экрана -->
-    <header class="container-fluid text-white text-center py-5 mb-4 shadow">
+    <header class="container-fluid bg-dark text-white text-center py-5 mb-4 shadow border-bottom border-danger border-3">
         <div class="container">
             <h1 class="display-5 fw-bold mb-2">Доставка еды Frau Muller</h1>
             <p class="lead text-light-emphasis mb-0">Настоящая баварская кухня и гриль у вас дома в Астане.</p>
@@ -3869,6 +4421,8 @@ FILE: order.html
 
     <!-- Bootstrap 5.3.3 JavaScript Bundle CDN (необходим для работы Toggler и Accordion) -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- Assignment 4-5 Shared Script -->
+    <script defer src="js/main.js"></script>
 </body>
 </html>
 
@@ -3896,7 +4450,7 @@ FILE: reservation.html
 <body class="d-flex flex-column min-vh-100 bg-light">
 
     <!-- Адаптивная навигация с бургер-меню и кнопками авторизации -->
-    <nav class="navbar navbar-expand-lg navbar-dark bg-dark mb-4 shadow-sm">
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark shadow-sm">
         <div class="container">
             <a class="navbar-brand fw-bold" href="index.html">Frau Muller</a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mainNav" aria-controls="mainNav" aria-expanded="false" aria-label="Переключить навигацию">
@@ -3936,12 +4490,12 @@ FILE: reservation.html
     </nav>
 
     <!-- Заголовок страницы бронирования в едином стиле -->
-    <div class="container">
-        <header class="container-fluid bg-dark text-white text-center py-5 mb-4 shadow border-bottom border-danger border-3">
+    <header class="container-fluid bg-dark text-white text-center py-5 mb-4 shadow border-bottom border-danger border-3">
+        <div class="container">
             <h1 class="display-4 fw-bold text-white">Бронирование столика</h1>
-            <p class="lead text-white mb-0">Гарантируйте себе лучшее место для уютного вечера в Frau Muller.</p>
-        </header>
-    </div>
+            <p class="lead text-secondary mb-0">Гарантируйте себе лучшее место для уютного вечера в Frau Muller.</p>
+        </div>
+    </header>
 
     <main class="container mb-5">
         <div class="row justify-content-center">
