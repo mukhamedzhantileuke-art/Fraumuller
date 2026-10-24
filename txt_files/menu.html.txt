@@ -49,7 +49,6 @@
             </div>
         </div>
     </nav>
-
     <header class="container-fluid bg-dark text-white text-center py-5 mb-4 shadow border-bottom border-danger border-3">
         <div class="container">
             <h1 class="display-4 fw-bold text-white text-center">Наше Меню</h1>

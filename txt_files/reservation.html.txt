@@ -55,14 +55,10 @@
         </div>
     </nav>
 
-    <!-- Заголовок страницы бронирования в едином стиле -->
     <header class="container-fluid bg-dark text-white text-center py-5 mb-4 shadow border-bottom border-danger border-3">
         <div class="container">
             <h1 class="display-4 fw-bold text-white">Бронирование столика</h1>
             <p class="lead text-secondary mb-0">Гарантируйте себе лучшее место для уютного вечера в Frau Muller.</p>
-        </div>
-    </header>
-
     <main class="container mb-5">
         <div class="row justify-content-center">
             <div class="col-12 col-lg-8">
