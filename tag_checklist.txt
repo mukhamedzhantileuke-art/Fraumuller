@@ -1,0 +1,89 @@
+Tag Checklist (Grouped by Student)
+
+======================================================
+Student: Tileuke Mukhamedzhan
+Responsible for files: about.html, index.html, reservation.html
+Implemented tags:
+  <!DOCTYPE html> -> about.html (Line 1)
+  <html lang="ru"> -> about.html (Line 2)
+  <meta charset> -> about.html (Line 4)
+  <meta name="viewport"> -> about.html (Line 5)
+  <meta name="description"> -> about.html (Line 6)
+  <meta name="author"> -> about.html (Line 7)
+  <title> -> about.html (Line 8)
+  <h1> -> about.html (Line 12)
+  <header> -> about.html (Line 11)
+  <nav> -> about.html (Line 16)
+  <main> -> about.html (Line 29)
+  <footer> -> about.html (Line 45)
+  <section> -> about.html (Line 30)
+  <article> -> index.html (Line 33)
+  <aside> -> index.html (Line 50)
+  <figure> -> about.html (Line 38)
+  <figcaption> -> about.html (Line 40)
+  <img alt="..."> -> about.html (Line 39)
+  <em> -> index.html (Line 36)
+  <b> -> about.html (Line 33)
+  <i> -> about.html (Line 36)
+  <q> -> about.html (Line 36)
+  <mark> -> index.html (Line 47)
+  <sup> -> about.html (Line 36)
+  <abbr title="..."> -> about.html (Line 33)
+  <blockquote cite="..."> -> index.html (Line 52)
+  <cite> -> index.html (Line 55)
+  <hr> -> about.html (Line 46)
+  &mdash; -> about.html (Line 36)
+  <input type="date"> -> reservation.html (Line 47)
+  <input type="time"> -> reservation.html (Line 51)
+  <input type="radio"> -> reservation.html (Line 67)
+  placeholder="..." -> reservation.html (Line 36)
+======================================================
+
+======================================================
+Student: Alan Baiguzhinov
+Responsible for files: menu.html, contacts.html, feedback.html
+Implemented tags:
+  <table> -> menu.html (Line 40)
+  <caption> -> menu.html (Line 41)
+  <thead> -> menu.html (Line 42)
+  <tbody> -> menu.html (Line 49)
+  <th scope="col"> -> menu.html (Line 44)
+  <dl> -> menu.html (Line 71)
+  <dt> -> menu.html (Line 72)
+  <dd> -> menu.html (Line 73)
+  <a href="http..."> -> contacts.html (Line 45)
+  <a href="mailto:..."> -> contacts.html (Line 42)
+  <a href="tel:..."> -> contacts.html (Line 41)
+  <a href="#..."> -> menu.html (Line 33)
+  <br> -> contacts.html (Line 33)
+  <form action="#" method="post"> -> feedback.html (Line 32)
+  <fieldset> -> feedback.html (Line 33)
+  <legend> -> feedback.html (Line 34)
+  <label for="..."> -> feedback.html (Line 35)
+  <input type="text"> -> feedback.html (Line 36)
+  <input type="email"> -> feedback.html (Line 40)
+  <input type="number"> -> feedback.html (Line 44)
+  <textarea> -> feedback.html (Line 48)
+  required -> feedback.html (Line 36)
+  <button type="submit"> -> feedback.html (Line 51)
+  <button type="reset"> -> feedback.html (Line 52)
+======================================================
+
+======================================================
+Student: Nurmuhammadjon Abdurahmonov
+Responsible for files: colophon.html, order.html
+Implemented tags:
+  <ol type="I"> -> colophon.html (Line 32)
+  <strong> -> colophon.html (Line 33)
+  <small> -> colophon.html (Line 52)
+  <code> -> colophon.html (Line 33)
+  <pre> -> colophon.html (Line 45)
+  <kbd> -> colophon.html (Line 42)
+  <samp> -> colophon.html (Line 43)
+  <input type="tel"> -> order.html (Line 49)
+  <input type="checkbox"> -> order.html (Line 44)
+  <select> -> order.html (Line 36)
+  <option> -> order.html (Line 37)
+======================================================
+
+
