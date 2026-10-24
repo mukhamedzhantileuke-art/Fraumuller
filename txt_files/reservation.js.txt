@@ -81,13 +81,14 @@ function checkDateSchedule(dateString) {
 
 /**
  * Reusable function 4: Calculates required reservation deposit and surcharges
- * Calls checkDateSchedule internally
+ * Includes group discounts and birthday special bonuses
  * @param {number} guestCount - Number of visitors
  * @param {string} zone - Selected hall zone ('main', 'terrace', 'vip')
  * @param {string} dateString - "YYYY-MM-DD"
+ * @param {string} occasion - 'dinner', 'birthday', or 'corporate'
  * @returns {Object} Full calculation breakdown
  */
-function calculateBookingDeposit(guestCount, zone, dateString) {
+function calculateBookingDeposit(guestCount, zone, dateString, occasion) {
     const basePerGuest = 2000;
     const guestTotal = guestCount * basePerGuest;
 
@@ -106,7 +107,26 @@ function calculateBookingDeposit(guestCount, zone, dateString) {
     const subtotal = guestTotal + zoneSurcharge;
     const weekendMultiplier = scheduleInfo.isWeekend ? 0.1 : 0;
     const weekendSurcharge = Math.round(subtotal * weekendMultiplier);
-    const finalDeposit = subtotal + weekendSurcharge;
+
+    // Group size discount: 10% for 10+ guests, 5% for 6+ guests
+    let groupDiscountPercent = 0;
+    if (guestCount >= 10) {
+        groupDiscountPercent = 10;
+    } else if (guestCount >= 6) {
+        groupDiscountPercent = 5;
+    }
+    const groupDiscountAmount = Math.round(subtotal * (groupDiscountPercent / 100));
+
+    // Birthday bonus: 10% discount on booking + chef's surprise gift
+    let birthdayDiscountAmount = 0;
+    let birthdayGift = null;
+    if (occasion === 'birthday') {
+        birthdayDiscountAmount = Math.round(subtotal * 0.1);
+        birthdayGift = '🎂 Фирменный мини-торт «Захер» со свечой от шеф-повара (в подарок)';
+    }
+
+    const totalDiscounts = groupDiscountAmount + birthdayDiscountAmount;
+    const finalDeposit = Math.max(1000, subtotal + weekendSurcharge - totalDiscounts);
 
     return {
         guestCount,
@@ -117,6 +137,10 @@ function calculateBookingDeposit(guestCount, zone, dateString) {
         isWeekend: scheduleInfo.isWeekend,
         holidayName: scheduleInfo.holidayName,
         weekendSurcharge,
+        groupDiscountPercent,
+        groupDiscountAmount,
+        birthdayDiscountAmount,
+        birthdayGift,
         finalDeposit
     };
 }
@@ -199,7 +223,6 @@ function validateBookingField(fieldName, form) {
         if (val < todayStr) {
             return 'Дата визита не может быть в прошлом.';
         }
-        // Limit booking window to 60 days in future
         const maxDate = new Date();
         maxDate.setDate(maxDate.getDate() + 60);
         const maxDateStr = maxDate.toISOString().split('T')[0];
@@ -214,11 +237,8 @@ function validateBookingField(fieldName, form) {
         if (!val) {
             return 'Выберите время визита.';
         }
-        // Restaurant operates from 12:00 to 02:00 (next day)
-        // Closed between 02:01 and 11:59
         const timeParts = val.split(':');
         const hour = parseInt(timeParts[0], 10);
-        const minute = parseInt(timeParts[1], 10);
 
         if (hour >= 2 && hour < 12) {
             return 'Ресто-паб работает с 12:00 дня до 02:00 ночи. Пожалуйста, выберите рабочее время.';
@@ -235,7 +255,6 @@ function validateBookingField(fieldName, form) {
             return 'Для компании более 15 человек свяжитесь с нами по телефону.';
         }
 
-        // Combined rule comparing fields: VIP cabin requires minimum 4 guests
         if (zoneSelect.value === 'vip' && val < 4) {
             return 'Бронирование VIP кабины доступно для компаний от 4 гостей.';
         }
@@ -262,6 +281,7 @@ function initReservationInteractivity() {
     const timeInput = bookingForm.querySelector('#resTime');
     const guestsInput = bookingForm.querySelector('#guestCount');
     const zoneSelect = bookingForm.querySelector('#zone');
+    const occasionRadios = bookingForm.querySelectorAll('input[name="occasion"]');
 
     // Set minimum date to today
     const today = new Date().toISOString().split('T')[0];
@@ -270,18 +290,17 @@ function initReservationInteractivity() {
         dateInput.value = today;
     }
 
-    // Default time: 19:00 if empty
     if (!timeInput.value) {
         timeInput.value = '19:00';
     }
 
-    // Create live Schedule & Holiday Notification Banner
+    // Schedule Notice Banner
     const scheduleNoticeBox = document.createElement('div');
     scheduleNoticeBox.className = 'alert alert-info py-2 small mb-3';
     scheduleNoticeBox.id = 'schedule-status-banner';
     dateInput.closest('.row').insertAdjacentElement('beforebegin', scheduleNoticeBox);
 
-    // Create Live Deposit Calculation Card
+    // Live Deposit Calculation Card
     const calculationCard = document.createElement('div');
     calculationCard.className = 'card border-danger border-2 p-3 mb-4 bg-light';
     calculationCard.id = 'live-deposit-summary';
@@ -307,12 +326,16 @@ function initReservationInteractivity() {
     calculationCard.appendChild(calcBreakdown);
     calculationCard.appendChild(calcTotalDiv);
 
-    // Insert calculation card before the action buttons
     const actionButtonsContainer = bookingForm.querySelector('.d-flex.flex-wrap');
     if (actionButtonsContainer) {
         actionButtonsContainer.insertAdjacentElement('beforebegin', calculationCard);
     } else {
         bookingForm.appendChild(calculationCard);
+    }
+
+    function getSelectedOccasion() {
+        const checked = bookingForm.querySelector('input[name="occasion"]:checked');
+        return checked ? checked.value : 'dinner';
     }
 
     /**
@@ -322,6 +345,7 @@ function initReservationInteractivity() {
         const guests = parseInt(guestsInput.value, 10) || 1;
         const zone = zoneSelect.value;
         const dateVal = dateInput.value;
+        const occasion = getSelectedOccasion();
 
         // 1. Update Schedule Notice
         const sched = checkDateSchedule(dateVal);
@@ -342,7 +366,7 @@ function initReservationInteractivity() {
         scheduleNoticeBox.appendChild(noticeText);
 
         // 2. Update Live Deposit Calculation
-        const calc = calculateBookingDeposit(guests, zone, dateVal);
+        const calc = calculateBookingDeposit(guests, zone, dateVal, occasion);
 
         calcBreakdown.textContent = '';
 
@@ -377,6 +401,35 @@ function initReservationInteractivity() {
             calcBreakdown.appendChild(lineWeekend);
         }
 
+        // Display Group Discount
+        if (calc.groupDiscountAmount > 0) {
+            const lineGroup = document.createElement('div');
+            lineGroup.className = 'd-flex justify-content-between text-success fw-semibold';
+            lineGroup.textContent = 'Скидка на размер компании (-' + calc.groupDiscountPercent + '%):';
+            const spanGVal = document.createElement('span');
+            spanGVal.textContent = '-' + formatKzt(calc.groupDiscountAmount);
+            lineGroup.appendChild(spanGVal);
+            calcBreakdown.appendChild(lineGroup);
+        }
+
+        // Display Birthday Discount and Gift
+        if (calc.birthdayDiscountAmount > 0) {
+            const lineBday = document.createElement('div');
+            lineBday.className = 'd-flex justify-content-between text-danger fw-semibold';
+            lineBday.textContent = 'Скидка имениннику (-10%):';
+            const spanBVal = document.createElement('span');
+            spanBVal.textContent = '-' + formatKzt(calc.birthdayDiscountAmount);
+            lineBday.appendChild(spanBVal);
+            calcBreakdown.appendChild(lineBday);
+        }
+
+        if (calc.birthdayGift) {
+            const giftBox = document.createElement('div');
+            giftBox.className = 'badge bg-warning text-dark text-wrap text-start p-2 mt-1';
+            giftBox.textContent = '🎁 Подарок имениннику: ' + calc.birthdayGift;
+            calcBreakdown.appendChild(giftBox);
+        }
+
         calcTotalDiv.textContent = '';
         const totalLabel = document.createElement('span');
         totalLabel.textContent = 'Итого сумма депозита:';
@@ -389,7 +442,7 @@ function initReservationInteractivity() {
         calcTotalDiv.appendChild(totalValue);
     }
 
-    // Attach input/change event listeners for live calculation
+    // Attach listeners
     guestsInput.addEventListener('input', function () {
         clearFieldError(guestsInput);
         updateLiveSummary();
@@ -417,7 +470,10 @@ function initReservationInteractivity() {
         clearFieldError(phoneInput);
     });
 
-    // Handle Form Reset
+    occasionRadios.forEach(function (radio) {
+        radio.addEventListener('change', updateLiveSummary);
+    });
+
     bookingForm.addEventListener('reset', function () {
         setTimeout(function () {
             dateInput.value = today;
@@ -428,7 +484,6 @@ function initReservationInteractivity() {
         }, 10);
     });
 
-    // Form Submission with complete field-level validation
     bookingForm.addEventListener('submit', function (event) {
         event.preventDefault();
 
@@ -464,20 +519,19 @@ function initReservationInteractivity() {
             return;
         }
 
-        // On Success: Generate temporary demo confirmation
         const bookingRef = generateBookingReference();
         const guests = parseInt(guestsInput.value, 10);
         const zone = zoneSelect.value;
         const dateVal = dateInput.value;
         const timeVal = timeInput.value;
+        const occasionVal = getSelectedOccasion();
         const occasionRadio = bookingForm.querySelector('input[name="occasion"]:checked');
-        const occasionVal = occasionRadio ? occasionRadio.nextElementSibling.textContent.trim() : 'Обычный ужин';
+        const occasionLabel = occasionRadio ? occasionRadio.nextElementSibling.textContent.trim() : 'Обычный ужин';
         const requestsVal = bookingForm.querySelector('#requests').value.trim();
         const wantsWa = bookingForm.querySelector('#wantsNotification').checked;
 
-        const calc = calculateBookingDeposit(guests, zone, dateVal);
+        const calc = calculateBookingDeposit(guests, zone, dateVal, occasionVal);
 
-        // Render Confirmation Card in #booking-confirmation
         if (confirmationContainer) {
             confirmationContainer.textContent = '';
             confirmationContainer.className = 'mt-4 d-block';
@@ -519,7 +573,20 @@ function initReservationInteractivity() {
             addDetailRow('Телефон:', phoneInput.value.trim());
             addDetailRow('Дата и время:', dateVal + ' в ' + timeVal);
             addDetailRow('Зал и количество гостей:', calc.zoneName + ' (' + guests + ' чел.)');
-            addDetailRow('Повод:', occasionVal);
+            addDetailRow('Повод:', occasionLabel);
+
+            if (calc.groupDiscountAmount > 0) {
+                addDetailRow('Скидка для компании:', '-' + formatKzt(calc.groupDiscountAmount) + ' (' + calc.groupDiscountPercent + '%)');
+            }
+
+            if (calc.birthdayDiscountAmount > 0) {
+                addDetailRow('Скидка имениннику:', '-' + formatKzt(calc.birthdayDiscountAmount) + ' (-10%)');
+            }
+
+            if (calc.birthdayGift) {
+                addDetailRow('Подарок от заведения:', calc.birthdayGift);
+            }
+
             addDetailRow('Расчетный депозит:', formatKzt(calc.finalDeposit));
             addDetailRow('Уведомление в WhatsApp:', wantsWa ? 'Да, запрошено' : 'Нет');
 
@@ -527,7 +594,6 @@ function initReservationInteractivity() {
                 addDetailRow('Пожелания:', requestsVal);
             }
 
-            // Explicit academic demonstration notice required by rubric
             const demoAlert = document.createElement('div');
             demoAlert.className = 'alert alert-warning py-3 mt-3 mb-0';
 
@@ -542,7 +608,6 @@ function initReservationInteractivity() {
             demoAlert.appendChild(alertTitle);
             demoAlert.appendChild(alertMsg);
 
-            // Print / Save button
             const actionDiv = document.createElement('div');
             actionDiv.className = 'mt-3 d-flex gap-2';
 
@@ -562,21 +627,16 @@ function initReservationInteractivity() {
             card.appendChild(actionDiv);
 
             confirmationContainer.appendChild(card);
-
-            // Scroll to confirmation
             confirmationContainer.scrollIntoView({ behavior: 'smooth' });
 
-            // Reset form fields
             bookingForm.reset();
             updateLiveSummary();
         }
     });
 
-    // Run initial live calculation
     updateLiveSummary();
 }
 
-// Initialize on DOM ready
 document.addEventListener('DOMContentLoaded', function () {
     initReservationInteractivity();
 });

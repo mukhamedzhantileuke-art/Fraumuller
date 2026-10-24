@@ -240,8 +240,23 @@
                     </fieldset>
 
                     <fieldset class="border p-3 rounded-3 mb-4">
-                        <legend class="float-none w-auto px-2 h5 fw-bold text-danger">2. Данные получателя и адрес</legend>
+                        <legend class="float-none w-auto px-2 h5 fw-bold text-danger">2. Способ получения и адрес</legend>
                         <div class="row g-3">
+                            <!-- Способ получения: Доставка / С собой / На месте -->
+                            <div class="col-12 mb-2">
+                                <label class="form-label fw-bold d-block">Выберите способ получения:</label>
+                                <div class="btn-group w-100 flex-wrap" role="group" id="delivery-type-group">
+                                    <input type="radio" class="btn-check" name="orderType" id="typeDelivery" value="delivery" checked>
+                                    <label class="btn btn-outline-danger" for="typeDelivery">🛵 Доставка курьером</label>
+
+                                    <input type="radio" class="btn-check" name="orderType" id="typeTakeaway" value="takeaway">
+                                    <label class="btn btn-outline-danger" for="typeTakeaway">🛍️ С собой (-5% скидка)</label>
+
+                                    <input type="radio" class="btn-check" name="orderType" id="typeDinein" value="dinein">
+                                    <label class="btn btn-outline-danger" for="typeDinein">🍽️ В ресторане (На месте)</label>
+                                </div>
+                            </div>
+
                             <div class="col-12 col-md-6">
                                 <label for="clientName" class="form-label fw-semibold">Ваше имя:</label>
                                 <input type="text" id="clientName" name="clientName" class="form-control" placeholder="Нурмухаммаджон" required>
@@ -254,12 +269,20 @@
                                 <label for="clientEmail" class="form-label fw-semibold">Электронная почта (для чека):</label>
                                 <input type="email" id="clientEmail" name="clientEmail" class="form-control" placeholder="client@example.com" required>
                             </div>
-                            <div class="col-12 col-md-6">
-                                <label for="deliveryDate" class="form-label fw-semibold">Желаемая дата доставки:</label>
-                                <input type="date" id="deliveryDate" name="deliveryDate" class="form-control" required>
+                            <div class="col-12 col-md-6" id="delivery-time-container">
+                                <label for="deliveryTimeSlot" class="form-label fw-semibold">Время получения заказа:</label>
+                                <select id="deliveryTimeSlot" name="deliveryTimeSlot" class="form-select">
+                                    <option value="asap" selected>🔥 Как можно скорее (45–60 мин)</option>
+                                    <option value="today-1h">⏰ Сегодня через 1 час</option>
+                                    <option value="today-1.5h">⏰ Сегодня через 1.5 часа</option>
+                                    <option value="19:00">⏰ Сегодня к 19:00</option>
+                                    <option value="20:00">⏰ Сегодня к 20:00</option>
+                                    <option value="21:00">⏰ Сегодня к 21:00</option>
+                                    <option value="22:00">⏰ Сегодня к 22:00</option>
+                                </select>
                             </div>
-                            <div class="col-12">
-                                <label for="deliveryAddress" class="form-label fw-semibold">Адрес доставки (улица, дом, квартира, подъезд):</label>
+                            <div class="col-12" id="address-field-wrapper">
+                                <label for="deliveryAddress" class="form-label fw-semibold" id="address-label">Адрес доставки (улица, дом, квартира):</label>
                                 <input type="text" id="deliveryAddress" name="deliveryAddress" class="form-control" placeholder="ул. Жургенова, дом 18/1, кв. 42" required>
                             </div>
                         </div>
@@ -282,6 +305,20 @@
                                 <label class="form-check-label" for="payCash">Наличными при получении</label>
                             </div>
                         </div>
+                        <div class="mb-3" id="courier-tip-wrapper">
+                            <label class="form-label fw-semibold d-block">Чаевые курьеру (по желанию):</label>
+                            <div class="btn-group" role="group" id="tip-btn-group">
+                                <input type="radio" class="btn-check" name="courierTip" id="tip0" value="0" checked>
+                                <label class="btn btn-sm btn-outline-secondary" for="tip0">Без чаевых</label>
+
+                                <input type="radio" class="btn-check" name="courierTip" id="tip500" value="500">
+                                <label class="btn btn-sm btn-outline-secondary" for="tip500">+500 ₸</label>
+
+                                <input type="radio" class="btn-check" name="courierTip" id="tip1000" value="1000">
+                                <label class="btn btn-sm btn-outline-secondary" for="tip1000">+1 000 ₸</label>
+                            </div>
+                        </div>
+
                         <div class="mb-2">
                             <label for="orderComments" class="form-label fw-semibold">Пожелания к заказу (код домофона, этаж, прожарка мяса):</label>
                             <textarea id="orderComments" name="orderComments" class="form-control" rows="3" placeholder="Например: домофон 42, позвонить за 10 минут..."></textarea>
@@ -380,5 +417,6 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
     <!-- Assignment 4-5 Shared Script -->
     <script defer src="js/main.js"></script>
+    <script defer src="js/order.js"></script>
 </body>
 </html>

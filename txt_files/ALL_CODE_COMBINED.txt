@@ -805,6 +805,28 @@ FILE: contacts.html
                     <p class="d-none d-md-block text-muted small mt-3">
                         <span class="badge bg-info text-dark">Примечание:</span> Время работы может меняться в праздничные дни. Рекомендуем уточнять актуальное расписание по телефону.
                     </p>
+
+                    <!-- Индикатор текущего статуса работы заведения (JS) -->
+                    <div class="mt-3" id="live-restaurant-status"></div>
+
+                    <!-- Быстрые маршруты и навигация -->
+                    <div class="mt-4 pt-3 border-top">
+                        <h3 class="h6 fw-bold mb-2">Как добраться:</h3>
+                        <div class="d-flex flex-column gap-2">
+                            <a href="https://2gis.kz/astana/search/%D0%96%D1%83%D1%80%D0%B3%D0%B5%D0%BD%D0%BE%D0%B2%D0%B0%2018%2F1" target="_blank" rel="noopener noreferrer" class="btn btn-outline-dark btn-sm d-flex align-items-center justify-content-between">
+                                <span>🗺️ Открыть в 2GIS</span>
+                                <span class="small text-muted">Маршрут &rarr;</span>
+                            </a>
+                            <a href="https://yandex.kz/maps/?text=%D0%96%D1%83%D1%80%D0%B3%D0%B5%D0%BD%D0%BE%D0%B2%D0%B0%2018%2F1%20%D0%90%D1%81%D1%82%D0%B0%D0%BD%D0%B0" target="_blank" rel="noopener noreferrer" class="btn btn-outline-dark btn-sm d-flex align-items-center justify-content-between">
+                                <span>📍 Яндекс Карты</span>
+                                <span class="small text-muted">Схема &rarr;</span>
+                            </a>
+                            <a href="https://taxi.yandex.kz/" target="_blank" rel="noopener noreferrer" class="btn btn-outline-warning text-dark btn-sm d-flex align-items-center justify-content-between">
+                                <span>🚕 Вызвать такси (Yandex Go)</span>
+                                <span class="small">Жургенова 18/1</span>
+                            </a>
+                        </div>
+                    </div>
                 </section>
             </div>
 
@@ -834,6 +856,64 @@ FILE: contacts.html
                                 <img src="images/внутри 2.jpg" class="figure-img img-fluid rounded border" alt="Интерьер зала" width="200">
                                 <figcaption class="figure-caption text-center">Наш зал</figcaption>
                             </figure>
+                        </div>
+                    </div>
+                </section>
+            </div>
+
+
+            <!-- Интерактивная форма обратной связи и брони банкетов -->
+            <div class="col-12 mt-4">
+                <section class="p-4 p-md-5 bg-white shadow-sm rounded border">
+                    <div class="row align-items-center">
+                        <div class="col-12 col-lg-5 mb-4 mb-lg-0">
+                            <span class="badge bg-danger mb-2">Прямая связь</span>
+                            <h2 class="h3 fw-bold mb-2">Написать управляющему</h2>
+                            <p class="text-secondary small mb-3">
+                                Планируете корпоратив, закрытый банкет в VIP-кабине или хотите задать вопрос шеф-повару? Заполните форму, и наш администратор свяжется с вами в течение 10 минут.
+                            </p>
+                            <div class="d-flex align-items-center gap-3">
+                                <div class="bg-light p-3 rounded text-center border flex-fill">
+                                    <div class="fw-bold text-danger fs-5">10 мин</div>
+                                    <small class="text-muted">Среднее время ответа</small>
+                                </div>
+                                <div class="bg-light p-3 rounded text-center border flex-fill">
+                                    <div class="fw-bold text-success fs-5">24/7</div>
+                                    <small class="text-muted">Прием заявок онлайн</small>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-12 col-lg-7">
+                            <form id="contacts-callback-form" class="p-3 bg-light rounded border">
+                                <div class="row g-3">
+                                    <div class="col-12 col-md-6">
+                                        <label for="cb-name" class="form-label fw-semibold small">Ваше имя:</label>
+                                        <input type="text" id="cb-name" class="form-control form-control-sm" placeholder="Тилеуке" required>
+                                    </div>
+                                    <div class="col-12 col-md-6">
+                                        <label for="cb-phone" class="form-label fw-semibold small">Номер телефона:</label>
+                                        <input type="tel" id="cb-phone" class="form-control form-control-sm" placeholder="+7 778 777 00 03" required>
+                                    </div>
+                                    <div class="col-12">
+                                        <label for="cb-topic" class="form-label fw-semibold small">Тема обращения:</label>
+                                        <select id="cb-topic" class="form-select form-select-sm">
+                                            <option value="banquet">Бронирование банкета / корпоратива</option>
+                                            <option value="menu">Вопрос шеф-повару по аллергенам и меню</option>
+                                            <option value="cooperation">Предложение о сотрудничестве</option>
+                                            <option value="feedback">Отзыв или пожелание по сервису</option>
+                                        </select>
+                                    </div>
+                                    <div class="col-12">
+                                        <label for="cb-message" class="form-label fw-semibold small">Сообщение / пожелания:</label>
+                                        <textarea id="cb-message" class="form-control form-control-sm" rows="3" placeholder="Укажите дату мероприятия, примерное количество гостей или ваш вопрос..."></textarea>
+                                    </div>
+                                    <div class="col-12">
+                                        <button type="submit" class="btn btn-danger btn-sm w-100 shadow-sm">Отправить запрос администратору</button>
+                                    </div>
+                                </div>
+                                <div id="callback-message-container"></div>
+                            </form>
                         </div>
                     </div>
                 </section>
@@ -914,6 +994,7 @@ FILE: contacts.html
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
     <!-- Assignment 4-5 Shared Script -->
     <script defer src="js/main.js"></script>
+    <script defer src="js/contacts.js"></script>
 </body>
 </html>
 
@@ -1938,6 +2019,124 @@ FILE: index.html
 
 
 ======================================================================
+FILE: js\contacts.js
+======================================================================
+
+/**
+ * Frau Muller Resto-Pub - Contacts Interactive Script (contacts.html)
+ * Assignment 4-5: Live Open/Closed Status, Route Quick-Links & Callback Form
+ */
+
+'use strict';
+
+/**
+ * Checks current time and updates live open/closed status badge
+ */
+function initLiveOpenStatus() {
+    const statusContainer = document.getElementById('live-restaurant-status');
+    if (!statusContainer) {
+        return;
+    }
+
+    const now = new Date();
+    const hour = now.getHours();
+
+    // Resto-pub Frau Muller operates from 12:00 PM to 02:00 AM (next day)
+    const isOpen = hour >= 12 || hour < 2;
+
+    statusContainer.textContent = '';
+
+    const badge = document.createElement('span');
+    badge.className = isOpen
+        ? 'badge bg-success p-2 fs-6 shadow-sm d-inline-flex align-items-center gap-2'
+        : 'badge bg-secondary p-2 fs-6 shadow-sm d-inline-flex align-items-center gap-2';
+
+    const dot = document.createElement('span');
+    dot.className = isOpen ? 'spinner-grow spinner-grow-sm text-light' : 'd-none';
+    dot.setAttribute('role', 'status');
+
+    const text = document.createTextNode(isOpen ? 'Сейчас открыто: ждём вас до 02:00' : 'Сейчас закрыто: открываемся в 12:00');
+
+    badge.appendChild(dot);
+    badge.appendChild(text);
+    statusContainer.appendChild(badge);
+}
+
+/**
+ * Initializes callback and manager message form
+ */
+function initCallbackForm() {
+    const form = document.getElementById('contacts-callback-form');
+    const msgContainer = document.getElementById('callback-message-container');
+
+    if (!form) {
+        return;
+    }
+
+    form.addEventListener('submit', function (event) {
+        event.preventDefault();
+
+        const nameInput = document.getElementById('cb-name');
+        const phoneInput = document.getElementById('cb-phone');
+        const topicSelect = document.getElementById('cb-topic');
+        const messageInput = document.getElementById('cb-message');
+
+        const nameVal = nameInput ? nameInput.value.trim() : '';
+        const phoneVal = phoneInput ? phoneInput.value.trim() : '';
+        const topicVal = topicSelect ? topicSelect.options[topicSelect.selectedIndex].text : 'Общий вопрос';
+        const messageVal = messageInput ? messageInput.value.trim() : '';
+
+        if (nameVal.length < 2) {
+            nameInput.classList.add('is-invalid');
+            nameInput.focus();
+            return;
+        }
+        nameInput.classList.remove('is-invalid');
+
+        const cleanedDigits = phoneVal.replace(/\D/g, '');
+        if (cleanedDigits.length < 10) {
+            phoneInput.classList.add('is-invalid');
+            phoneInput.focus();
+            return;
+        }
+        phoneInput.classList.remove('is-invalid');
+
+        if (msgContainer) {
+            msgContainer.textContent = '';
+
+            const alertDiv = document.createElement('div');
+            alertDiv.className = 'alert alert-success shadow-sm py-3 mt-3 text-start';
+
+            const title = document.createElement('strong');
+            title.className = 'd-block mb-1';
+            title.textContent = '✅ Запрос успешно зарегистрирован!';
+
+            const desc = document.createElement('p');
+            desc.className = 'mb-1 small';
+            desc.textContent = 'Спасибо, ' + nameVal + '! Администратор Frau Muller свяжется с вами по номеру ' + phoneVal + ' по теме «' + topicVal + '» в течение 10 минут.';
+
+            const demoNotice = document.createElement('small');
+            demoNotice.className = 'text-muted d-block mt-2 border-top pt-1';
+            demoNotice.textContent = '⚠️ Демонстрационный режим: запрос обработан на стороне клиента.';
+
+            alertDiv.appendChild(title);
+            alertDiv.appendChild(desc);
+            alertDiv.appendChild(demoNotice);
+            msgContainer.appendChild(alertDiv);
+        }
+
+        form.reset();
+    });
+}
+
+document.addEventListener('DOMContentLoaded', function () {
+    initLiveOpenStatus();
+    initCallbackForm();
+});
+
+
+
+======================================================================
 FILE: js\feedback.js
 ======================================================================
 
@@ -2882,6 +3081,52 @@ function validatePasswordRules(password) {
 }
 
 /**
+ * Creates and attaches an eye icon toggle button to a password field
+ * @param {HTMLInputElement} passwordInput - Target password input element
+ */
+function attachPasswordEyeToggle(passwordInput) {
+    if (!passwordInput || passwordInput.dataset.hasEyeToggle === 'true') {
+        return;
+    }
+    passwordInput.dataset.hasEyeToggle = 'true';
+
+    // SVG Eye Icons
+    const eyeOpenSvg = '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16"><path d="M16 8s-3-5.5-8-5.5S0 8 0 8s3 5.5 8 5.5S16 8 16 8M1.173 8a13 13 0 0 1 1.66-2.043C4.12 4.668 5.88 3.5 8 3.5s3.879 1.168 5.168 2.457A13 13 0 0 1 14.828 8q-.086.13-.195.288c-.335.48-1.01 1.343-2.313 2.169C11.02 11.332 9.258 12.5 8 12.5s-3.02-1.168-4.32-2.043A13 13 0 0 1 1.172 8z"/><path d="M8 5.5a2.5 2.5 0 1 0 0 5 2.5 2.5 0 0 0 0-5M4.5 8a3.5 3.5 0 1 1 7 0 3.5 3.5 0 0 1-7 0"/></svg>';
+    const eyeSlashSvg = '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16"><path d="M13.359 11.238C15.06 9.72 16 8 16 8s-3-5.5-8-5.5a7 7 0 0 0-2.79.588l.77.771A6 6 0 0 1 8 3.5c2.12 0 3.879 1.168 5.168 2.457A13 13 0 0 1 14.828 8q-.086.13-.195.288c-.335.48-1.01 1.343-2.313 2.169a8 8 0 0 1-1.39.81l.77.771zm-2.072-2.072A2.5 2.5 0 0 0 8 5.5a2.5 2.5 0 0 0-1.782.748l2.069 2.069z"/><path d="M11.297 9.174l2.557 2.556a.5.5 0 0 1-.708.708l-12-12a.5.5 0 1 1 .708-.708l1.796 1.797A8 8 0 0 1 8 2.5c5 0 8 5.5 8 5.5a13 13 0 0 1-1.927 2.664zM2.85 4.398l1.492 1.492C3.125 6.942 2 8 2 8s3 5.5 8 5.5c1.17 0 2.222-.32 3.14-.852l1.502 1.503a.5.5 0 0 1-.708.708l-12-12a.5.5 0 0 1 .708-.708z"/></svg>';
+
+    // Create input-group wrapper if not present
+    let inputGroup = passwordInput.parentElement;
+    if (!inputGroup.classList.contains('input-group')) {
+        const wrapper = document.createElement('div');
+        wrapper.className = 'input-group';
+        passwordInput.parentNode.insertBefore(wrapper, passwordInput);
+        wrapper.appendChild(passwordInput);
+        inputGroup = wrapper;
+    }
+
+    const toggleBtn = document.createElement('button');
+    toggleBtn.type = 'button';
+    toggleBtn.className = 'btn btn-outline-secondary';
+    toggleBtn.setAttribute('aria-label', 'Показать пароль');
+    toggleBtn.title = 'Показать / скрыть пароль';
+    toggleBtn.innerHTML = eyeOpenSvg;
+
+    toggleBtn.addEventListener('click', function () {
+        if (passwordInput.type === 'password') {
+            passwordInput.type = 'text';
+            toggleBtn.innerHTML = eyeSlashSvg;
+            toggleBtn.setAttribute('aria-label', 'Скрыть пароль');
+        } else {
+            passwordInput.type = 'password';
+            toggleBtn.innerHTML = eyeOpenSvg;
+            toggleBtn.setAttribute('aria-label', 'Показать пароль');
+        }
+    });
+
+    inputGroup.appendChild(toggleBtn);
+}
+
+/**
  * Initializes floating action button for quick WhatsApp contact and smooth scroll to top
  */
 function initFloatingActions() {
@@ -2945,30 +3190,52 @@ function initAuthModalValidation() {
         return;
     }
 
+    // Enhance Login Form with Eye Icon if present
+    if (loginPane) {
+        const loginPasswordInput = loginPane.querySelector('input[type="password"]');
+        if (loginPasswordInput) {
+            attachPasswordEyeToggle(loginPasswordInput);
+        }
+
+        const loginForm = loginPane.querySelector('form');
+        const loginMessageContainer = document.getElementById('login-message-container');
+
+        if (loginForm && loginMessageContainer) {
+            loginForm.addEventListener('submit', function (event) {
+                event.preventDefault();
+                loginMessageContainer.textContent = '';
+
+                const emailInput = loginForm.querySelector('input[type="email"]');
+                const emailValue = emailInput ? emailInput.value.trim() : '';
+
+                const alertDiv = document.createElement('div');
+                alertDiv.className = 'alert alert-info py-2 small text-start';
+
+                const title = document.createElement('strong');
+                title.className = 'd-block mb-1';
+                title.textContent = 'Демонстрационная авторизация:';
+
+                const message = document.createElement('p');
+                message.className = 'mb-0';
+                message.textContent = 'Сессия пользователя ' + emailValue + ' успешно эмулирована в браузере. Серверная база данных отключена в рамках учебного проекта.';
+
+                alertDiv.appendChild(title);
+                alertDiv.appendChild(message);
+                loginMessageContainer.appendChild(alertDiv);
+
+                loginForm.reset();
+            });
+        }
+    }
+
     // Enhance Registration Form if present
     if (registerPane) {
         const registerForm = registerPane.querySelector('form');
         const passwordInput = registerPane.querySelector('input[type="password"]');
 
         if (registerForm && passwordInput) {
-            // Create Show/Hide Password button
-            const togglePasswordBtn = document.createElement('button');
-            togglePasswordBtn.type = 'button';
-            togglePasswordBtn.className = 'btn btn-outline-secondary btn-sm mt-1 mb-2 d-block';
-            togglePasswordBtn.textContent = 'Показать пароль';
-
-            togglePasswordBtn.addEventListener('click', function () {
-                if (passwordInput.type === 'password') {
-                    passwordInput.type = 'text';
-                    togglePasswordBtn.textContent = 'Скрыть пароль';
-                } else {
-                    passwordInput.type = 'password';
-                    togglePasswordBtn.textContent = 'Показать пароль';
-                }
-            });
-
-            // Insert toggle button right after password input
-            passwordInput.insertAdjacentElement('afterend', togglePasswordBtn);
+            // Attach eye toggle to register password
+            attachPasswordEyeToggle(passwordInput);
 
             // Create Confirmation Password Field container
             const confirmWrapper = document.createElement('div');
@@ -2990,6 +3257,9 @@ function initAuthModalValidation() {
             // Insert confirm field before the submit button
             const submitBtn = registerForm.querySelector('button[type="submit"]');
             registerForm.insertBefore(confirmWrapper, submitBtn);
+
+            // Attach eye toggle to confirm password as well
+            attachPasswordEyeToggle(confirmInput);
 
             // Create Live Checklist container
             const checklistContainer = document.createElement('div');
@@ -3103,45 +3373,951 @@ function initAuthModalValidation() {
             });
         }
     }
-
-    // Enhance Login Form if present
-    if (loginPane) {
-        const loginForm = loginPane.querySelector('form');
-        const loginMessageContainer = document.getElementById('login-message-container');
-
-        if (loginForm && loginMessageContainer) {
-            loginForm.addEventListener('submit', function (event) {
-                event.preventDefault();
-                loginMessageContainer.textContent = '';
-
-                const emailInput = loginForm.querySelector('input[type="email"]');
-                const emailValue = emailInput ? emailInput.value.trim() : '';
-
-                const alertDiv = document.createElement('div');
-                alertDiv.className = 'alert alert-info py-2 small text-start';
-
-                const title = document.createElement('strong');
-                title.className = 'd-block mb-1';
-                title.textContent = 'Демонстрационная авторизация:';
-
-                const message = document.createElement('p');
-                message.className = 'mb-0';
-                message.textContent = 'Сессия пользователя ' + emailValue + ' успешно эмулирована в браузере. Серверная база данных отключена в рамках учебного проекта.';
-
-                alertDiv.appendChild(title);
-                alertDiv.appendChild(message);
-                loginMessageContainer.appendChild(alertDiv);
-
-                loginForm.reset();
-            });
-        }
-    }
 }
 
 // Global initialization on DOM ready
 document.addEventListener('DOMContentLoaded', function () {
     initFloatingActions();
     initAuthModalValidation();
+});
+
+
+
+======================================================================
+FILE: js\menu.js
+======================================================================
+
+/**
+ * Frau Muller Resto-Pub - Menu Page Script (menu.html)
+ * Assignment 4-5: Interactive Dish Stepper, Live Search & Cart Order Calculator
+ */
+
+'use strict';
+
+/**
+ * Global Cart State for Menu
+ */
+const MenuCart = {
+    items: {},
+
+    load() {
+        try {
+            const saved = localStorage.getItem('fraumuller_cart');
+            if (saved) {
+                this.items = JSON.parse(saved);
+            }
+        } catch (e) {
+            this.items = {};
+        }
+    },
+
+    save() {
+        try {
+            localStorage.setItem('fraumuller_cart', JSON.stringify(this.items));
+        } catch (e) {
+            // LocalStorage fallback
+        }
+    },
+
+    addItem(name, price, image) {
+        if (!this.items[name]) {
+            this.items[name] = { name: name, price: price, qty: 1, image: image || '' };
+        } else {
+            this.items[name].qty += 1;
+        }
+        this.save();
+    },
+
+    removeItem(name) {
+        if (this.items[name]) {
+            this.items[name].qty -= 1;
+            if (this.items[name].qty <= 0) {
+                delete this.items[name];
+            }
+            this.save();
+        }
+    },
+
+    clear() {
+        this.items = {};
+        this.save();
+    },
+
+    getTotalPrice() {
+        let total = 0;
+        for (const key in this.items) {
+            if (Object.prototype.hasOwnProperty.call(this.items, key)) {
+                total += this.items[key].price * this.items[key].qty;
+            }
+        }
+        return total;
+    },
+
+    getTotalCount() {
+        let count = 0;
+        for (const key in this.items) {
+            if (Object.prototype.hasOwnProperty.call(this.items, key)) {
+                count += this.items[key].qty;
+            }
+        }
+        return count;
+    }
+};
+
+/**
+ * Format currency helper
+ */
+function formatKztCurrency(amount) {
+    return amount.toLocaleString('ru-RU') + ' ₸';
+}
+
+/**
+ * Parse price string e.g. "8 500 ₸" -> 8500
+ */
+function parsePrice(text) {
+    const cleaned = text.replace(/[^\d]/g, '');
+    return parseInt(cleaned, 10) || 0;
+}
+
+/**
+ * Enhances all tables in menu with interactive quantity steppers
+ */
+function initMenuTableSteppers() {
+    MenuCart.load();
+
+    const tables = document.querySelectorAll('table.table');
+
+    tables.forEach(function (table) {
+        // Add header column for "Заказ"
+        const headerRow = table.querySelector('thead tr');
+        if (headerRow && !headerRow.querySelector('.th-order-col')) {
+            const th = document.createElement('th');
+            th.className = 'th-order-col text-end pe-4';
+            th.scope = 'col';
+            th.textContent = 'Заказ';
+            headerRow.appendChild(th);
+        }
+
+        // Add quantity stepper to each body row
+        const bodyRows = table.querySelectorAll('tbody tr');
+        bodyRows.forEach(function (row) {
+            if (row.querySelector('.td-order-col')) {
+                return;
+            }
+
+            const titleEl = row.querySelector('th[scope="row"]');
+            const priceEl = row.querySelector('td.fw-bold');
+            const imgEl = row.querySelector('img');
+
+            if (!titleEl || !priceEl) {
+                return;
+            }
+
+            const dishName = titleEl.textContent.trim();
+            const price = parsePrice(priceEl.textContent);
+            const imgSrc = imgEl ? imgEl.getAttribute('src') : '';
+
+            row.setAttribute('data-dish-name', dishName.toLowerCase());
+            const descEl = row.querySelector('td.text-muted');
+            if (descEl) {
+                row.setAttribute('data-dish-desc', descEl.textContent.toLowerCase());
+            }
+
+            const tdOrder = document.createElement('td');
+            tdOrder.className = 'td-order-col text-end pe-4 text-nowrap';
+
+            const stepperContainer = document.createElement('div');
+            stepperContainer.className = 'd-inline-flex align-items-center justify-content-end gap-1';
+
+            const minusBtn = document.createElement('button');
+            minusBtn.type = 'button';
+            minusBtn.className = 'btn btn-sm btn-outline-secondary px-2 py-0';
+            minusBtn.textContent = '−';
+            minusBtn.title = 'Уменьшить количество';
+
+            const qtySpan = document.createElement('span');
+            qtySpan.className = 'fw-bold px-2 item-qty-display';
+            qtySpan.textContent = MenuCart.items[dishName] ? MenuCart.items[dishName].qty : '0';
+
+            const plusBtn = document.createElement('button');
+            plusBtn.type = 'button';
+            plusBtn.className = 'btn btn-sm btn-outline-danger px-2 py-0';
+            plusBtn.textContent = '+';
+            plusBtn.title = 'Добавить в заказ';
+
+            stepperContainer.appendChild(minusBtn);
+            stepperContainer.appendChild(qtySpan);
+            stepperContainer.appendChild(plusBtn);
+            tdOrder.appendChild(stepperContainer);
+            row.appendChild(tdOrder);
+
+            plusBtn.addEventListener('click', function () {
+                MenuCart.addItem(dishName, price, imgSrc);
+                qtySpan.textContent = MenuCart.items[dishName].qty;
+                updateCartBarUI();
+            });
+
+            minusBtn.addEventListener('click', function () {
+                MenuCart.removeItem(dishName);
+                qtySpan.textContent = MenuCart.items[dishName] ? MenuCart.items[dishName].qty : '0';
+                updateCartBarUI();
+            });
+        });
+    });
+}
+
+/**
+ * Updates floating cart bar UI and values
+ */
+function updateCartBarUI() {
+    const cartBar = document.getElementById('menu-cart-bar');
+    const totalPriceEl = document.getElementById('cart-total-price');
+    const totalItemsEl = document.getElementById('cart-total-items');
+
+    if (!cartBar) {
+        return;
+    }
+
+    const totalCount = MenuCart.getTotalCount();
+    const totalPrice = MenuCart.getTotalPrice();
+
+    if (totalCount > 0) {
+        cartBar.classList.remove('d-none');
+        cartBar.classList.add('d-block');
+        if (totalPriceEl) {
+            totalPriceEl.textContent = formatKztCurrency(totalPrice);
+        }
+        if (totalItemsEl) {
+            totalItemsEl.textContent = 'Выбрано позиций: ' + totalCount;
+        }
+    } else {
+        cartBar.classList.remove('d-block');
+        cartBar.classList.add('d-none');
+    }
+}
+
+/**
+ * Initializes Menu Search Bar
+ */
+function initMenuSearch() {
+    const searchInput = document.getElementById('menu-search-input');
+    const clearBtn = document.getElementById('menu-search-clear');
+    const resultsInfo = document.getElementById('search-results-info');
+
+    if (!searchInput) {
+        return;
+    }
+
+    function doSearch() {
+        const query = searchInput.value.toLowerCase().trim();
+        const rows = document.querySelectorAll('tbody tr[data-dish-name]');
+        let matchCount = 0;
+
+        rows.forEach(function (row) {
+            const name = row.getAttribute('data-dish-name') || '';
+            const desc = row.getAttribute('data-dish-desc') || '';
+
+            if (query === '' || name.includes(query) || desc.includes(query)) {
+                row.classList.remove('d-none');
+                matchCount++;
+            } else {
+                row.classList.add('d-none');
+            }
+        });
+
+        // Hide empty sections
+        const sections = document.querySelectorAll('section.card');
+        sections.forEach(function (sec) {
+            const visibleRows = sec.querySelectorAll('tbody tr:not(.d-none)');
+            if (visibleRows.length === 0 && query !== '') {
+                sec.classList.add('d-none');
+            } else {
+                sec.classList.remove('d-none');
+            }
+        });
+
+        // Update info text
+        if (resultsInfo) {
+            if (query !== '') {
+                resultsInfo.classList.remove('d-none');
+                resultsInfo.textContent = 'Найдено позиций: ' + matchCount;
+            } else {
+                resultsInfo.classList.add('d-none');
+            }
+        }
+    }
+
+    searchInput.addEventListener('input', doSearch);
+
+    if (clearBtn) {
+        clearBtn.addEventListener('click', function () {
+            searchInput.value = '';
+            doSearch();
+            searchInput.focus();
+        });
+    }
+}
+
+/**
+ * Initializes Cart Modal and Checkout Navigation
+ */
+function initCartModalAndCheckout() {
+    const viewDetailsBtn = document.getElementById('cart-view-details-btn');
+    const checkoutBtn = document.getElementById('cart-checkout-btn');
+    const modalCheckoutBtn = document.getElementById('cart-modal-checkout-btn');
+    const clearAllBtn = document.getElementById('cart-clear-all-btn');
+    const modalItemsContainer = document.getElementById('cart-modal-items');
+    const modalTotalEl = document.getElementById('cart-modal-total');
+
+    function renderModalItems() {
+        if (!modalItemsContainer) {
+            return;
+        }
+        modalItemsContainer.textContent = '';
+
+        const items = MenuCart.items;
+        const keys = Object.keys(items);
+
+        if (keys.length === 0) {
+            const emptyP = document.createElement('p');
+            emptyP.className = 'text-muted text-center py-3 mb-0';
+            emptyP.textContent = 'Ваша корзина пуста. Добавьте блюда из меню.';
+            modalItemsContainer.appendChild(emptyP);
+            if (modalTotalEl) {
+                modalTotalEl.textContent = '0 ₸';
+            }
+            return;
+        }
+
+        keys.forEach(function (dishName) {
+            const item = items[dishName];
+            const line = document.createElement('div');
+            line.className = 'd-flex justify-content-between align-items-center p-2 border rounded bg-light';
+
+            const leftDiv = document.createElement('div');
+            const nameEl = document.createElement('strong');
+            nameEl.className = 'd-block';
+            nameEl.textContent = item.name;
+
+            const priceEl = document.createElement('small');
+            priceEl.className = 'text-muted';
+            priceEl.textContent = formatKztCurrency(item.price) + ' × ' + item.qty + ' шт = ' + formatKztCurrency(item.price * item.qty);
+
+            leftDiv.appendChild(nameEl);
+            leftDiv.appendChild(priceEl);
+
+            const rightDiv = document.createElement('div');
+            rightDiv.className = 'd-flex align-items-center gap-1';
+
+            const minus = document.createElement('button');
+            minus.type = 'button';
+            minus.className = 'btn btn-sm btn-outline-secondary py-0 px-2';
+            minus.textContent = '−';
+
+            const countSpan = document.createElement('span');
+            countSpan.className = 'px-2 fw-bold';
+            countSpan.textContent = item.qty;
+
+            const plus = document.createElement('button');
+            plus.type = 'button';
+            plus.className = 'btn btn-sm btn-outline-danger py-0 px-2';
+            plus.textContent = '+';
+
+            rightDiv.appendChild(minus);
+            rightDiv.appendChild(countSpan);
+            rightDiv.appendChild(plus);
+
+            line.appendChild(leftDiv);
+            line.appendChild(rightDiv);
+            modalItemsContainer.appendChild(line);
+
+            plus.addEventListener('click', function () {
+                MenuCart.addItem(item.name, item.price, item.image);
+                renderModalItems();
+                updateAllTableQtyDisplays();
+                updateCartBarUI();
+            });
+
+            minus.addEventListener('click', function () {
+                MenuCart.removeItem(item.name);
+                renderModalItems();
+                updateAllTableQtyDisplays();
+                updateCartBarUI();
+            });
+        });
+
+        if (modalTotalEl) {
+            modalTotalEl.textContent = formatKztCurrency(MenuCart.getTotalPrice());
+        }
+    }
+
+    function updateAllTableQtyDisplays() {
+        const rows = document.querySelectorAll('tbody tr[data-dish-name]');
+        rows.forEach(function (row) {
+            const titleEl = row.querySelector('th[scope="row"]');
+            const qtyDisplay = row.querySelector('.item-qty-display');
+            if (titleEl && qtyDisplay) {
+                const dishName = titleEl.textContent.trim();
+                qtyDisplay.textContent = MenuCart.items[dishName] ? MenuCart.items[dishName].qty : '0';
+            }
+        });
+    }
+
+    if (viewDetailsBtn) {
+        viewDetailsBtn.addEventListener('click', function () {
+            renderModalItems();
+            const modalEl = document.getElementById('cartModal');
+            if (modalEl && window.bootstrap) {
+                const modal = new window.bootstrap.Modal(modalEl);
+                modal.show();
+            }
+        });
+    }
+
+    function proceedToCheckout() {
+        MenuCart.save();
+        window.location.href = 'order.html';
+    }
+
+    if (checkoutBtn) {
+        checkoutBtn.addEventListener('click', proceedToCheckout);
+    }
+
+    if (modalCheckoutBtn) {
+        modalCheckoutBtn.addEventListener('click', proceedToCheckout);
+    }
+
+    if (clearAllBtn) {
+        clearAllBtn.addEventListener('click', function () {
+            MenuCart.clear();
+            renderModalItems();
+            updateAllTableQtyDisplays();
+            updateCartBarUI();
+        });
+    }
+}
+
+document.addEventListener('DOMContentLoaded', function () {
+    initMenuTableSteppers();
+    initMenuSearch();
+    initCartModalAndCheckout();
+    updateCartBarUI();
+});
+
+
+
+======================================================================
+FILE: js\order.js
+======================================================================
+
+/**
+ * Frau Muller Resto-Pub - Food Delivery Script (order.html)
+ * Assignment 4-5: Multi-type Order Flow (Delivery / Takeaway / Dine-in), Realistic Time Slots, Cart Synchronization & Live Calculator
+ */
+
+'use strict';
+
+/**
+ * Standard menu price catalog for direct selections
+ */
+const DISH_PRICES = {
+    'steak': { name: 'Стейк Рибай', price: 8500 },
+    'sausages': { name: 'Баварские колбаски с тушеной капустой', price: 3200 },
+    'pizza': { name: 'Пицца Пепперони', price: 3500 },
+    'salad': { name: 'Салат «Баварский»', price: 2400 },
+    'waffles': { name: 'Бельгийские вафли с мороженым', price: 1800 }
+};
+
+/**
+ * Currency formatter
+ */
+function formatKzt(amount) {
+    return amount.toLocaleString('ru-RU') + ' ₸';
+}
+
+/**
+ * Generates temporary tracking code like "ORD-7294"
+ */
+function generateOrderReference() {
+    return 'ORD-' + Math.floor(1000 + Math.random() * 9000);
+}
+
+/**
+ * Loads cart from localStorage if populated from menu.html
+ */
+function getSavedCart() {
+    try {
+        const raw = localStorage.getItem('fraumuller_cart');
+        if (raw) {
+            return JSON.parse(raw);
+        }
+    } catch (e) {
+        // Fallback
+    }
+    return {};
+}
+
+/**
+ * Main delivery interactivity initialization
+ */
+function initOrderInteractivity() {
+    const orderForm = document.getElementById('order-form');
+    const confirmationContainer = document.getElementById('order-confirmation');
+
+    if (!orderForm) {
+        return;
+    }
+
+    const dishSelect = orderForm.querySelector('#dishSelect');
+    const portionsInput = orderForm.querySelector('#portionsCount');
+    const sauceCheckbox = orderForm.querySelector('#extraSauce');
+    const clientNameInput = orderForm.querySelector('#clientName');
+    const clientPhoneInput = orderForm.querySelector('#clientPhone');
+    const clientEmailInput = orderForm.querySelector('#clientEmail');
+    const addressInput = orderForm.querySelector('#deliveryAddress');
+    const addressWrapper = document.getElementById('address-field-wrapper') || addressInput.closest('.col-12');
+    const addressLabel = document.getElementById('address-label');
+    const timeSelect = document.getElementById('deliveryTimeSlot');
+
+    // 1. Render Transferred Cart from menu.html if available
+    let cart = getSavedCart();
+    let hasCartItems = Object.keys(cart).length > 0;
+
+    const cartContainer = document.createElement('div');
+    cartContainer.id = 'order-cart-items-container';
+    cartContainer.className = 'mb-3';
+
+    const fieldset1 = orderForm.querySelector('fieldset');
+    if (fieldset1) {
+        fieldset1.insertBefore(cartContainer, fieldset1.children[1]);
+    }
+
+    function renderCartSummary() {
+        cartContainer.textContent = '';
+        const keys = Object.keys(cart);
+
+        if (keys.length === 0) {
+            hasCartItems = false;
+            return;
+        }
+
+        hasCartItems = true;
+        const card = document.createElement('div');
+        card.className = 'card border-danger border-2 p-3 bg-light mb-3';
+
+        const title = document.createElement('h4');
+        title.className = 'h6 fw-bold text-danger mb-2 d-flex justify-content-between align-items-center';
+        title.textContent = '🛒 Выбранные блюда из меню:';
+
+        const clearBtn = document.createElement('button');
+        clearBtn.type = 'button';
+        clearBtn.className = 'btn btn-outline-secondary btn-sm py-0';
+        clearBtn.textContent = 'Очистить корзину';
+        clearBtn.addEventListener('click', function () {
+            cart = {};
+            localStorage.removeItem('fraumuller_cart');
+            renderCartSummary();
+            updateOrderCalculations();
+        });
+        title.appendChild(clearBtn);
+        card.appendChild(title);
+
+        const list = document.createElement('div');
+        list.className = 'd-flex flex-column gap-2';
+
+        keys.forEach(function (dishName) {
+            const item = cart[dishName];
+            const row = document.createElement('div');
+            row.className = 'd-flex justify-content-between align-items-center bg-white p-2 border rounded';
+
+            const nameDiv = document.createElement('div');
+            nameDiv.className = 'fw-semibold text-dark small';
+            nameDiv.textContent = item.name + ' × ' + item.qty;
+
+            const priceDiv = document.createElement('div');
+            priceDiv.className = 'd-flex align-items-center gap-2';
+
+            const sumSpan = document.createElement('span');
+            sumSpan.className = 'text-danger fw-bold small';
+            sumSpan.textContent = formatKzt(item.price * item.qty);
+
+            const removeBtn = document.createElement('button');
+            removeBtn.type = 'button';
+            removeBtn.className = 'btn btn-sm btn-outline-danger py-0 px-2';
+            removeBtn.textContent = '×';
+            removeBtn.title = 'Удалить';
+            removeBtn.addEventListener('click', function () {
+                delete cart[dishName];
+                localStorage.setItem('fraumuller_cart', JSON.stringify(cart));
+                renderCartSummary();
+                updateOrderCalculations();
+            });
+
+            priceDiv.appendChild(sumSpan);
+            priceDiv.appendChild(removeBtn);
+
+            row.appendChild(nameDiv);
+            row.appendChild(priceDiv);
+            list.appendChild(row);
+        });
+
+        card.appendChild(list);
+        cartContainer.appendChild(card);
+    }
+
+    renderCartSummary();
+
+    // 2. Order Type Toggle Handler (Delivery vs Takeaway vs Dine-in)
+    const orderTypeRadios = orderForm.querySelectorAll('input[name="orderType"]');
+
+    function getOrderType() {
+        const checked = orderForm.querySelector('input[name="orderType"]:checked');
+        return checked ? checked.value : 'delivery';
+    }
+
+    function updateOrderTypeUI() {
+        const type = getOrderType();
+
+        if (type === 'delivery') {
+            if (addressLabel) {
+                addressLabel.textContent = 'Адрес доставки (улица, дом, квартира):';
+            }
+            addressInput.disabled = false;
+            addressInput.placeholder = 'ул. Жургенова, дом 18/1, кв. 42';
+            addressInput.value = addressInput.dataset.savedAddress || '';
+            addressInput.required = true;
+        } else if (type === 'takeaway') {
+            if (addressLabel) {
+                addressLabel.textContent = 'Пункт самовывоза (скидка 5%):';
+            }
+            if (addressInput.value && addressInput.value.indexOf('Жургенова') === -1) {
+                addressInput.dataset.savedAddress = addressInput.value;
+            }
+            addressInput.value = 'Ресто-паб Frau Muller: ул. Темирбека Жургенова, 18/1 (Аллея Мынжылдык)';
+            addressInput.disabled = true;
+            addressInput.required = false;
+        } else if (type === 'dinein') {
+            if (addressLabel) {
+                addressLabel.textContent = 'Предзаказ в зале ресторана:';
+            }
+            if (addressInput.value && addressInput.value.indexOf('Жургенова') === -1) {
+                addressInput.dataset.savedAddress = addressInput.value;
+            }
+            addressInput.value = 'Зал Frau Muller: столик будет накрыт к указанному времени';
+            addressInput.disabled = true;
+            addressInput.required = false;
+        }
+        updateOrderCalculations();
+    }
+
+    orderTypeRadios.forEach(function (radio) {
+        radio.addEventListener('change', updateOrderTypeUI);
+    });
+
+    // 3. Live Order Calculation Summary Box
+    const calcBox = document.createElement('div');
+    calcBox.className = 'card border-danger border-2 p-3 mb-4 bg-light shadow-sm';
+    calcBox.id = 'live-order-summary';
+
+    const calcTitle = document.createElement('h3');
+    calcTitle.className = 'h6 fw-bold text-danger mb-2 d-flex justify-content-between align-items-center';
+    calcTitle.textContent = 'Расчет стоимости заказа:';
+
+    const calcBadge = document.createElement('span');
+    calcBadge.className = 'badge bg-danger';
+    calcBadge.textContent = 'Онлайн-чек';
+    calcTitle.appendChild(calcBadge);
+
+    const calcLinesContainer = document.createElement('div');
+    calcLinesContainer.className = 'small text-muted d-flex flex-column gap-1';
+
+    const calcTotalLine = document.createElement('div');
+    calcTotalLine.className = 'd-flex justify-content-between align-items-center pt-2 mt-2 border-top fw-bold text-dark fs-5';
+
+    calcBox.appendChild(calcTitle);
+    calcBox.appendChild(calcLinesContainer);
+    calcBox.appendChild(calcTotalLine);
+
+    const submitBtnsContainer = orderForm.querySelector('.d-flex.flex-wrap');
+    if (submitBtnsContainer) {
+        submitBtnsContainer.insertAdjacentElement('beforebegin', calcBox);
+    } else {
+        orderForm.appendChild(calcBox);
+    }
+
+    function getCourierTip() {
+        const checked = orderForm.querySelector('input[name="courierTip"]:checked');
+        return checked ? parseInt(checked.value, 10) : 0;
+    }
+
+    /**
+     * Calculates total breakdown
+     */
+    function calculateOrderTotals() {
+        let dishesSubtotal = 0;
+
+        // Sum from cart
+        for (const k in cart) {
+            if (Object.prototype.hasOwnProperty.call(cart, k)) {
+                dishesSubtotal += cart[k].price * cart[k].qty;
+            }
+        }
+
+        // Sum from direct select if chosen
+        const selectedDishKey = dishSelect ? dishSelect.value : '';
+        const portions = portionsInput ? parseInt(portionsInput.value, 10) || 1 : 1;
+
+        if (selectedDishKey && DISH_PRICES[selectedDishKey]) {
+            dishesSubtotal += DISH_PRICES[selectedDishKey].price * portions;
+        }
+
+        // Sauce
+        let saucePrice = 0;
+        if (sauceCheckbox && sauceCheckbox.checked) {
+            saucePrice = 300;
+        }
+
+        const rawFoodTotal = dishesSubtotal + saucePrice;
+        const orderType = getOrderType();
+
+        // 5% Takeaway discount
+        let takeawayDiscount = 0;
+        if (orderType === 'takeaway') {
+            takeawayDiscount = Math.round(rawFoodTotal * 0.05);
+        }
+
+        // Delivery fee: 0 if takeaway/dine-in or food >= 7000, otherwise 1000 KZT
+        let deliveryFee = 0;
+        if (orderType === 'delivery') {
+            deliveryFee = rawFoodTotal >= 7000 || rawFoodTotal === 0 ? 0 : 1000;
+        }
+
+        const tip = getCourierTip();
+        const grandTotal = Math.max(0, rawFoodTotal - takeawayDiscount + deliveryFee + tip);
+
+        return {
+            dishesSubtotal,
+            saucePrice,
+            rawFoodTotal,
+            orderType,
+            takeawayDiscount,
+            deliveryFee,
+            tip,
+            grandTotal
+        };
+    }
+
+    function updateOrderCalculations() {
+        const res = calculateOrderTotals();
+
+        calcLinesContainer.textContent = '';
+
+        const lineFood = document.createElement('div');
+        lineFood.className = 'd-flex justify-content-between';
+        lineFood.textContent = 'Стоимость блюд:';
+        const spanFood = document.createElement('span');
+        spanFood.className = 'fw-semibold text-dark';
+        spanFood.textContent = formatKzt(res.rawFoodTotal);
+        lineFood.appendChild(spanFood);
+        calcLinesContainer.appendChild(lineFood);
+
+        if (res.takeawayDiscount > 0) {
+            const lineDisc = document.createElement('div');
+            lineDisc.className = 'd-flex justify-content-between text-success fw-semibold';
+            lineDisc.textContent = 'Скидка на самовывоз (5%):';
+            const spanDisc = document.createElement('span');
+            spanDisc.textContent = '-' + formatKzt(res.takeawayDiscount);
+            lineDisc.appendChild(spanDisc);
+            calcLinesContainer.appendChild(lineDisc);
+        }
+
+        const lineDel = document.createElement('div');
+        lineDel.className = 'd-flex justify-content-between';
+        lineDel.textContent = 'Доставка курьером:';
+        const spanDel = document.createElement('span');
+        if (res.orderType !== 'delivery') {
+            spanDel.className = 'text-success fw-semibold';
+            spanDel.textContent = '0 ₸ (не требуется)';
+        } else if (res.deliveryFee === 0 && res.rawFoodTotal >= 7000) {
+            spanDel.className = 'text-success fw-semibold';
+            spanDel.textContent = '0 ₸ (Бесплатно от 7 000 ₸)';
+        } else {
+            spanDel.className = 'text-dark fw-semibold';
+            spanDel.textContent = formatKzt(res.deliveryFee);
+        }
+        lineDel.appendChild(spanDel);
+        calcLinesContainer.appendChild(lineDel);
+
+        if (res.tip > 0) {
+            const lineTip = document.createElement('div');
+            lineTip.className = 'd-flex justify-content-between text-muted';
+            lineTip.textContent = 'Чаевые курьеру:';
+            const spanTip = document.createElement('span');
+            spanTip.className = 'fw-semibold';
+            spanTip.textContent = '+' + formatKzt(res.tip);
+            lineTip.appendChild(spanTip);
+            calcLinesContainer.appendChild(lineTip);
+        }
+
+        calcTotalLine.textContent = '';
+        const totalLbl = document.createElement('span');
+        totalLbl.textContent = 'Итого к оплате:';
+        const totalVal = document.createElement('span');
+        totalVal.className = 'text-danger fs-4';
+        totalVal.textContent = formatKzt(res.grandTotal);
+        calcTotalLine.appendChild(totalLbl);
+        calcTotalLine.appendChild(totalVal);
+    }
+
+    // Attach listeners
+    if (dishSelect) {
+        dishSelect.addEventListener('change', updateOrderCalculations);
+    }
+    if (portionsInput) {
+        portionsInput.addEventListener('input', updateOrderCalculations);
+    }
+    if (sauceCheckbox) {
+        sauceCheckbox.addEventListener('change', updateOrderCalculations);
+    }
+
+    const tipRadios = orderForm.querySelectorAll('input[name="courierTip"]');
+    tipRadios.forEach(function (radio) {
+        radio.addEventListener('change', updateOrderCalculations);
+    });
+
+    updateOrderTypeUI();
+
+    // Form Submission
+    orderForm.addEventListener('submit', function (event) {
+        event.preventDefault();
+
+        const totals = calculateOrderTotals();
+        if (totals.rawFoodTotal === 0) {
+            alert('Пожалуйста, выберите хотя бы одно блюдо для заказа.');
+            if (dishSelect) {
+                dishSelect.focus();
+            }
+            return;
+        }
+
+        const nameVal = clientNameInput.value.trim();
+        const phoneVal = clientPhoneInput.value.trim();
+        const emailVal = clientEmailInput.value.trim();
+        const addressVal = addressInput.value.trim();
+        const timeVal = timeSelect ? timeSelect.options[timeSelect.selectedIndex].text : 'Как можно скорее';
+        const paymentRadio = orderForm.querySelector('input[name="paymentMethod"]:checked');
+        const paymentVal = paymentRadio ? paymentRadio.nextElementSibling.textContent.trim() : 'Kaspi QR';
+        const commentsVal = orderForm.querySelector('#orderComments').value.trim();
+
+        const orderRef = generateOrderReference();
+
+        // Render confirmation receipt
+        if (confirmationContainer) {
+            confirmationContainer.textContent = '';
+            confirmationContainer.className = 'mt-4 d-block';
+
+            const card = document.createElement('div');
+            card.className = 'card border-success border-2 shadow p-4 bg-white';
+
+            // Header
+            const header = document.createElement('div');
+            header.className = 'd-flex flex-wrap justify-content-between align-items-center pb-3 mb-3 border-bottom';
+
+            const title = document.createElement('h3');
+            title.className = 'h4 text-success fw-bold mb-0';
+            title.textContent = 'Заказ успешно оформлен!';
+
+            const refBadge = document.createElement('span');
+            refBadge.className = 'badge bg-success fs-6';
+            refBadge.textContent = 'Номер заказа: #' + orderRef;
+
+            header.appendChild(title);
+            header.appendChild(refBadge);
+            card.appendChild(header);
+
+            // Realistic Tracker Progress Bar
+            const trackerDiv = document.createElement('div');
+            trackerDiv.className = 'p-3 bg-light rounded mb-3 border text-center';
+
+            const trackerTitle = document.createElement('div');
+            trackerTitle.className = 'fw-bold text-dark mb-2';
+            trackerTitle.textContent = 'Статус заказа: 👨‍🍳 Готовится на кухне Frau Muller';
+
+            const progress = document.createElement('div');
+            progress.className = 'progress mb-2';
+            progress.style.height = '10px';
+
+            const progressBar = document.createElement('div');
+            progressBar.className = 'progress-bar bg-danger progress-bar-striped progress-bar-animated';
+            progressBar.style.width = '35%';
+            progress.appendChild(progressBar);
+
+            const trackerSub = document.createElement('div');
+            trackerSub.className = 'small text-muted';
+            trackerSub.textContent = 'Ориентировочное время: ' + timeVal;
+
+            trackerDiv.appendChild(trackerTitle);
+            trackerDiv.appendChild(progress);
+            trackerDiv.appendChild(trackerSub);
+            card.appendChild(trackerDiv);
+
+            // Details
+            const dl = document.createElement('dl');
+            dl.className = 'row g-2 mb-3';
+
+            function addRow(lbl, val) {
+                const dt = document.createElement('dt');
+                dt.className = 'col-sm-4 text-muted fw-normal';
+                dt.textContent = lbl;
+                const dd = document.createElement('dd');
+                dd.className = 'col-sm-8 fw-semibold text-dark mb-1';
+                dd.textContent = val;
+                dl.appendChild(dt);
+                dl.appendChild(dd);
+            }
+
+            addRow('Получатель:', nameVal + ' (' + phoneVal + ')');
+            addRow('Email для чека:', emailVal);
+            addRow('Способ получения:', totals.orderType === 'delivery' ? 'Доставка курьером' : (totals.orderType === 'takeaway' ? 'С собой (самовывоз)' : 'В ресторане'));
+            addRow('Адрес:', addressVal);
+            addRow('Время:', timeVal);
+            addRow('Способ оплаты:', paymentVal);
+            addRow('Сумма к оплате:', formatKzt(totals.grandTotal));
+
+            if (commentsVal) {
+                addRow('Пожелания:', commentsVal);
+            }
+
+            card.appendChild(dl);
+
+            // Academic Notice
+            const alertDiv = document.createElement('div');
+            alertDiv.className = 'alert alert-warning py-3 mt-3 mb-0';
+            const strong = document.createElement('strong');
+            strong.className = 'd-block mb-1';
+            strong.textContent = '⚠️ Учебная демонстрация:';
+            const alertP = document.createElement('p');
+            alertP.className = 'small mb-0';
+            alertP.textContent = 'Заказ успешно сформирован на стороне клиента. Реальная передача на сервер ресторана не производилась.';
+            alertDiv.appendChild(strong);
+            alertDiv.appendChild(alertP);
+            card.appendChild(alertDiv);
+
+            confirmationContainer.appendChild(card);
+            confirmationContainer.scrollIntoView({ behavior: 'smooth' });
+
+            // Clear cart
+            localStorage.removeItem('fraumuller_cart');
+            cart = {};
+            renderCartSummary();
+            orderForm.reset();
+            updateOrderTypeUI();
+        }
+    });
+}
+
+document.addEventListener('DOMContentLoaded', function () {
+    initOrderInteractivity();
 });
 
 
@@ -3233,13 +4409,14 @@ function checkDateSchedule(dateString) {
 
 /**
  * Reusable function 4: Calculates required reservation deposit and surcharges
- * Calls checkDateSchedule internally
+ * Includes group discounts and birthday special bonuses
  * @param {number} guestCount - Number of visitors
  * @param {string} zone - Selected hall zone ('main', 'terrace', 'vip')
  * @param {string} dateString - "YYYY-MM-DD"
+ * @param {string} occasion - 'dinner', 'birthday', or 'corporate'
  * @returns {Object} Full calculation breakdown
  */
-function calculateBookingDeposit(guestCount, zone, dateString) {
+function calculateBookingDeposit(guestCount, zone, dateString, occasion) {
     const basePerGuest = 2000;
     const guestTotal = guestCount * basePerGuest;
 
@@ -3258,7 +4435,26 @@ function calculateBookingDeposit(guestCount, zone, dateString) {
     const subtotal = guestTotal + zoneSurcharge;
     const weekendMultiplier = scheduleInfo.isWeekend ? 0.1 : 0;
     const weekendSurcharge = Math.round(subtotal * weekendMultiplier);
-    const finalDeposit = subtotal + weekendSurcharge;
+
+    // Group size discount: 10% for 10+ guests, 5% for 6+ guests
+    let groupDiscountPercent = 0;
+    if (guestCount >= 10) {
+        groupDiscountPercent = 10;
+    } else if (guestCount >= 6) {
+        groupDiscountPercent = 5;
+    }
+    const groupDiscountAmount = Math.round(subtotal * (groupDiscountPercent / 100));
+
+    // Birthday bonus: 10% discount on booking + chef's surprise gift
+    let birthdayDiscountAmount = 0;
+    let birthdayGift = null;
+    if (occasion === 'birthday') {
+        birthdayDiscountAmount = Math.round(subtotal * 0.1);
+        birthdayGift = '🎂 Фирменный мини-торт «Захер» со свечой от шеф-повара (в подарок)';
+    }
+
+    const totalDiscounts = groupDiscountAmount + birthdayDiscountAmount;
+    const finalDeposit = Math.max(1000, subtotal + weekendSurcharge - totalDiscounts);
 
     return {
         guestCount,
@@ -3269,6 +4465,10 @@ function calculateBookingDeposit(guestCount, zone, dateString) {
         isWeekend: scheduleInfo.isWeekend,
         holidayName: scheduleInfo.holidayName,
         weekendSurcharge,
+        groupDiscountPercent,
+        groupDiscountAmount,
+        birthdayDiscountAmount,
+        birthdayGift,
         finalDeposit
     };
 }
@@ -3351,7 +4551,6 @@ function validateBookingField(fieldName, form) {
         if (val < todayStr) {
             return 'Дата визита не может быть в прошлом.';
         }
-        // Limit booking window to 60 days in future
         const maxDate = new Date();
         maxDate.setDate(maxDate.getDate() + 60);
         const maxDateStr = maxDate.toISOString().split('T')[0];
@@ -3366,11 +4565,8 @@ function validateBookingField(fieldName, form) {
         if (!val) {
             return 'Выберите время визита.';
         }
-        // Restaurant operates from 12:00 to 02:00 (next day)
-        // Closed between 02:01 and 11:59
         const timeParts = val.split(':');
         const hour = parseInt(timeParts[0], 10);
-        const minute = parseInt(timeParts[1], 10);
 
         if (hour >= 2 && hour < 12) {
             return 'Ресто-паб работает с 12:00 дня до 02:00 ночи. Пожалуйста, выберите рабочее время.';
@@ -3387,7 +4583,6 @@ function validateBookingField(fieldName, form) {
             return 'Для компании более 15 человек свяжитесь с нами по телефону.';
         }
 
-        // Combined rule comparing fields: VIP cabin requires minimum 4 guests
         if (zoneSelect.value === 'vip' && val < 4) {
             return 'Бронирование VIP кабины доступно для компаний от 4 гостей.';
         }
@@ -3414,6 +4609,7 @@ function initReservationInteractivity() {
     const timeInput = bookingForm.querySelector('#resTime');
     const guestsInput = bookingForm.querySelector('#guestCount');
     const zoneSelect = bookingForm.querySelector('#zone');
+    const occasionRadios = bookingForm.querySelectorAll('input[name="occasion"]');
 
     // Set minimum date to today
     const today = new Date().toISOString().split('T')[0];
@@ -3422,18 +4618,17 @@ function initReservationInteractivity() {
         dateInput.value = today;
     }
 
-    // Default time: 19:00 if empty
     if (!timeInput.value) {
         timeInput.value = '19:00';
     }
 
-    // Create live Schedule & Holiday Notification Banner
+    // Schedule Notice Banner
     const scheduleNoticeBox = document.createElement('div');
     scheduleNoticeBox.className = 'alert alert-info py-2 small mb-3';
     scheduleNoticeBox.id = 'schedule-status-banner';
     dateInput.closest('.row').insertAdjacentElement('beforebegin', scheduleNoticeBox);
 
-    // Create Live Deposit Calculation Card
+    // Live Deposit Calculation Card
     const calculationCard = document.createElement('div');
     calculationCard.className = 'card border-danger border-2 p-3 mb-4 bg-light';
     calculationCard.id = 'live-deposit-summary';
@@ -3459,12 +4654,16 @@ function initReservationInteractivity() {
     calculationCard.appendChild(calcBreakdown);
     calculationCard.appendChild(calcTotalDiv);
 
-    // Insert calculation card before the action buttons
     const actionButtonsContainer = bookingForm.querySelector('.d-flex.flex-wrap');
     if (actionButtonsContainer) {
         actionButtonsContainer.insertAdjacentElement('beforebegin', calculationCard);
     } else {
         bookingForm.appendChild(calculationCard);
+    }
+
+    function getSelectedOccasion() {
+        const checked = bookingForm.querySelector('input[name="occasion"]:checked');
+        return checked ? checked.value : 'dinner';
     }
 
     /**
@@ -3474,6 +4673,7 @@ function initReservationInteractivity() {
         const guests = parseInt(guestsInput.value, 10) || 1;
         const zone = zoneSelect.value;
         const dateVal = dateInput.value;
+        const occasion = getSelectedOccasion();
 
         // 1. Update Schedule Notice
         const sched = checkDateSchedule(dateVal);
@@ -3494,7 +4694,7 @@ function initReservationInteractivity() {
         scheduleNoticeBox.appendChild(noticeText);
 
         // 2. Update Live Deposit Calculation
-        const calc = calculateBookingDeposit(guests, zone, dateVal);
+        const calc = calculateBookingDeposit(guests, zone, dateVal, occasion);
 
         calcBreakdown.textContent = '';
 
@@ -3529,6 +4729,35 @@ function initReservationInteractivity() {
             calcBreakdown.appendChild(lineWeekend);
         }
 
+        // Display Group Discount
+        if (calc.groupDiscountAmount > 0) {
+            const lineGroup = document.createElement('div');
+            lineGroup.className = 'd-flex justify-content-between text-success fw-semibold';
+            lineGroup.textContent = 'Скидка на размер компании (-' + calc.groupDiscountPercent + '%):';
+            const spanGVal = document.createElement('span');
+            spanGVal.textContent = '-' + formatKzt(calc.groupDiscountAmount);
+            lineGroup.appendChild(spanGVal);
+            calcBreakdown.appendChild(lineGroup);
+        }
+
+        // Display Birthday Discount and Gift
+        if (calc.birthdayDiscountAmount > 0) {
+            const lineBday = document.createElement('div');
+            lineBday.className = 'd-flex justify-content-between text-danger fw-semibold';
+            lineBday.textContent = 'Скидка имениннику (-10%):';
+            const spanBVal = document.createElement('span');
+            spanBVal.textContent = '-' + formatKzt(calc.birthdayDiscountAmount);
+            lineBday.appendChild(spanBVal);
+            calcBreakdown.appendChild(lineBday);
+        }
+
+        if (calc.birthdayGift) {
+            const giftBox = document.createElement('div');
+            giftBox.className = 'badge bg-warning text-dark text-wrap text-start p-2 mt-1';
+            giftBox.textContent = '🎁 Подарок имениннику: ' + calc.birthdayGift;
+            calcBreakdown.appendChild(giftBox);
+        }
+
         calcTotalDiv.textContent = '';
         const totalLabel = document.createElement('span');
         totalLabel.textContent = 'Итого сумма депозита:';
@@ -3541,7 +4770,7 @@ function initReservationInteractivity() {
         calcTotalDiv.appendChild(totalValue);
     }
 
-    // Attach input/change event listeners for live calculation
+    // Attach listeners
     guestsInput.addEventListener('input', function () {
         clearFieldError(guestsInput);
         updateLiveSummary();
@@ -3569,7 +4798,10 @@ function initReservationInteractivity() {
         clearFieldError(phoneInput);
     });
 
-    // Handle Form Reset
+    occasionRadios.forEach(function (radio) {
+        radio.addEventListener('change', updateLiveSummary);
+    });
+
     bookingForm.addEventListener('reset', function () {
         setTimeout(function () {
             dateInput.value = today;
@@ -3580,7 +4812,6 @@ function initReservationInteractivity() {
         }, 10);
     });
 
-    // Form Submission with complete field-level validation
     bookingForm.addEventListener('submit', function (event) {
         event.preventDefault();
 
@@ -3616,20 +4847,19 @@ function initReservationInteractivity() {
             return;
         }
 
-        // On Success: Generate temporary demo confirmation
         const bookingRef = generateBookingReference();
         const guests = parseInt(guestsInput.value, 10);
         const zone = zoneSelect.value;
         const dateVal = dateInput.value;
         const timeVal = timeInput.value;
+        const occasionVal = getSelectedOccasion();
         const occasionRadio = bookingForm.querySelector('input[name="occasion"]:checked');
-        const occasionVal = occasionRadio ? occasionRadio.nextElementSibling.textContent.trim() : 'Обычный ужин';
+        const occasionLabel = occasionRadio ? occasionRadio.nextElementSibling.textContent.trim() : 'Обычный ужин';
         const requestsVal = bookingForm.querySelector('#requests').value.trim();
         const wantsWa = bookingForm.querySelector('#wantsNotification').checked;
 
-        const calc = calculateBookingDeposit(guests, zone, dateVal);
+        const calc = calculateBookingDeposit(guests, zone, dateVal, occasionVal);
 
-        // Render Confirmation Card in #booking-confirmation
         if (confirmationContainer) {
             confirmationContainer.textContent = '';
             confirmationContainer.className = 'mt-4 d-block';
@@ -3671,7 +4901,20 @@ function initReservationInteractivity() {
             addDetailRow('Телефон:', phoneInput.value.trim());
             addDetailRow('Дата и время:', dateVal + ' в ' + timeVal);
             addDetailRow('Зал и количество гостей:', calc.zoneName + ' (' + guests + ' чел.)');
-            addDetailRow('Повод:', occasionVal);
+            addDetailRow('Повод:', occasionLabel);
+
+            if (calc.groupDiscountAmount > 0) {
+                addDetailRow('Скидка для компании:', '-' + formatKzt(calc.groupDiscountAmount) + ' (' + calc.groupDiscountPercent + '%)');
+            }
+
+            if (calc.birthdayDiscountAmount > 0) {
+                addDetailRow('Скидка имениннику:', '-' + formatKzt(calc.birthdayDiscountAmount) + ' (-10%)');
+            }
+
+            if (calc.birthdayGift) {
+                addDetailRow('Подарок от заведения:', calc.birthdayGift);
+            }
+
             addDetailRow('Расчетный депозит:', formatKzt(calc.finalDeposit));
             addDetailRow('Уведомление в WhatsApp:', wantsWa ? 'Да, запрошено' : 'Нет');
 
@@ -3679,7 +4922,6 @@ function initReservationInteractivity() {
                 addDetailRow('Пожелания:', requestsVal);
             }
 
-            // Explicit academic demonstration notice required by rubric
             const demoAlert = document.createElement('div');
             demoAlert.className = 'alert alert-warning py-3 mt-3 mb-0';
 
@@ -3694,7 +4936,6 @@ function initReservationInteractivity() {
             demoAlert.appendChild(alertTitle);
             demoAlert.appendChild(alertMsg);
 
-            // Print / Save button
             const actionDiv = document.createElement('div');
             actionDiv.className = 'mt-3 d-flex gap-2';
 
@@ -3714,21 +4955,16 @@ function initReservationInteractivity() {
             card.appendChild(actionDiv);
 
             confirmationContainer.appendChild(card);
-
-            // Scroll to confirmation
             confirmationContainer.scrollIntoView({ behavior: 'smooth' });
 
-            // Reset form fields
             bookingForm.reset();
             updateLiveSummary();
         }
     });
 
-    // Run initial live calculation
     updateLiveSummary();
 }
 
-// Initialize on DOM ready
 document.addEventListener('DOMContentLoaded', function () {
     initReservationInteractivity();
 });
@@ -3798,7 +5034,18 @@ FILE: menu.html
         </div>
     </header>
 
-    <main class="container mb-5">
+        <main class="container mb-5">
+        <!-- Интерактивный поисковик по меню Frau Muller -->
+        <div class="row mb-4">
+            <div class="col-12 col-lg-8 mx-auto">
+                <div class="input-group shadow-sm">
+                    <span class="input-group-text bg-white border-end-0">🔍</span>
+                    <input type="text" id="menu-search-input" class="form-control border-start-0" placeholder="Поиск по меню: стейк, колбаски, пицца, салаты, десерты, напитки..." aria-label="Поиск по блюдам">
+                    <button class="btn btn-outline-secondary" type="button" id="menu-search-clear">Очистить</button>
+                </div>
+                <div id="search-results-info" class="small text-muted mt-2 d-none"></div>
+            </div>
+        </div>
         <div class="row g-4">
 
             <!-- Горячие блюда -->
@@ -4032,6 +5279,45 @@ FILE: menu.html
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
     <!-- Assignment 4-5 Shared Script -->
     <script defer src="js/main.js"></script>
+    <!-- Модальное окно корзины заказов -->
+    <div class="modal fade" id="cartModal" tabindex="-1" aria-labelledby="cartModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header bg-dark text-white">
+                    <h5 class="modal-title fw-bold" id="cartModalLabel">🛒 Ваш заказ из меню</h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Закрыть"></button>
+                </div>
+                <div class="modal-body">
+                    <div id="cart-modal-items" class="d-flex flex-column gap-2"></div>
+                    <div class="d-flex justify-content-between align-items-center pt-3 mt-3 border-top fw-bold fs-5">
+                        <span>Итого к оплате:</span>
+                        <span class="text-danger" id="cart-modal-total">0 ₸</span>
+                    </div>
+                </div>
+                <div class="modal-footer bg-light">
+                    <button type="button" class="btn btn-outline-secondary" id="cart-clear-all-btn">Очистить заказ</button>
+                    <button type="button" class="btn btn-danger" id="cart-modal-checkout-btn">Перейти к оформлению доставки →</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Плавающая нижняя панель калькулятора заказа -->
+    <div id="menu-cart-bar" class="position-fixed bottom-0 start-0 end-0 bg-dark text-white py-3 px-4 shadow-lg z-3 border-top border-danger border-3 d-none">
+        <div class="container d-flex flex-wrap justify-content-between align-items-center gap-3">
+            <div>
+                <span class="badge bg-danger mb-1">Калькулятор заказа</span>
+                <div class="fw-bold fs-4 text-warning" id="cart-total-price">0 ₸</div>
+                <div class="small text-white-50" id="cart-total-items">Выбрано позиций: 0</div>
+            </div>
+            <div class="d-flex gap-2">
+                <button type="button" class="btn btn-outline-light" id="cart-view-details-btn">Посмотреть заказ</button>
+                <button type="button" class="btn btn-danger btn-lg px-4 shadow" id="cart-checkout-btn">Оформить доставку →</button>
+            </div>
+        </div>
+    </div>
+
+    <script defer src="js/menu.js"></script>
 </body>
 </html>
 
@@ -4283,8 +5569,23 @@ FILE: order.html
                     </fieldset>
 
                     <fieldset class="border p-3 rounded-3 mb-4">
-                        <legend class="float-none w-auto px-2 h5 fw-bold text-danger">2. Данные получателя и адрес</legend>
+                        <legend class="float-none w-auto px-2 h5 fw-bold text-danger">2. Способ получения и адрес</legend>
                         <div class="row g-3">
+                            <!-- Способ получения: Доставка / С собой / На месте -->
+                            <div class="col-12 mb-2">
+                                <label class="form-label fw-bold d-block">Выберите способ получения:</label>
+                                <div class="btn-group w-100 flex-wrap" role="group" id="delivery-type-group">
+                                    <input type="radio" class="btn-check" name="orderType" id="typeDelivery" value="delivery" checked>
+                                    <label class="btn btn-outline-danger" for="typeDelivery">🛵 Доставка курьером</label>
+
+                                    <input type="radio" class="btn-check" name="orderType" id="typeTakeaway" value="takeaway">
+                                    <label class="btn btn-outline-danger" for="typeTakeaway">🛍️ С собой (-5% скидка)</label>
+
+                                    <input type="radio" class="btn-check" name="orderType" id="typeDinein" value="dinein">
+                                    <label class="btn btn-outline-danger" for="typeDinein">🍽️ В ресторане (На месте)</label>
+                                </div>
+                            </div>
+
                             <div class="col-12 col-md-6">
                                 <label for="clientName" class="form-label fw-semibold">Ваше имя:</label>
                                 <input type="text" id="clientName" name="clientName" class="form-control" placeholder="Нурмухаммаджон" required>
@@ -4297,12 +5598,20 @@ FILE: order.html
                                 <label for="clientEmail" class="form-label fw-semibold">Электронная почта (для чека):</label>
                                 <input type="email" id="clientEmail" name="clientEmail" class="form-control" placeholder="client@example.com" required>
                             </div>
-                            <div class="col-12 col-md-6">
-                                <label for="deliveryDate" class="form-label fw-semibold">Желаемая дата доставки:</label>
-                                <input type="date" id="deliveryDate" name="deliveryDate" class="form-control" required>
+                            <div class="col-12 col-md-6" id="delivery-time-container">
+                                <label for="deliveryTimeSlot" class="form-label fw-semibold">Время получения заказа:</label>
+                                <select id="deliveryTimeSlot" name="deliveryTimeSlot" class="form-select">
+                                    <option value="asap" selected>🔥 Как можно скорее (45–60 мин)</option>
+                                    <option value="today-1h">⏰ Сегодня через 1 час</option>
+                                    <option value="today-1.5h">⏰ Сегодня через 1.5 часа</option>
+                                    <option value="19:00">⏰ Сегодня к 19:00</option>
+                                    <option value="20:00">⏰ Сегодня к 20:00</option>
+                                    <option value="21:00">⏰ Сегодня к 21:00</option>
+                                    <option value="22:00">⏰ Сегодня к 22:00</option>
+                                </select>
                             </div>
-                            <div class="col-12">
-                                <label for="deliveryAddress" class="form-label fw-semibold">Адрес доставки (улица, дом, квартира, подъезд):</label>
+                            <div class="col-12" id="address-field-wrapper">
+                                <label for="deliveryAddress" class="form-label fw-semibold" id="address-label">Адрес доставки (улица, дом, квартира):</label>
                                 <input type="text" id="deliveryAddress" name="deliveryAddress" class="form-control" placeholder="ул. Жургенова, дом 18/1, кв. 42" required>
                             </div>
                         </div>
@@ -4325,6 +5634,20 @@ FILE: order.html
                                 <label class="form-check-label" for="payCash">Наличными при получении</label>
                             </div>
                         </div>
+                        <div class="mb-3" id="courier-tip-wrapper">
+                            <label class="form-label fw-semibold d-block">Чаевые курьеру (по желанию):</label>
+                            <div class="btn-group" role="group" id="tip-btn-group">
+                                <input type="radio" class="btn-check" name="courierTip" id="tip0" value="0" checked>
+                                <label class="btn btn-sm btn-outline-secondary" for="tip0">Без чаевых</label>
+
+                                <input type="radio" class="btn-check" name="courierTip" id="tip500" value="500">
+                                <label class="btn btn-sm btn-outline-secondary" for="tip500">+500 ₸</label>
+
+                                <input type="radio" class="btn-check" name="courierTip" id="tip1000" value="1000">
+                                <label class="btn btn-sm btn-outline-secondary" for="tip1000">+1 000 ₸</label>
+                            </div>
+                        </div>
+
                         <div class="mb-2">
                             <label for="orderComments" class="form-label fw-semibold">Пожелания к заказу (код домофона, этаж, прожарка мяса):</label>
                             <textarea id="orderComments" name="orderComments" class="form-control" rows="3" placeholder="Например: домофон 42, позвонить за 10 минут..."></textarea>
@@ -4423,6 +5746,7 @@ FILE: order.html
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
     <!-- Assignment 4-5 Shared Script -->
     <script defer src="js/main.js"></script>
+    <script defer src="js/order.js"></script>
 </body>
 </html>
 

@@ -73,6 +73,28 @@
                     <p class="d-none d-md-block text-muted small mt-3">
                         <span class="badge bg-info text-dark">Примечание:</span> Время работы может меняться в праздничные дни. Рекомендуем уточнять актуальное расписание по телефону.
                     </p>
+
+                    <!-- Индикатор текущего статуса работы заведения (JS) -->
+                    <div class="mt-3" id="live-restaurant-status"></div>
+
+                    <!-- Быстрые маршруты и навигация -->
+                    <div class="mt-4 pt-3 border-top">
+                        <h3 class="h6 fw-bold mb-2">Как добраться:</h3>
+                        <div class="d-flex flex-column gap-2">
+                            <a href="https://2gis.kz/astana/search/%D0%96%D1%83%D1%80%D0%B3%D0%B5%D0%BD%D0%BE%D0%B2%D0%B0%2018%2F1" target="_blank" rel="noopener noreferrer" class="btn btn-outline-dark btn-sm d-flex align-items-center justify-content-between">
+                                <span>🗺️ Открыть в 2GIS</span>
+                                <span class="small text-muted">Маршрут &rarr;</span>
+                            </a>
+                            <a href="https://yandex.kz/maps/?text=%D0%96%D1%83%D1%80%D0%B3%D0%B5%D0%BD%D0%BE%D0%B2%D0%B0%2018%2F1%20%D0%90%D1%81%D1%82%D0%B0%D0%BD%D0%B0" target="_blank" rel="noopener noreferrer" class="btn btn-outline-dark btn-sm d-flex align-items-center justify-content-between">
+                                <span>📍 Яндекс Карты</span>
+                                <span class="small text-muted">Схема &rarr;</span>
+                            </a>
+                            <a href="https://taxi.yandex.kz/" target="_blank" rel="noopener noreferrer" class="btn btn-outline-warning text-dark btn-sm d-flex align-items-center justify-content-between">
+                                <span>🚕 Вызвать такси (Yandex Go)</span>
+                                <span class="small">Жургенова 18/1</span>
+                            </a>
+                        </div>
+                    </div>
                 </section>
             </div>
 
@@ -102,6 +124,64 @@
                                 <img src="images/внутри 2.jpg" class="figure-img img-fluid rounded border" alt="Интерьер зала" width="200">
                                 <figcaption class="figure-caption text-center">Наш зал</figcaption>
                             </figure>
+                        </div>
+                    </div>
+                </section>
+            </div>
+
+
+            <!-- Интерактивная форма обратной связи и брони банкетов -->
+            <div class="col-12 mt-4">
+                <section class="p-4 p-md-5 bg-white shadow-sm rounded border">
+                    <div class="row align-items-center">
+                        <div class="col-12 col-lg-5 mb-4 mb-lg-0">
+                            <span class="badge bg-danger mb-2">Прямая связь</span>
+                            <h2 class="h3 fw-bold mb-2">Написать управляющему</h2>
+                            <p class="text-secondary small mb-3">
+                                Планируете корпоратив, закрытый банкет в VIP-кабине или хотите задать вопрос шеф-повару? Заполните форму, и наш администратор свяжется с вами в течение 10 минут.
+                            </p>
+                            <div class="d-flex align-items-center gap-3">
+                                <div class="bg-light p-3 rounded text-center border flex-fill">
+                                    <div class="fw-bold text-danger fs-5">10 мин</div>
+                                    <small class="text-muted">Среднее время ответа</small>
+                                </div>
+                                <div class="bg-light p-3 rounded text-center border flex-fill">
+                                    <div class="fw-bold text-success fs-5">24/7</div>
+                                    <small class="text-muted">Прием заявок онлайн</small>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-12 col-lg-7">
+                            <form id="contacts-callback-form" class="p-3 bg-light rounded border">
+                                <div class="row g-3">
+                                    <div class="col-12 col-md-6">
+                                        <label for="cb-name" class="form-label fw-semibold small">Ваше имя:</label>
+                                        <input type="text" id="cb-name" class="form-control form-control-sm" placeholder="Тилеуке" required>
+                                    </div>
+                                    <div class="col-12 col-md-6">
+                                        <label for="cb-phone" class="form-label fw-semibold small">Номер телефона:</label>
+                                        <input type="tel" id="cb-phone" class="form-control form-control-sm" placeholder="+7 778 777 00 03" required>
+                                    </div>
+                                    <div class="col-12">
+                                        <label for="cb-topic" class="form-label fw-semibold small">Тема обращения:</label>
+                                        <select id="cb-topic" class="form-select form-select-sm">
+                                            <option value="banquet">Бронирование банкета / корпоратива</option>
+                                            <option value="menu">Вопрос шеф-повару по аллергенам и меню</option>
+                                            <option value="cooperation">Предложение о сотрудничестве</option>
+                                            <option value="feedback">Отзыв или пожелание по сервису</option>
+                                        </select>
+                                    </div>
+                                    <div class="col-12">
+                                        <label for="cb-message" class="form-label fw-semibold small">Сообщение / пожелания:</label>
+                                        <textarea id="cb-message" class="form-control form-control-sm" rows="3" placeholder="Укажите дату мероприятия, примерное количество гостей или ваш вопрос..."></textarea>
+                                    </div>
+                                    <div class="col-12">
+                                        <button type="submit" class="btn btn-danger btn-sm w-100 shadow-sm">Отправить запрос администратору</button>
+                                    </div>
+                                </div>
+                                <div id="callback-message-container"></div>
+                            </form>
                         </div>
                     </div>
                 </section>
@@ -182,5 +262,6 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
     <!-- Assignment 4-5 Shared Script -->
     <script defer src="js/main.js"></script>
+    <script defer src="js/contacts.js"></script>
 </body>
 </html>

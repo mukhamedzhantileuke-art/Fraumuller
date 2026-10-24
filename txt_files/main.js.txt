@@ -32,6 +32,52 @@ function validatePasswordRules(password) {
 }
 
 /**
+ * Creates and attaches an eye icon toggle button to a password field
+ * @param {HTMLInputElement} passwordInput - Target password input element
+ */
+function attachPasswordEyeToggle(passwordInput) {
+    if (!passwordInput || passwordInput.dataset.hasEyeToggle === 'true') {
+        return;
+    }
+    passwordInput.dataset.hasEyeToggle = 'true';
+
+    // SVG Eye Icons
+    const eyeOpenSvg = '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16"><path d="M16 8s-3-5.5-8-5.5S0 8 0 8s3 5.5 8 5.5S16 8 16 8M1.173 8a13 13 0 0 1 1.66-2.043C4.12 4.668 5.88 3.5 8 3.5s3.879 1.168 5.168 2.457A13 13 0 0 1 14.828 8q-.086.13-.195.288c-.335.48-1.01 1.343-2.313 2.169C11.02 11.332 9.258 12.5 8 12.5s-3.02-1.168-4.32-2.043A13 13 0 0 1 1.172 8z"/><path d="M8 5.5a2.5 2.5 0 1 0 0 5 2.5 2.5 0 0 0 0-5M4.5 8a3.5 3.5 0 1 1 7 0 3.5 3.5 0 0 1-7 0"/></svg>';
+    const eyeSlashSvg = '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16"><path d="M13.359 11.238C15.06 9.72 16 8 16 8s-3-5.5-8-5.5a7 7 0 0 0-2.79.588l.77.771A6 6 0 0 1 8 3.5c2.12 0 3.879 1.168 5.168 2.457A13 13 0 0 1 14.828 8q-.086.13-.195.288c-.335.48-1.01 1.343-2.313 2.169a8 8 0 0 1-1.39.81l.77.771zm-2.072-2.072A2.5 2.5 0 0 0 8 5.5a2.5 2.5 0 0 0-1.782.748l2.069 2.069z"/><path d="M11.297 9.174l2.557 2.556a.5.5 0 0 1-.708.708l-12-12a.5.5 0 1 1 .708-.708l1.796 1.797A8 8 0 0 1 8 2.5c5 0 8 5.5 8 5.5a13 13 0 0 1-1.927 2.664zM2.85 4.398l1.492 1.492C3.125 6.942 2 8 2 8s3 5.5 8 5.5c1.17 0 2.222-.32 3.14-.852l1.502 1.503a.5.5 0 0 1-.708.708l-12-12a.5.5 0 0 1 .708-.708z"/></svg>';
+
+    // Create input-group wrapper if not present
+    let inputGroup = passwordInput.parentElement;
+    if (!inputGroup.classList.contains('input-group')) {
+        const wrapper = document.createElement('div');
+        wrapper.className = 'input-group';
+        passwordInput.parentNode.insertBefore(wrapper, passwordInput);
+        wrapper.appendChild(passwordInput);
+        inputGroup = wrapper;
+    }
+
+    const toggleBtn = document.createElement('button');
+    toggleBtn.type = 'button';
+    toggleBtn.className = 'btn btn-outline-secondary';
+    toggleBtn.setAttribute('aria-label', 'Показать пароль');
+    toggleBtn.title = 'Показать / скрыть пароль';
+    toggleBtn.innerHTML = eyeOpenSvg;
+
+    toggleBtn.addEventListener('click', function () {
+        if (passwordInput.type === 'password') {
+            passwordInput.type = 'text';
+            toggleBtn.innerHTML = eyeSlashSvg;
+            toggleBtn.setAttribute('aria-label', 'Скрыть пароль');
+        } else {
+            passwordInput.type = 'password';
+            toggleBtn.innerHTML = eyeOpenSvg;
+            toggleBtn.setAttribute('aria-label', 'Показать пароль');
+        }
+    });
+
+    inputGroup.appendChild(toggleBtn);
+}
+
+/**
  * Initializes floating action button for quick WhatsApp contact and smooth scroll to top
  */
 function initFloatingActions() {
@@ -95,30 +141,52 @@ function initAuthModalValidation() {
         return;
     }
 
+    // Enhance Login Form with Eye Icon if present
+    if (loginPane) {
+        const loginPasswordInput = loginPane.querySelector('input[type="password"]');
+        if (loginPasswordInput) {
+            attachPasswordEyeToggle(loginPasswordInput);
+        }
+
+        const loginForm = loginPane.querySelector('form');
+        const loginMessageContainer = document.getElementById('login-message-container');
+
+        if (loginForm && loginMessageContainer) {
+            loginForm.addEventListener('submit', function (event) {
+                event.preventDefault();
+                loginMessageContainer.textContent = '';
+
+                const emailInput = loginForm.querySelector('input[type="email"]');
+                const emailValue = emailInput ? emailInput.value.trim() : '';
+
+                const alertDiv = document.createElement('div');
+                alertDiv.className = 'alert alert-info py-2 small text-start';
+
+                const title = document.createElement('strong');
+                title.className = 'd-block mb-1';
+                title.textContent = 'Демонстрационная авторизация:';
+
+                const message = document.createElement('p');
+                message.className = 'mb-0';
+                message.textContent = 'Сессия пользователя ' + emailValue + ' успешно эмулирована в браузере. Серверная база данных отключена в рамках учебного проекта.';
+
+                alertDiv.appendChild(title);
+                alertDiv.appendChild(message);
+                loginMessageContainer.appendChild(alertDiv);
+
+                loginForm.reset();
+            });
+        }
+    }
+
     // Enhance Registration Form if present
     if (registerPane) {
         const registerForm = registerPane.querySelector('form');
         const passwordInput = registerPane.querySelector('input[type="password"]');
 
         if (registerForm && passwordInput) {
-            // Create Show/Hide Password button
-            const togglePasswordBtn = document.createElement('button');
-            togglePasswordBtn.type = 'button';
-            togglePasswordBtn.className = 'btn btn-outline-secondary btn-sm mt-1 mb-2 d-block';
-            togglePasswordBtn.textContent = 'Показать пароль';
-
-            togglePasswordBtn.addEventListener('click', function () {
-                if (passwordInput.type === 'password') {
-                    passwordInput.type = 'text';
-                    togglePasswordBtn.textContent = 'Скрыть пароль';
-                } else {
-                    passwordInput.type = 'password';
-                    togglePasswordBtn.textContent = 'Показать пароль';
-                }
-            });
-
-            // Insert toggle button right after password input
-            passwordInput.insertAdjacentElement('afterend', togglePasswordBtn);
+            // Attach eye toggle to register password
+            attachPasswordEyeToggle(passwordInput);
 
             // Create Confirmation Password Field container
             const confirmWrapper = document.createElement('div');
@@ -140,6 +208,9 @@ function initAuthModalValidation() {
             // Insert confirm field before the submit button
             const submitBtn = registerForm.querySelector('button[type="submit"]');
             registerForm.insertBefore(confirmWrapper, submitBtn);
+
+            // Attach eye toggle to confirm password as well
+            attachPasswordEyeToggle(confirmInput);
 
             // Create Live Checklist container
             const checklistContainer = document.createElement('div');
@@ -250,39 +321,6 @@ function initAuthModalValidation() {
 
                 registerForm.reset();
                 updateChecklist();
-            });
-        }
-    }
-
-    // Enhance Login Form if present
-    if (loginPane) {
-        const loginForm = loginPane.querySelector('form');
-        const loginMessageContainer = document.getElementById('login-message-container');
-
-        if (loginForm && loginMessageContainer) {
-            loginForm.addEventListener('submit', function (event) {
-                event.preventDefault();
-                loginMessageContainer.textContent = '';
-
-                const emailInput = loginForm.querySelector('input[type="email"]');
-                const emailValue = emailInput ? emailInput.value.trim() : '';
-
-                const alertDiv = document.createElement('div');
-                alertDiv.className = 'alert alert-info py-2 small text-start';
-
-                const title = document.createElement('strong');
-                title.className = 'd-block mb-1';
-                title.textContent = 'Демонстрационная авторизация:';
-
-                const message = document.createElement('p');
-                message.className = 'mb-0';
-                message.textContent = 'Сессия пользователя ' + emailValue + ' успешно эмулирована в браузере. Серверная база данных отключена в рамках учебного проекта.';
-
-                alertDiv.appendChild(title);
-                alertDiv.appendChild(message);
-                loginMessageContainer.appendChild(alertDiv);
-
-                loginForm.reset();
             });
         }
     }
