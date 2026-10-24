@@ -1,0 +1,48 @@
+/* 
+ * Таблица стилей Тилеуке (Assignment 3 - Bootstrap Correction Layer)
+ * Страницы: index.html, about.html, reservation.html
+ * Bootstrap строит сетку и компоненты, этот файл только корректирует фирменные цвета и шрифты.
+ */
+
+/* Фирменный шрифт с засечками для заголовков ресто-паба */
+h1, h2, h3, h4, h5, .navbar-brand {
+    font-family: Georgia, "Times New Roman", serif;
+}
+
+/* Корректировка фирменного цвета DarkRed для кнопок и акцентов */
+.btn-danger {
+    background-color: DarkRed;
+    border-color: DarkRed;
+}
+
+.btn-danger:hover, .btn-danger:focus {
+    background-color: #6e0000;
+    border-color: #6e0000;
+}
+
+.btn-outline-danger {
+    color: DarkRed;
+    border-color: DarkRed;
+}
+
+.btn-outline-danger:hover {
+    background-color: DarkRed;
+    border-color: DarkRed;
+    color: #ffffff;
+}
+
+/* Фирменный золотой оттенок для активных ссылок и акцентов */
+.navbar-dark .navbar-nav .nav-link.active,
+.navbar-dark .navbar-nav .nav-link:hover {
+    color: #D4AF37 !important;
+}
+
+/* Мягкий фон карточек в палитре пергамента */
+.bg-light-custom {
+    background-color: #F5F2EB;
+}
+
+/* Скрытие меню профиля до момента авторизации (согласовано с Аланом) */
+.is-hidden {
+    display: none !important;
+}

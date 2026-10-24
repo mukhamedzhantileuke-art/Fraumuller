@@ -1,0 +1,69 @@
+/* 
+ * Таблица стилей Нурмухаммаджона (Assignment 3 - Bootstrap Correction Layer)
+ * Страницы: order.html, colophon.html
+ * 
+ * Вся сетка, отступы, карточки и компоненты построены на нативном Bootstrap 5.3.
+ * Данный файл служит исключительно легким слоем коррекции (< 50 строк)
+ * для поддержки фирменной палитры и шрифтов ресто-паба Frau Muller.
+ */
+
+/* 1. Фирменный шрифт с засечками для заголовков */
+h1, h2, h3, h4, h5, h6, .navbar-brand {
+    font-family: Georgia, "Times New Roman", serif;
+}
+
+/* 2. Корректировка фирменного цвета DarkRed для кнопок Bootstrap */
+.btn-danger {
+    background-color: DarkRed;
+    border-color: DarkRed;
+}
+
+.btn-danger:hover, .btn-danger:focus {
+    background-color: #6e0000;
+    border-color: #6e0000;
+}
+
+.btn-outline-danger {
+    color: DarkRed;
+    border-color: DarkRed;
+}
+
+.btn-outline-danger:hover {
+    background-color: DarkRed;
+    border-color: DarkRed;
+    color: #FFFFFF;
+}
+
+/* 3. Фирменное золотое свечение и акцент для активных ссылок */
+.navbar-dark .navbar-nav .nav-link.active,
+.navbar-dark .navbar-nav .nav-link:hover {
+    color: #D4AF37 !important;
+}
+
+/* 4. Корректировка фокуса полей ввода под цветовую гамму заведения */
+.form-control:focus,
+.form-select:focus {
+    border-color: DarkRed;
+    box-shadow: 0 0 0 0.25rem rgba(139, 0, 0, 0.2);
+}
+
+.form-check-input:checked {
+    background-color: DarkRed;
+    border-color: DarkRed;
+}
+
+/* 5. Фиксированная плавающая кнопка быстрого заказа */
+.fixed-order-btn {
+    position: fixed;
+    bottom: 25px;
+    right: 25px;
+    z-index: 1050;
+    font-weight: bold;
+    border: 2px solid #D4AF37;
+    transition: transform 0.2s ease, background-color 0.2s ease;
+}
+
+.fixed-order-btn:hover {
+    transform: translateY(-2px);
+    background-color: #6e0000;
+}
