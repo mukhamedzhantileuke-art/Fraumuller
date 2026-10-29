@@ -1,14 +1,19 @@
 /**
- * Frau Muller Resto-Pub - Main Page Script (index.html)
+ * Frau Muller Resto-Pub — Main Page Script (index.html)
  * Student: Tileuke Mukhamedzhan (SE-2531)
- * Assignment 4-5: Dynamic Catalog Rendering, Filters, Interactive Selection & Random Dish Promo
+ * Assignment 6: jQuery Migration (Selectors, Traversal, Effects, Delegation)
+ * 
+ * jQuery Version: 3.7.1
+ * Why $(document).ready() is needed:
+ * Ensures the DOM hierarchy is fully constructed before searching for <h2> headings,
+ * inserting the dynamic controls, and attaching delegated event handlers.
  */
 
 'use strict';
 
 /**
  * Array of dish objects representing Frau Muller culinary hits
- * Each object contains at least 8 properties with real project data
+ * 7 dish objects with complete project data
  */
 const HITS_CATALOG = [
     {
@@ -118,205 +123,168 @@ function calculateDiscountPrice(originalPrice, discountPercent) {
 }
 
 /**
- * Reusable function 3: Creates a DOM card for a dish
- * Calls formatCurrency internally
+ * REWRITTEN FEATURE 1 (Assignment 6 comparison):
+ * Dynamic Dish Catalog Rendering & Selection from Array
+ * 
+ * Comparison Comment:
+ * Replaced: document.createElement, appendChild, classList.add, textContent, and direct element.addEventListener
+ * With jQuery: $('<div>'), .append(), .addClass(), .text(), and delegated .on('click', '.card-dish-item')
+ * Verdict: The jQuery version is substantially shorter, more declarative, and eliminates dozens of verbose
+ * DOM creation calls. Delegating events via .on() completely solves the re-render listener lifecycle issue.
+ * 
  * @param {Object} dish - Dish data object
  * @param {boolean} isSelected - Whether dish is currently active
- * @param {Function} onSelect - Callback when clicked
- * @returns {HTMLElement} Column container with card
+ * @returns {jQuery} Column container with card
  */
-function createDishCard(dish, isSelected, onSelect) {
-    const col = document.createElement('div');
-    col.className = 'col-12 col-md-6';
+function createDishCard(dish, isSelected) {
+    const borderClass = isSelected
+        ? 'border-danger border-3 shadow'
+        : 'border-0 border-top border-danger border-3 shadow-sm';
 
-    const card = document.createElement('div');
-    const borderClass = isSelected ? 'border-danger border-3 shadow' : 'border-0 border-top border-danger border-3 shadow-sm';
-    card.className = 'card h-100 bg-white ' + borderClass;
-    card.style.cursor = 'pointer';
+    const $col = $('<div>', { class: 'col-12 col-md-6' });
 
-    const cardBody = document.createElement('div');
-    cardBody.className = 'card-body d-flex flex-column justify-content-between';
-
-    // Top block: Badge & Title
-    const topDiv = document.createElement('div');
-
-    const badgeSpan = document.createElement('span');
-    badgeSpan.className = 'badge mb-2 ' + dish.badgeClass;
-    badgeSpan.textContent = dish.badge;
-    topDiv.appendChild(badgeSpan);
-
-    const titleH4 = document.createElement('h4');
-    titleH4.className = 'card-title h5 fw-bold mb-2';
-    titleH4.textContent = dish.name;
-    topDiv.appendChild(titleH4);
-
-    const descP = document.createElement('p');
-    descP.className = 'card-text text-muted small mb-3';
-    descP.textContent = dish.description;
-    topDiv.appendChild(descP);
-
-    // Bottom block: Price and Details button
-    const bottomDiv = document.createElement('div');
-    bottomDiv.className = 'd-flex align-items-center justify-content-between pt-2 border-top';
-
-    const priceSpan = document.createElement('span');
-    priceSpan.className = 'fw-bold text-danger fs-6';
-    priceSpan.textContent = formatCurrency(dish.price);
-
-    const actionBtn = document.createElement('button');
-    actionBtn.type = 'button';
-    actionBtn.className = isSelected ? 'btn btn-sm btn-danger' : 'btn btn-sm btn-outline-danger';
-    actionBtn.textContent = isSelected ? 'Выбрано' : 'Подробнее';
-
-    bottomDiv.appendChild(priceSpan);
-    bottomDiv.appendChild(actionBtn);
-
-    cardBody.appendChild(topDiv);
-    cardBody.appendChild(bottomDiv);
-    card.appendChild(cardBody);
-    col.appendChild(card);
-
-    card.addEventListener('click', function () {
-        onSelect(dish.id);
+    const $card = $('<div>', {
+        class: 'card h-100 bg-white card-dish-item ' + borderClass,
+        'data-dish-id': dish.id,
+        css: { cursor: 'pointer' }
     });
 
-    return col;
+    const $cardBody = $('<div>', { class: 'card-body d-flex flex-column justify-content-between' });
+
+    // Top block: Badge & Title
+    const $topDiv = $('<div>');
+    const $badgeSpan = $('<span>', {
+        class: 'badge mb-2 ' + dish.badgeClass,
+        text: dish.badge
+    });
+    const $titleH4 = $('<h4>', {
+        class: 'card-title h5 fw-bold mb-2',
+        text: dish.name
+    });
+    const $descP = $('<p>', {
+        class: 'card-text text-muted small mb-3',
+        text: dish.description
+    });
+    $topDiv.append($badgeSpan).append($titleH4).append($descP);
+
+    // Bottom block: Price and Details button
+    const $bottomDiv = $('<div>', {
+        class: 'd-flex align-items-center justify-content-between pt-2 border-top'
+    });
+    const $priceSpan = $('<span>', {
+        class: 'fw-bold text-danger fs-6',
+        text: formatCurrency(dish.price)
+    });
+    const $actionBtn = $('<button>', {
+        type: 'button',
+        class: isSelected ? 'btn btn-sm btn-danger btn-dish-action' : 'btn btn-sm btn-outline-danger btn-dish-action',
+        text: isSelected ? 'Выбрано' : 'Подробнее'
+    });
+    $bottomDiv.append($priceSpan).append($actionBtn);
+
+    $cardBody.append($topDiv).append($bottomDiv);
+    $card.append($cardBody);
+    $col.append($card);
+
+    return $col;
 }
 
 /**
- * Reusable function 4: Renders list of dish cards into target container
- * Handles empty state cleanly
- * Calls createDishCard for each item
+ * Renders list of dish cards into target container from an array
+ * Build at least one list/set of cards from an array with .append() or .appendTo()
  * @param {Array} dishes - List of dishes to display
- * @param {HTMLElement} container - Grid container
+ * @param {jQuery} $container - Grid container
  * @param {string|null} selectedDishId - Currently selected dish ID
- * @param {Function} onSelectCallback - Click handler
  * @param {Function} onResetFilterCallback - Reset handler for empty state
  */
-function renderDishesList(dishes, container, selectedDishId, onSelectCallback, onResetFilterCallback) {
-    container.textContent = '';
+function renderDishesList(dishes, $container, selectedDishId, onResetFilterCallback) {
+    $container.empty();
 
     if (dishes.length === 0) {
-        const emptyCol = document.createElement('div');
-        emptyCol.className = 'col-12';
+        const $emptyCol = $('<div>', { class: 'col-12' });
+        const $emptyCard = $('<div>', { class: 'card p-4 text-center border-dashed bg-light' });
+        const $emptyText = $('<p>', { class: 'text-muted mb-3 fs-6', text: 'По заданным критериям блюд не найдено.' });
+        const $resetBtn = $('<button>', {
+            type: 'button',
+            class: 'btn btn-outline-danger btn-sm mx-auto',
+            text: 'Сбросить фильтр'
+        }).on('click', onResetFilterCallback);
 
-        const emptyCard = document.createElement('div');
-        emptyCard.className = 'card p-4 text-center border-dashed bg-light';
-
-        const emptyText = document.createElement('p');
-        emptyText.className = 'text-muted mb-3 fs-6';
-        emptyText.textContent = 'По заданным критериям блюд не найдено.';
-
-        const resetBtn = document.createElement('button');
-        resetBtn.type = 'button';
-        resetBtn.className = 'btn btn-outline-danger btn-sm mx-auto';
-        resetBtn.textContent = 'Сбросить фильтр';
-        resetBtn.addEventListener('click', onResetFilterCallback);
-
-        emptyCard.appendChild(emptyText);
-        emptyCard.appendChild(resetBtn);
-        emptyCol.appendChild(emptyCard);
-        container.appendChild(emptyCol);
+        $emptyCard.append($emptyText).append($resetBtn);
+        $emptyCol.append($emptyCard);
+        $container.append($emptyCol);
         return;
     }
 
-    dishes.forEach(function (dish) {
+    // Build set of cards from array using jQuery .each() and .appendTo()
+    $.each(dishes, function (index, dish) {
         const isSelected = dish.id === selectedDishId;
-        const cardElement = createDishCard(dish, isSelected, onSelectCallback);
-        container.appendChild(cardElement);
+        const $cardCol = createDishCard(dish, isSelected);
+        $cardCol.appendTo($container);
     });
 }
 
 /**
  * Renders the interactive enlarged preview card of the selected dish
+ * Uses jQuery .slideDown() effect with duration and callback
  * @param {Object} dish - Selected dish data
- * @param {HTMLElement} container - Preview target container
+ * @param {jQuery} $container - Preview target container
  */
-function renderInteractivePreview(dish, container) {
-    container.textContent = '';
+function renderInteractivePreview(dish, $container) {
+    $container.empty();
 
     if (!dish) {
         return;
     }
 
-    const previewCard = document.createElement('div');
-    previewCard.className = 'card border-danger border-2 shadow-sm p-3 mb-4 bg-light';
+    const $previewCard = $('<div>', {
+        class: 'card border-danger border-2 shadow-sm p-3 mb-4 bg-light'
+    }).hide(); // Hidden initially for smooth jQuery slideDown effect
 
-    const header = document.createElement('div');
-    header.className = 'd-flex justify-content-between align-items-center mb-2';
+    const $header = $('<div>', { class: 'd-flex justify-content-between align-items-center mb-2' });
+    const $titleBadge = $('<span>', { class: 'badge bg-danger', text: 'Интерактивный просмотр блюда' });
+    const $prepSpan = $('<span>', { class: 'badge bg-secondary', text: '⏱ Время приготовления: ' + dish.prepTime });
+    $header.append($titleBadge).append($prepSpan);
 
-    const titleBadge = document.createElement('span');
-    titleBadge.className = 'badge bg-danger';
-    titleBadge.textContent = 'Интерактивный просмотр блюда';
+    const $bodyDiv = $('<div>', { class: 'row g-3 align-items-center' });
 
-    const prepSpan = document.createElement('span');
-    prepSpan.className = 'badge bg-secondary';
-    prepSpan.textContent = '⏱ Время приготовления: ' + dish.prepTime;
+    const $infoCol = $('<div>', { class: 'col-12 col-md-8' });
+    const $dishHeading = $('<h3>', { class: 'h5 fw-bold text-dark mb-1', text: dish.name });
+    const $dishDesc = $('<p>', { class: 'text-muted small mb-2', text: dish.description });
+    const $compositionP = $('<p>', { class: 'small mb-2' })
+        .append($('<strong>', { text: 'Состав: ' }))
+        .append(document.createTextNode(dish.composition));
+    const $metaP = $('<p>', { class: 'small text-secondary mb-0', text: 'Энергетическая ценность: ' + dish.calories + ' ккал' });
 
-    header.appendChild(titleBadge);
-    header.appendChild(prepSpan);
+    $infoCol.append($dishHeading).append($dishDesc).append($compositionP).append($metaP);
 
-    const bodyDiv = document.createElement('div');
-    bodyDiv.className = 'row g-3 align-items-center';
+    const $actionCol = $('<div>', { class: 'col-12 col-md-4 text-md-end' });
+    const $priceHeading = $('<div>', { class: 'fs-4 fw-bold text-danger mb-2', text: formatCurrency(dish.price) });
+    const $orderLink = $('<a>', {
+        href: 'reservation.html?dish=' + encodeURIComponent(dish.name),
+        class: 'btn btn-danger w-100 shadow-sm',
+        text: 'Забронировать столик'
+    });
+    $actionCol.append($priceHeading).append($orderLink);
 
-    const infoCol = document.createElement('div');
-    infoCol.className = 'col-12 col-md-8';
+    $bodyDiv.append($infoCol).append($actionCol);
+    $previewCard.append($header).append($bodyDiv);
+    $container.append($previewCard);
 
-    const dishHeading = document.createElement('h3');
-    dishHeading.className = 'h5 fw-bold text-dark mb-1';
-    dishHeading.textContent = dish.name;
-
-    const dishDesc = document.createElement('p');
-    dishDesc.className = 'text-muted small mb-2';
-    dishDesc.textContent = dish.description;
-
-    const compositionP = document.createElement('p');
-    compositionP.className = 'small mb-2';
-    const compLabel = document.createElement('strong');
-    compLabel.textContent = 'Состав: ';
-    compositionP.appendChild(compLabel);
-    compositionP.appendChild(document.createTextNode(dish.composition));
-
-    const metaP = document.createElement('p');
-    metaP.className = 'small text-secondary mb-0';
-    metaP.textContent = 'Энергетическая ценность: ' + dish.calories + ' ккал';
-
-    infoCol.appendChild(dishHeading);
-    infoCol.appendChild(dishDesc);
-    infoCol.appendChild(compositionP);
-    infoCol.appendChild(metaP);
-
-    const actionCol = document.createElement('div');
-    actionCol.className = 'col-12 col-md-4 text-md-end';
-
-    const priceHeading = document.createElement('div');
-    priceHeading.className = 'fs-4 fw-bold text-danger mb-2';
-    priceHeading.textContent = formatCurrency(dish.price);
-
-    const orderLink = document.createElement('a');
-    orderLink.href = 'reservation.html?dish=' + encodeURIComponent(dish.name);
-    orderLink.className = 'btn btn-danger w-100 shadow-sm';
-    orderLink.textContent = 'Забронировать столик';
-
-    actionCol.appendChild(priceHeading);
-    actionCol.appendChild(orderLink);
-
-    bodyDiv.appendChild(infoCol);
-    bodyDiv.appendChild(actionCol);
-
-    previewCard.appendChild(header);
-    previewCard.appendChild(bodyDiv);
-
-    container.appendChild(previewCard);
+    // jQuery effect with duration (350ms) and completion callback
+    $previewCard.slideDown(350, function () {
+        // Callback after animation completes
+        $(this).attr('aria-live', 'polite');
+    });
 }
 
 /**
  * Selects a random dish using Math.random() and renders a featured promo banner with 15% discount
- * Calls calculateDiscountPrice internally
+ * Uses jQuery fadeIn effect with duration
  * @param {Array} dishes - Catalog of dishes
- * @param {HTMLElement} targetSection - Parent container to prepend banner
+ * @param {jQuery} $targetSection - Parent container
  */
-function selectFeaturedDishOfTheDay(dishes, targetSection) {
+function selectFeaturedDishOfTheDay(dishes, $targetSection) {
     if (!dishes || dishes.length === 0) {
         return;
     }
@@ -326,81 +294,64 @@ function selectFeaturedDishOfTheDay(dishes, targetSection) {
     const discountPercent = 15;
     const discountedPrice = calculateDiscountPrice(featuredDish.price, discountPercent);
 
-    const bannerCard = document.createElement('div');
-    bannerCard.className = 'card border-warning border-2 shadow-sm mb-4 bg-light';
+    const $bannerCard = $('<div>', {
+        class: 'card border-warning border-2 shadow-sm mb-4 bg-light'
+    }).hide();
 
-    const bannerBody = document.createElement('div');
-    bannerBody.className = 'card-body d-flex flex-column flex-md-row justify-content-between align-items-md-center gap-3';
+    const $bannerBody = $('<div>', {
+        class: 'card-body d-flex flex-column flex-md-row justify-content-between align-items-md-center gap-3'
+    });
 
-    const textDiv = document.createElement('div');
+    const $textDiv = $('<div>');
+    const $promoBadge = $('<span>', {
+        class: 'badge bg-warning text-dark mb-2',
+        text: '🔥 Спецпредложение дня — скидка ' + discountPercent + '%!'
+    });
+    const $titleH4 = $('<h4>', { class: 'h5 fw-bold text-dark mb-1', text: featuredDish.name });
+    const $descP = $('<p>', {
+        class: 'text-muted small mb-0',
+        text: 'Шеф-повар рекомендует сегодня: ' + featuredDish.description
+    });
+    $textDiv.append($promoBadge).append($titleH4).append($descP);
 
-    const promoBadge = document.createElement('span');
-    promoBadge.className = 'badge bg-warning text-dark mb-2';
-    promoBadge.textContent = '🔥 Спецпредложение дня — скидка ' + discountPercent + '%!';
-    textDiv.appendChild(promoBadge);
+    const $priceDiv = $('<div>', { class: 'text-md-end text-nowrap' });
+    const $oldPriceDel = $('<del>', {
+        class: 'text-muted small d-block',
+        text: formatCurrency(featuredDish.price)
+    });
+    const $newPriceSpan = $('<span>', {
+        class: 'fs-5 fw-bold text-danger d-block mb-2',
+        text: formatCurrency(discountedPrice)
+    });
+    const $bookBtn = $('<a>', {
+        href: 'reservation.html?promo=' + encodeURIComponent(featuredDish.name),
+        class: 'btn btn-sm btn-outline-danger',
+        text: 'Попробовать со скидкой'
+    });
+    $priceDiv.append($oldPriceDel).append($newPriceSpan).append($bookBtn);
 
-    const titleH4 = document.createElement('h4');
-    titleH4.className = 'h5 fw-bold text-dark mb-1';
-    titleH4.textContent = featuredDish.name;
-    textDiv.appendChild(titleH4);
+    $bannerBody.append($textDiv).append($priceDiv);
+    $bannerCard.append($bannerBody);
 
-    const descP = document.createElement('p');
-    descP.className = 'text-muted small mb-0';
-    descP.textContent = 'Шеф-повар рекомендует сегодня: ' + featuredDish.description;
-    textDiv.appendChild(descP);
+    $targetSection.prepend($bannerCard);
 
-    const priceDiv = document.createElement('div');
-    priceDiv.className = 'text-md-end text-nowrap';
-
-    const oldPriceDel = document.createElement('del');
-    oldPriceDel.className = 'text-muted small d-block';
-    oldPriceDel.textContent = formatCurrency(featuredDish.price);
-
-    const newPriceSpan = document.createElement('span');
-    newPriceSpan.className = 'fs-5 fw-bold text-danger d-block mb-2';
-    newPriceSpan.textContent = formatCurrency(discountedPrice);
-
-    const bookBtn = document.createElement('a');
-    bookBtn.href = 'reservation.html?promo=' + encodeURIComponent(featuredDish.name);
-    bookBtn.className = 'btn btn-sm btn-outline-danger';
-    bookBtn.textContent = 'Попробовать со скидкой';
-
-    priceDiv.appendChild(oldPriceDel);
-    priceDiv.appendChild(newPriceSpan);
-    priceDiv.appendChild(bookBtn);
-
-    bannerBody.appendChild(textDiv);
-    bannerBody.appendChild(priceDiv);
-    bannerCard.appendChild(bannerBody);
-
-    targetSection.insertBefore(bannerCard, targetSection.firstChild);
+    // Fade in effect
+    $bannerCard.fadeIn(400);
 }
 
 /**
- * Initializes the interactive Hits section on index.html
+ * Initializes the interactive Hits section on index.html using jQuery
  */
 function initIndexHitsSection() {
-    // Locate the "Наши хиты" section
-    const headings = document.querySelectorAll('h2');
-    let hitsHeading = null;
-
-    headings.forEach(function (h) {
-        if (h.textContent.indexOf('Наши хиты') !== -1) {
-            hitsHeading = h;
-        }
-    });
-
-    if (!hitsHeading) {
+    // Find the section containing "Наши хиты" heading using jQuery :contains filter
+    const $hitsHeading = $("h2:contains('Наши хиты')").first();
+    if (!$hitsHeading.length) {
         return;
     }
 
-    const hitsSection = hitsHeading.closest('section');
-    if (!hitsSection) {
-        return;
-    }
-
-    const cardsRow = hitsSection.querySelector('.row.g-3');
-    if (!cardsRow) {
+    const $hitsSection = $hitsHeading.closest('section');
+    const $cardsRow = $hitsSection.find('.row.g-3:first');
+    if (!$cardsRow.length) {
         return;
     }
 
@@ -410,39 +361,30 @@ function initIndexHitsSection() {
     let selectedDishId = HITS_CATALOG[0].id;
 
     // Create interactive preview container
-    const previewContainer = document.createElement('div');
-    previewContainer.id = 'dish-interactive-preview';
-    hitsSection.insertBefore(previewContainer, cardsRow);
+    const $previewContainer = $('<div>', { id: 'dish-interactive-preview' });
+    $previewContainer.insertBefore($cardsRow);
 
     // Create Controls Container (Category Filters, Search, Counter)
-    const controlsContainer = document.createElement('div');
-    controlsContainer.className = 'mb-3 d-flex flex-column gap-3';
+    const $controlsContainer = $('<div>', { class: 'mb-3 d-flex flex-column gap-3' });
 
-    // 1. Search Box
-    const searchWrapper = document.createElement('div');
-    searchWrapper.className = 'input-group';
-
-    const searchInput = document.createElement('input');
-    searchInput.type = 'text';
-    searchInput.className = 'form-control';
-    searchInput.placeholder = 'Поиск по названию или ингредиентам...';
-    searchInput.setAttribute('aria-label', 'Поиск по блюдам');
-
-    const resetSearchBtn = document.createElement('button');
-    resetSearchBtn.type = 'button';
-    resetSearchBtn.className = 'btn btn-outline-secondary';
-    resetSearchBtn.textContent = 'Очистить';
-
-    searchWrapper.appendChild(searchInput);
-    searchWrapper.appendChild(resetSearchBtn);
+    // 1. Search Box with attribute selector and jQuery .val()
+    const $searchWrapper = $('<div>', { class: 'input-group' });
+    const $searchInput = $('<input>', {
+        type: 'text',
+        class: 'form-control',
+        placeholder: 'Поиск по названию или ингредиентам...',
+        'aria-label': 'Поиск по блюдам'
+    });
+    const $resetSearchBtn = $('<button>', {
+        type: 'button',
+        class: 'btn btn-outline-secondary',
+        text: 'Очистить'
+    });
+    $searchWrapper.append($searchInput).append($resetSearchBtn);
 
     // 2. Category filter buttons and counter
-    const buttonsRow = document.createElement('div');
-    buttonsRow.className = 'd-flex flex-wrap align-items-center justify-content-between gap-2';
-
-    const buttonsGroup = document.createElement('div');
-    buttonsGroup.className = 'btn-group flex-wrap';
-    buttonsGroup.setAttribute('role', 'group');
+    const $buttonsRow = $('<div>', { class: 'd-flex flex-wrap align-items-center justify-content-between gap-2' });
+    const $buttonsGroup = $('<div>', { class: 'btn-group flex-wrap', role: 'group' });
 
     const categories = [
         { key: 'all', label: 'Все блюда' },
@@ -451,57 +393,57 @@ function initIndexHitsSection() {
         { key: 'snack', label: 'Закуски' }
     ];
 
-    const categoryButtons = {};
+    const $categoryButtons = {};
 
-    categories.forEach(function (cat) {
+    $.each(categories, function (idx, cat) {
         const count = cat.key === 'all'
             ? HITS_CATALOG.length
-            : HITS_CATALOG.filter(function (d) { return d.category === cat.key; }).length;
+            : $.grep(HITS_CATALOG, function (d) { return d.category === cat.key; }).length;
 
-        const btn = document.createElement('button');
-        btn.type = 'button';
-        btn.className = cat.key === 'all' ? 'btn btn-sm btn-danger' : 'btn btn-sm btn-outline-danger';
-        btn.textContent = cat.label + ' (' + count + ')';
+        const $btn = $('<button>', {
+            type: 'button',
+            class: cat.key === 'all' ? 'btn btn-sm btn-danger filter-btn' : 'btn btn-sm btn-outline-danger filter-btn',
+            'data-filter': cat.key,
+            text: cat.label + ' (' + count + ')'
+        });
 
-        btn.addEventListener('click', function () {
-            currentCategory = cat.key;
+        // Event handler using $(this)
+        $btn.on('click', function () {
+            currentCategory = $(this).attr('data-filter');
             updateFilterButtons();
             applyFilterAndRender();
         });
 
-        buttonsGroup.appendChild(btn);
-        categoryButtons[cat.key] = btn;
+        $buttonsGroup.append($btn);
+        $categoryButtons[cat.key] = $btn;
     });
 
-    const countBadge = document.createElement('span');
-    countBadge.className = 'badge bg-light text-dark border p-2';
-    countBadge.textContent = 'Показано: ' + HITS_CATALOG.length;
+    const $countBadge = $('<span>', {
+        class: 'badge bg-light text-dark border p-2',
+        text: 'Показано: ' + HITS_CATALOG.length
+    });
 
-    buttonsRow.appendChild(buttonsGroup);
-    buttonsRow.appendChild(countBadge);
+    $buttonsRow.append($buttonsGroup).append($countBadge);
+    $controlsContainer.append($searchWrapper).append($buttonsRow);
+    $controlsContainer.insertBefore($previewContainer);
 
-    controlsContainer.appendChild(searchWrapper);
-    controlsContainer.appendChild(buttonsRow);
-
-    hitsSection.insertBefore(controlsContainer, previewContainer);
-
-    // Update active style of filter buttons
+    // Update active style of filter buttons using jQuery traversal and classes
     function updateFilterButtons() {
-        categories.forEach(function (cat) {
-            const btn = categoryButtons[cat.key];
+        $.each(categories, function (idx, cat) {
+            const $btn = $categoryButtons[cat.key];
             if (cat.key === currentCategory) {
-                btn.className = 'btn btn-sm btn-danger';
+                $btn.removeClass('btn-outline-danger').addClass('btn-danger');
             } else {
-                btn.className = 'btn btn-sm btn-outline-danger';
+                $btn.removeClass('btn-danger').addClass('btn-outline-danger');
             }
         });
     }
 
     // Filter dishes based on category and search query
     function filterDishes() {
-        return HITS_CATALOG.filter(function (dish) {
+        return $.grep(HITS_CATALOG, function (dish) {
             const matchesCat = currentCategory === 'all' || dish.category === currentCategory;
-            const query = searchQuery.trim().toLowerCase();
+            const query = $.trim($searchInput.val()).toLowerCase();
             const matchesSearch = query === '' ||
                 dish.name.toLowerCase().indexOf(query) !== -1 ||
                 dish.composition.toLowerCase().indexOf(query) !== -1 ||
@@ -514,52 +456,80 @@ function initIndexHitsSection() {
     // Apply filtering and refresh DOM
     function applyFilterAndRender() {
         const filtered = filterDishes();
-        countBadge.textContent = 'Показано: ' + filtered.length + ' из ' + HITS_CATALOG.length;
+        $countBadge.text('Показано: ' + filtered.length + ' из ' + HITS_CATALOG.length);
 
         renderDishesList(
             filtered,
-            cardsRow,
+            $cardsRow,
             selectedDishId,
-            function onDishSelect(id) {
-                selectedDishId = id;
-                const foundDish = HITS_CATALOG.find(function (d) { return d.id === id; });
-                renderInteractivePreview(foundDish, previewContainer);
-                applyFilterAndRender();
-            },
             function onResetFilter() {
                 currentCategory = 'all';
-                searchQuery = '';
-                searchInput.value = '';
+                $searchInput.val('');
                 updateFilterButtons();
                 applyFilterAndRender();
             }
         );
     }
 
-    // Search input event
-    searchInput.addEventListener('input', function () {
-        searchQuery = searchInput.value;
+    /**
+     * ATTACH DELEGATED EVENT HANDLER (Mandatory Requirement):
+     * Bound to persistent parent container $cardsRow, reacting to .card-dish-item elements created later.
+     * 
+     * WHY BINDING DIRECTLY TO .card-dish-item WOULD NOT WORK:
+     * Direct binding ($('.card-dish-item').on('click', ...)) evaluates the selector once at execution time
+     * and binds event listeners only to elements currently in the DOM. Whenever the visitor filters categories
+     * or searches, renderDishesList() clears the container with .empty() and creates brand-new card DOM elements.
+     * Those newly created cards were not present when direct listeners were bound, so they would be completely dead
+     * to clicks.
+     * By using delegation ($cardsRow.on('click', '.card-dish-item', handler)), the listener stays attached
+     * to the static ancestor ($cardsRow). When a card is clicked, the click event bubbles up to $cardsRow,
+     * which checks if the originating element matches '.card-dish-item' and executes the handler.
+     */
+    $cardsRow.on('click', '.card-dish-item', function (event) {
+        /*
+         * event.preventDefault() comment:
+         * Prevents any default browser jump if inner elements were anchor tags.
+         */
+        event.preventDefault();
+
+        const dishId = $(this).attr('data-dish-id');
+        selectedDishId = dishId;
+
+        /*
+         * REQUIRED CHAIN 2 OF 3+ METHODS:
+         * Link 1: $(this).closest('.card') -> reaches the clicked dish card
+         * Link 2: .find('.card-title') -> searches inside card for title element
+         * Link 3: .addClass('text-danger') -> highlights title with theme danger color
+         */
+        $(this).closest('.card').find('.card-title').addClass('text-danger');
+
+        const foundDish = $.grep(HITS_CATALOG, function (d) { return d.id === dishId; })[0];
+        renderInteractivePreview(foundDish, $previewContainer);
         applyFilterAndRender();
     });
 
-    resetSearchBtn.addEventListener('click', function () {
-        searchQuery = '';
-        searchInput.value = '';
+    // Search input event using jQuery .on('input')
+    $searchInput.on('input', function () {
+        applyFilterAndRender();
+    });
+
+    $resetSearchBtn.on('click', function () {
+        $searchInput.val('');
         applyFilterAndRender();
     });
 
     // Initial render of featured dish of the day banner
-    selectFeaturedDishOfTheDay(HITS_CATALOG, hitsSection);
+    selectFeaturedDishOfTheDay(HITS_CATALOG, $hitsSection);
 
     // Initial render of default selected preview
-    const initialDish = HITS_CATALOG.find(function (d) { return d.id === selectedDishId; });
-    renderInteractivePreview(initialDish, previewContainer);
+    const initialDish = $.grep(HITS_CATALOG, function (d) { return d.id === selectedDishId; })[0];
+    renderInteractivePreview(initialDish, $previewContainer);
 
     // Initial catalog render
     applyFilterAndRender();
 }
 
-// Initialize on DOM ready
-document.addEventListener('DOMContentLoaded', function () {
+// Initialize on document ready
+$(function () {
     initIndexHitsSection();
 });

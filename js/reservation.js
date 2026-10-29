@@ -1,7 +1,12 @@
 /**
- * Frau Muller Resto-Pub - Table Reservation Script (reservation.html)
+ * Frau Muller Resto-Pub — Table Reservation Script (reservation.html)
  * Student: Tileuke Mukhamedzhan (SE-2531)
- * Assignment 4-5: Live Deposit Calculator, Schedule Occupancy, Comprehensive Form Validation & Confirmation
+ * Assignment 6: jQuery Migration (Selectors, Traversal, Effects, Form Validation, Delegation)
+ * 
+ * jQuery Version: 3.7.1
+ * Why $(document).ready() is needed:
+ * Ensures the DOM tree is fully constructed before selecting form fields (#booking-form),
+ * inserting the dynamic calculation cards, and attaching event listeners.
  */
 
 'use strict';
@@ -50,7 +55,7 @@ function generateBookingReference() {
  */
 function checkDateSchedule(dateString) {
     if (!dateString) {
-        return { isWeekend: false, holidayName: null, occupancyStatus: 'Обычная загрузка' };
+        return { isWeekend: false, holidayName: null, occupancyStatus: 'Обычная загрузка', alertClass: 'alert-info' };
     }
 
     const dateObj = new Date(dateString + 'T00:00:00');
@@ -81,7 +86,6 @@ function checkDateSchedule(dateString) {
 
 /**
  * Reusable function 4: Calculates required reservation deposit and surcharges
- * Includes group discounts and birthday special bonuses
  * @param {number} guestCount - Number of visitors
  * @param {string} zone - Selected hall zone ('main', 'terrace', 'vip')
  * @param {string} dateString - "YYYY-MM-DD"
@@ -146,50 +150,65 @@ function calculateBookingDeposit(guestCount, zone, dateString, occasion) {
 }
 
 /**
- * Clears field-level error messages and invalid CSS classes
- * @param {HTMLElement} inputElement - Input to clear
+ * REWRITTEN FEATURE 2 (Assignment 6 comparison):
+ * Interactive Table Booking Form Validation & Deposit Calculator
+ * 
+ * Comparison Comment:
+ * Replaced: querySelector, classList.add/remove, parentElement.querySelector/appendChild, and manual string trimming
+ * With jQuery: $('#...'), .parent(), .siblings(), .addClass('is-invalid'), .val(), $.trim(), .fadeIn(), and .slideDown()
+ * Verdict: Significantly shorter and cleaner. Reaching parent containers and inserting/removing inline feedback
+ * elements via jQuery traversal (.parent(), .siblings()) is far more compact than native DOM parent navigation.
  */
-function clearFieldError(inputElement) {
-    inputElement.classList.remove('is-invalid');
-    const existingFeedback = inputElement.parentElement.querySelector('.js-field-error');
-    if (existingFeedback) {
-        existingFeedback.remove();
-    }
+
+/**
+ * Clears field-level error messages and invalid CSS classes using jQuery
+ * Uses .siblings() traversal and .fadeOut() effect
+ * @param {jQuery} $input - jQuery wrapped input element
+ */
+function clearFieldError($input) {
+    $input.removeClass('is-invalid');
+    $input.siblings('.js-field-error').fadeOut(150, function () {
+        $(this).remove();
+    });
 }
 
 /**
- * Displays field-level error and applies is-invalid class
- * @param {HTMLElement} inputElement - Form field
+ * Displays field-level error and applies is-invalid class using jQuery
+ * Error message is placed directly next to the invalid field (not one global message!)
+ * @param {jQuery} $input - jQuery wrapped input element
  * @param {string} errorMessage - Error description
  */
-function showFieldError(inputElement, errorMessage) {
-    clearFieldError(inputElement);
-    inputElement.classList.add('is-invalid');
+function showFieldError($input, errorMessage) {
+    clearFieldError($input);
+    $input.addClass('is-invalid');
 
-    const feedback = document.createElement('div');
-    feedback.className = 'invalid-feedback d-block js-field-error small mt-1';
-    feedback.textContent = errorMessage;
-    inputElement.parentElement.appendChild(feedback);
+    const $feedback = $('<div>', {
+        class: 'invalid-feedback d-block js-field-error small mt-1',
+        text: errorMessage
+    }).hide();
+
+    $input.parent().append($feedback);
+    $feedback.fadeIn(200);
 }
 
 /**
- * Validates a single field according to specific rules
+ * Validates a single field according to specific rules using jQuery
  * @param {string} fieldName - Field identifier
- * @param {HTMLFormElement} form - Form reference
+ * @param {jQuery} $form - Form reference
  * @returns {string|null} Error string if invalid, or null if valid
  */
-function validateBookingField(fieldName, form) {
-    const fullNameInput = form.querySelector('#fullName');
-    const phoneInput = form.querySelector('#phoneNumber');
-    const dateInput = form.querySelector('#resDate');
-    const timeInput = form.querySelector('#resTime');
-    const guestsInput = form.querySelector('#guestCount');
-    const zoneSelect = form.querySelector('#zone');
+function validateBookingField(fieldName, $form) {
+    const $fullName = $form.find('#fullName');
+    const $phone = $form.find('#phoneNumber');
+    const $date = $form.find('#resDate');
+    const $time = $form.find('#resTime');
+    const $guests = $form.find('#guestCount');
+    const $zone = $form.find('#zone');
 
     const todayStr = new Date().toISOString().split('T')[0];
 
     if (fieldName === 'fullName') {
-        const val = fullNameInput.value.trim();
+        const val = $.trim($fullName.val());
         if (val.length === 0) {
             return 'Пожалуйста, укажите ваше имя.';
         }
@@ -204,7 +223,7 @@ function validateBookingField(fieldName, form) {
     }
 
     if (fieldName === 'phoneNumber') {
-        const val = phoneInput.value.trim();
+        const val = $.trim($phone.val());
         if (val.length === 0) {
             return 'Пожалуйста, введите номер телефона.';
         }
@@ -216,7 +235,7 @@ function validateBookingField(fieldName, form) {
     }
 
     if (fieldName === 'resDate') {
-        const val = dateInput.value;
+        const val = $date.val();
         if (!val) {
             return 'Выберите дату визита.';
         }
@@ -233,7 +252,7 @@ function validateBookingField(fieldName, form) {
     }
 
     if (fieldName === 'resTime') {
-        const val = timeInput.value;
+        const val = $time.val();
         if (!val) {
             return 'Выберите время визита.';
         }
@@ -247,7 +266,7 @@ function validateBookingField(fieldName, form) {
     }
 
     if (fieldName === 'guestCount') {
-        const val = parseInt(guestsInput.value, 10);
+        const val = parseInt($guests.val(), 10);
         if (isNaN(val) || val < 1) {
             return 'Минимальное количество гостей — 1.';
         }
@@ -255,7 +274,7 @@ function validateBookingField(fieldName, form) {
             return 'Для компании более 15 человек свяжитесь с нами по телефону.';
         }
 
-        if (zoneSelect.value === 'vip' && val < 4) {
+        if ($zone.val() === 'vip' && val < 4) {
             return 'Бронирование VIP кабины доступно для компаний от 4 гостей.';
         }
         return null;
@@ -265,312 +284,312 @@ function validateBookingField(fieldName, form) {
 }
 
 /**
- * Initializes reservation page interactivity
+ * Initializes reservation page interactivity using jQuery
  */
 function initReservationInteractivity() {
-    const bookingForm = document.getElementById('booking-form');
-    const confirmationContainer = document.getElementById('booking-confirmation');
+    const $bookingForm = $('#booking-form');
+    const $confirmationContainer = $('#booking-confirmation');
 
-    if (!bookingForm) {
+    if (!$bookingForm.length) {
         return;
     }
 
-    const fullNameInput = bookingForm.querySelector('#fullName');
-    const phoneInput = bookingForm.querySelector('#phoneNumber');
-    const dateInput = bookingForm.querySelector('#resDate');
-    const timeInput = bookingForm.querySelector('#resTime');
-    const guestsInput = bookingForm.querySelector('#guestCount');
-    const zoneSelect = bookingForm.querySelector('#zone');
-    const occasionRadios = bookingForm.querySelectorAll('input[name="occasion"]');
+    const $fullName = $bookingForm.find('#fullName');
+    const $phone = $bookingForm.find('#phoneNumber');
+    const $date = $bookingForm.find('#resDate');
+    const $time = $bookingForm.find('#resTime');
+    const $guests = $bookingForm.find('#guestCount');
+    const $zone = $bookingForm.find('#zone');
+    const $requests = $bookingForm.find('#requests');
+    const $wantsNotification = $bookingForm.find('#wantsNotification');
 
-    // Set minimum date to today
+    // Set minimum date to today using jQuery .attr()
     const today = new Date().toISOString().split('T')[0];
-    dateInput.min = today;
-    if (!dateInput.value) {
-        dateInput.value = today;
+    $date.attr('min', today);
+    if (!$date.val()) {
+        $date.val(today);
     }
 
-    if (!timeInput.value) {
-        timeInput.value = '19:00';
+    if (!$time.val()) {
+        $time.val('19:00');
     }
 
     // Schedule Notice Banner
-    const scheduleNoticeBox = document.createElement('div');
-    scheduleNoticeBox.className = 'alert alert-info py-2 small mb-3';
-    scheduleNoticeBox.id = 'schedule-status-banner';
-    dateInput.closest('.row').insertAdjacentElement('beforebegin', scheduleNoticeBox);
+    const $scheduleNoticeBox = $('<div>', {
+        id: 'schedule-status-banner',
+        class: 'alert alert-info py-2 small mb-3'
+    });
+    $date.closest('.row').before($scheduleNoticeBox);
 
     // Live Deposit Calculation Card
-    const calculationCard = document.createElement('div');
-    calculationCard.className = 'card border-danger border-2 p-3 mb-4 bg-light';
-    calculationCard.id = 'live-deposit-summary';
+    const $calculationCard = $('<div>', {
+        id: 'live-deposit-summary',
+        class: 'card border-danger border-2 p-3 mb-4 bg-light'
+    });
 
-    const calcTitle = document.createElement('h3');
-    calcTitle.className = 'h6 fw-bold text-danger mb-2 d-flex justify-content-between align-items-center';
-    calcTitle.textContent = 'Предварительный расчет депозита:';
+    const $calcTitle = $('<h3>', {
+        class: 'h6 fw-bold text-danger mb-2 d-flex justify-content-between align-items-center',
+        text: 'Предварительный расчет депозита:'
+    }).append($('<span>', { class: 'badge bg-danger', text: 'Калькулятор брони' }));
 
-    const calcBadge = document.createElement('span');
-    calcBadge.className = 'badge bg-danger';
-    calcBadge.textContent = 'Калькулятор брони';
-    calcTitle.appendChild(calcBadge);
+    const $calcBreakdown = $('<div>', {
+        id: 'deposit-breakdown-content',
+        class: 'small text-muted d-flex flex-column gap-1'
+    });
 
-    const calcBreakdown = document.createElement('div');
-    calcBreakdown.className = 'small text-muted d-flex flex-column gap-1';
-    calcBreakdown.id = 'deposit-breakdown-content';
+    const $calcTotalDiv = $('<div>', {
+        id: 'deposit-total-display',
+        class: 'd-flex justify-content-between align-items-center pt-2 mt-2 border-top fw-bold text-dark fs-6'
+    });
 
-    const calcTotalDiv = document.createElement('div');
-    calcTotalDiv.className = 'd-flex justify-content-between align-items-center pt-2 mt-2 border-top fw-bold text-dark fs-6';
-    calcTotalDiv.id = 'deposit-total-display';
+    $calculationCard.append($calcTitle).append($calcBreakdown).append($calcTotalDiv);
 
-    calculationCard.appendChild(calcTitle);
-    calculationCard.appendChild(calcBreakdown);
-    calculationCard.appendChild(calcTotalDiv);
-
-    const actionButtonsContainer = bookingForm.querySelector('.d-flex.flex-wrap');
-    if (actionButtonsContainer) {
-        actionButtonsContainer.insertAdjacentElement('beforebegin', calculationCard);
+    const $actionButtons = $bookingForm.find('.d-flex.flex-wrap:last');
+    if ($actionButtons.length) {
+        $actionButtons.before($calculationCard);
     } else {
-        bookingForm.appendChild(calculationCard);
+        $bookingForm.append($calculationCard);
     }
 
+    /**
+     * Helper to get currently selected radio button value
+     * Uses attribute selector and :checked filter
+     */
     function getSelectedOccasion() {
-        const checked = bookingForm.querySelector('input[name="occasion"]:checked');
-        return checked ? checked.value : 'dinner';
+        const $checked = $bookingForm.find('input[name="occasion"]:checked');
+        return $checked.length ? $checked.val() : 'dinner';
     }
 
     /**
      * Updates the Schedule Notice Banner and Deposit Card
      */
     function updateLiveSummary() {
-        const guests = parseInt(guestsInput.value, 10) || 1;
-        const zone = zoneSelect.value;
-        const dateVal = dateInput.value;
+        const guests = parseInt($guests.val(), 10) || 1;
+        const zone = $zone.val();
+        const dateVal = $date.val();
         const occasion = getSelectedOccasion();
 
         // 1. Update Schedule Notice
         const sched = checkDateSchedule(dateVal);
-        scheduleNoticeBox.className = 'alert ' + sched.alertClass + ' py-2 small mb-3';
-        scheduleNoticeBox.textContent = '';
+        $scheduleNoticeBox.attr('class', 'alert ' + sched.alertClass + ' py-2 small mb-3').empty();
 
-        const noticeHeading = document.createElement('strong');
+        let prefix = 'ℹ️ Статус зала: ';
         if (sched.holidayName) {
-            noticeHeading.textContent = '🎉 ' + sched.holidayName + ': ';
+            prefix = '🎉 ' + sched.holidayName + ': ';
         } else if (sched.isWeekend) {
-            noticeHeading.textContent = '📅 Выходной день: ';
-        } else {
-            noticeHeading.textContent = 'ℹ️ Статус зала: ';
+            prefix = '📅 Выходной день: ';
         }
 
-        const noticeText = document.createTextNode(sched.occupancyStatus);
-        scheduleNoticeBox.appendChild(noticeHeading);
-        scheduleNoticeBox.appendChild(noticeText);
+        $scheduleNoticeBox.append($('<strong>', { text: prefix }))
+                          .append(document.createTextNode(sched.occupancyStatus));
 
         // 2. Update Live Deposit Calculation
         const calc = calculateBookingDeposit(guests, zone, dateVal, occasion);
+        $calcBreakdown.empty();
 
-        calcBreakdown.textContent = '';
+        // Base deposit row
+        $('<div>', {
+            class: 'd-flex justify-content-between',
+            text: 'Базовый депозит (' + calc.guestCount + ' гостей × ' + formatKzt(calc.basePerGuest) + '):'
+        }).append($('<span>', { class: 'fw-semibold text-dark', text: formatKzt(calc.guestTotal) }))
+          .appendTo($calcBreakdown);
 
-        const lineGuests = document.createElement('div');
-        lineGuests.className = 'd-flex justify-content-between';
-        lineGuests.textContent = 'Базовый депозит (' + calc.guestCount + ' гостей × ' + formatKzt(calc.basePerGuest) + '):';
-        const spanGuestsVal = document.createElement('span');
-        spanGuestsVal.className = 'fw-semibold text-dark';
-        spanGuestsVal.textContent = formatKzt(calc.guestTotal);
-        lineGuests.appendChild(spanGuestsVal);
-        calcBreakdown.appendChild(lineGuests);
-
+        // Zone surcharge
         if (calc.zoneSurcharge > 0) {
-            const lineZone = document.createElement('div');
-            lineZone.className = 'd-flex justify-content-between';
-            lineZone.textContent = 'Доплата за выбранный зал (' + calc.zoneName + '):';
-            const spanZoneVal = document.createElement('span');
-            spanZoneVal.className = 'fw-semibold text-dark';
-            spanZoneVal.textContent = '+' + formatKzt(calc.zoneSurcharge);
-            lineZone.appendChild(spanZoneVal);
-            calcBreakdown.appendChild(lineZone);
+            $('<div>', {
+                class: 'd-flex justify-content-between',
+                text: 'Доплата за зал (' + calc.zoneName + '):'
+            }).append($('<span>', { class: 'fw-semibold text-dark', text: '+' + formatKzt(calc.zoneSurcharge) }))
+              .appendTo($calcBreakdown);
         }
 
+        // Weekend surcharge
         if (calc.weekendSurcharge > 0) {
-            const lineWeekend = document.createElement('div');
-            lineWeekend.className = 'd-flex justify-content-between text-warning-emphasis';
-            lineWeekend.textContent = 'Тариф выходного дня (+10%):';
-            const spanWVal = document.createElement('span');
-            spanWVal.className = 'fw-semibold';
-            spanWVal.textContent = '+' + formatKzt(calc.weekendSurcharge);
-            lineWeekend.appendChild(spanWVal);
-            calcBreakdown.appendChild(lineWeekend);
+            $('<div>', {
+                class: 'd-flex justify-content-between text-warning-emphasis',
+                text: 'Тариф выходного дня (+10%):'
+            }).append($('<span>', { class: 'fw-semibold', text: '+' + formatKzt(calc.weekendSurcharge) }))
+              .appendTo($calcBreakdown);
         }
 
-        // Display Group Discount
+        // Group discount
         if (calc.groupDiscountAmount > 0) {
-            const lineGroup = document.createElement('div');
-            lineGroup.className = 'd-flex justify-content-between text-success fw-semibold';
-            lineGroup.textContent = 'Скидка на размер компании (-' + calc.groupDiscountPercent + '%):';
-            const spanGVal = document.createElement('span');
-            spanGVal.textContent = '-' + formatKzt(calc.groupDiscountAmount);
-            lineGroup.appendChild(spanGVal);
-            calcBreakdown.appendChild(lineGroup);
+            $('<div>', {
+                class: 'd-flex justify-content-between text-success fw-semibold',
+                text: 'Скидка на размер компании (-' + calc.groupDiscountPercent + '%):'
+            }).append($('<span>', { text: '-' + formatKzt(calc.groupDiscountAmount) }))
+              .appendTo($calcBreakdown);
         }
 
-        // Display Birthday Discount and Gift
+        // Birthday discount
         if (calc.birthdayDiscountAmount > 0) {
-            const lineBday = document.createElement('div');
-            lineBday.className = 'd-flex justify-content-between text-danger fw-semibold';
-            lineBday.textContent = 'Скидка имениннику (-10%):';
-            const spanBVal = document.createElement('span');
-            spanBVal.textContent = '-' + formatKzt(calc.birthdayDiscountAmount);
-            lineBday.appendChild(spanBVal);
-            calcBreakdown.appendChild(lineBday);
+            $('<div>', {
+                class: 'd-flex justify-content-between text-danger fw-semibold',
+                text: 'Скидка имениннику (-10%):'
+            }).append($('<span>', { text: '-' + formatKzt(calc.birthdayDiscountAmount) }))
+              .appendTo($calcBreakdown);
         }
 
         if (calc.birthdayGift) {
-            const giftBox = document.createElement('div');
-            giftBox.className = 'badge bg-warning text-dark text-wrap text-start p-2 mt-1';
-            giftBox.textContent = '🎁 Подарок имениннику: ' + calc.birthdayGift;
-            calcBreakdown.appendChild(giftBox);
+            $('<div>', {
+                class: 'badge bg-warning text-dark text-wrap text-start p-2 mt-1',
+                text: '🎁 Подарок имениннику: ' + calc.birthdayGift
+            }).appendTo($calcBreakdown);
         }
 
-        calcTotalDiv.textContent = '';
-        const totalLabel = document.createElement('span');
-        totalLabel.textContent = 'Итого сумма депозита:';
-
-        const totalValue = document.createElement('span');
-        totalValue.className = 'text-danger fs-5';
-        totalValue.textContent = formatKzt(calc.finalDeposit);
-
-        calcTotalDiv.appendChild(totalLabel);
-        calcTotalDiv.appendChild(totalValue);
+        // Final total row using jQuery .text()
+        $calcTotalDiv.empty()
+            .append($('<span>', { text: 'Итого сумма депозита:' }))
+            .append($('<span>', { class: 'text-danger fs-5', text: formatKzt(calc.finalDeposit) }));
     }
 
-    // Attach listeners
-    guestsInput.addEventListener('input', function () {
-        clearFieldError(guestsInput);
+    /**
+     * Clear field errors immediately upon user input/change
+     * Handlers using $(this)
+     */
+    $guests.on('input', function () {
+        clearFieldError($(this));
         updateLiveSummary();
     });
 
-    zoneSelect.addEventListener('change', function () {
-        clearFieldError(guestsInput);
+    $zone.on('change', function () {
+        clearFieldError($guests);
         updateLiveSummary();
     });
 
-    dateInput.addEventListener('change', function () {
-        clearFieldError(dateInput);
+    $date.on('change', function () {
+        clearFieldError($(this));
         updateLiveSummary();
     });
 
-    timeInput.addEventListener('change', function () {
-        clearFieldError(timeInput);
+    $time.on('change', function () {
+        clearFieldError($(this));
     });
 
-    fullNameInput.addEventListener('input', function () {
-        clearFieldError(fullNameInput);
+    $fullName.on('input', function () {
+        clearFieldError($(this));
     });
 
-    phoneInput.addEventListener('input', function () {
-        clearFieldError(phoneInput);
+    $phone.on('input', function () {
+        clearFieldError($(this));
     });
 
-    occasionRadios.forEach(function (radio) {
-        radio.addEventListener('change', updateLiveSummary);
-    });
+    // Event handler using attribute selector
+    $bookingForm.find('input[name="occasion"]').on('change', updateLiveSummary);
 
-    bookingForm.addEventListener('reset', function () {
+    // Form reset handler
+    $bookingForm.on('reset', function () {
         setTimeout(function () {
-            dateInput.value = today;
-            timeInput.value = '19:00';
-            guestsInput.value = '2';
-            [fullNameInput, phoneInput, dateInput, timeInput, guestsInput].forEach(clearFieldError);
+            $date.val(today);
+            $time.val('19:00');
+            $guests.val('2');
+            $.each([$fullName, $phone, $date, $time, $guests], function (i, $el) {
+                clearFieldError($el);
+                $el.removeClass('is-valid');
+            });
             updateLiveSummary();
         }, 10);
     });
 
-    bookingForm.addEventListener('submit', function (event) {
+    /**
+     * FORM VALIDATION WITH JQUERY (Mandatory Requirement):
+     * Rebuilt validation of main form in jQuery.
+     * Prevents default, trims values, checks email/phone format,
+     * highlights invalid fields with individual error messages,
+     * shows success message only on full pass, and resets form.
+     */
+    $bookingForm.on('submit', function (event) {
+        /*
+         * event.preventDefault() comment:
+         * Prevents the default browser action of submitting the form data to the server URL.
+         * Without preventDefault(): The browser would instantly reload the page (triggering HTTP GET/POST),
+         * destroying all user input, resetting calculator calculations, and hiding error feedback.
+         */
         event.preventDefault();
 
         const fieldsToValidate = [
-            { name: 'fullName', element: fullNameInput },
-            { name: 'phoneNumber', element: phoneInput },
-            { name: 'resDate', element: dateInput },
-            { name: 'resTime', element: timeInput },
-            { name: 'guestCount', element: guestsInput }
+            { name: 'fullName', $el: $fullName },
+            { name: 'phoneNumber', $el: $phone },
+            { name: 'resDate', $el: $date },
+            { name: 'resTime', $el: $time },
+            { name: 'guestCount', $el: $guests }
         ];
 
-        let firstInvalid = null;
+        let $firstInvalid = null;
         let hasErrors = false;
 
-        fieldsToValidate.forEach(function (field) {
-            const error = validateBookingField(field.name, bookingForm);
+        // Check each field individually
+        $.each(fieldsToValidate, function (idx, field) {
+            const error = validateBookingField(field.name, $bookingForm);
             if (error) {
-                showFieldError(field.element, error);
+                showFieldError(field.$el, error);
                 hasErrors = true;
-                if (!firstInvalid) {
-                    firstInvalid = field.element;
+                if (!$firstInvalid) {
+                    $firstInvalid = field.$el;
                 }
             } else {
-                clearFieldError(field.element);
-                field.element.classList.add('is-valid');
+                clearFieldError(field.$el);
+                field.$el.addClass('is-valid');
             }
         });
 
+        // Focus the first invalid field
         if (hasErrors) {
-            if (firstInvalid) {
-                firstInvalid.focus();
+            if ($firstInvalid) {
+                $firstInvalid.focus();
             }
             return;
         }
 
         const bookingRef = generateBookingReference();
-        const guests = parseInt(guestsInput.value, 10);
-        const zone = zoneSelect.value;
-        const dateVal = dateInput.value;
-        const timeVal = timeInput.value;
+        const guests = parseInt($guests.val(), 10);
+        const zone = $zone.val();
+        const dateVal = $date.val();
+        const timeVal = $time.val();
         const occasionVal = getSelectedOccasion();
-        const occasionRadio = bookingForm.querySelector('input[name="occasion"]:checked');
-        const occasionLabel = occasionRadio ? occasionRadio.nextElementSibling.textContent.trim() : 'Обычный ужин';
-        const requestsVal = bookingForm.querySelector('#requests').value.trim();
-        const wantsWa = bookingForm.querySelector('#wantsNotification').checked;
+        const $occasionRadio = $bookingForm.find('input[name="occasion"]:checked');
+        const occasionLabel = $occasionRadio.length ? $occasionRadio.next('label').text() : 'Обычный ужин';
+        const requestsVal = $.trim($requests.val());
+
+        /*
+         * EXPLAINING DIFFERENCE BETWEEN .attr() AND .prop() ON A CHECKBOX:
+         * - .attr('checked') inspects the HTML attribute literal present in initial markup ('checked' or undefined).
+         * - .prop('checked') returns the dynamic, current DOM boolean state of the checkbox (true or false).
+         * For real-time checkbox status in JavaScript, .prop('checked') is always the correct choice!
+         */
+        const wantsWa = $wantsNotification.prop('checked');
 
         const calc = calculateBookingDeposit(guests, zone, dateVal, occasionVal);
 
-        if (confirmationContainer) {
-            confirmationContainer.textContent = '';
-            confirmationContainer.className = 'mt-4 d-block';
+        if ($confirmationContainer.length) {
+            $confirmationContainer.empty().removeClass('d-none').addClass('mt-4 d-block');
 
-            const card = document.createElement('div');
-            card.className = 'card border-success border-2 shadow p-4 bg-white';
+            const $card = $('<div>', {
+                class: 'card border-success border-2 shadow p-4 bg-white'
+            }).hide(); // Hidden for smooth jQuery slideDown effect
 
-            const cardHeader = document.createElement('div');
-            cardHeader.className = 'd-flex flex-wrap justify-content-between align-items-center pb-3 mb-3 border-bottom';
+            const $cardHeader = $('<div>', {
+                class: 'd-flex flex-wrap justify-content-between align-items-center pb-3 mb-3 border-bottom'
+            });
+            const $headerTitle = $('<h3>', {
+                class: 'h4 text-success fw-bold mb-0',
+                text: 'Бронирование сформировано'
+            });
+            const $refBadge = $('<span>', {
+                class: 'badge bg-success fs-6',
+                text: 'Код заявки: #' + bookingRef
+            });
+            $cardHeader.append($headerTitle).append($refBadge);
 
-            const headerTitle = document.createElement('h3');
-            headerTitle.className = 'h4 text-success fw-bold mb-0';
-            headerTitle.textContent = 'Бронирование сформировано';
-
-            const refBadge = document.createElement('span');
-            refBadge.className = 'badge bg-success fs-6';
-            refBadge.textContent = 'Код заявки: #' + bookingRef;
-
-            cardHeader.appendChild(headerTitle);
-            cardHeader.appendChild(refBadge);
-
-            const detailsList = document.createElement('dl');
-            detailsList.className = 'row g-2 mb-3';
+            const $detailsList = $('<dl>', { class: 'row g-2 mb-3' });
 
             function addDetailRow(label, value) {
-                const dt = document.createElement('dt');
-                dt.className = 'col-sm-4 text-muted fw-normal';
-                dt.textContent = label;
-
-                const dd = document.createElement('dd');
-                dd.className = 'col-sm-8 fw-semibold text-dark mb-1';
-                dd.textContent = value;
-
-                detailsList.appendChild(dt);
-                detailsList.appendChild(dd);
+                $('<dt>', { class: 'col-sm-4 text-muted fw-normal', text: label }).appendTo($detailsList);
+                $('<dd>', { class: 'col-sm-8 fw-semibold text-dark mb-1', text: value }).appendTo($detailsList);
             }
 
-            addDetailRow('Гость:', fullNameInput.value.trim());
-            addDetailRow('Телефон:', phoneInput.value.trim());
+            addDetailRow('Гость:', $.trim($fullName.val()));
+            addDetailRow('Телефон:', $.trim($phone.val()));
             addDetailRow('Дата и время:', dateVal + ' в ' + timeVal);
             addDetailRow('Зал и количество гостей:', calc.zoneName + ' (' + guests + ' чел.)');
             addDetailRow('Повод:', occasionLabel);
@@ -578,11 +597,9 @@ function initReservationInteractivity() {
             if (calc.groupDiscountAmount > 0) {
                 addDetailRow('Скидка для компании:', '-' + formatKzt(calc.groupDiscountAmount) + ' (' + calc.groupDiscountPercent + '%)');
             }
-
             if (calc.birthdayDiscountAmount > 0) {
                 addDetailRow('Скидка имениннику:', '-' + formatKzt(calc.birthdayDiscountAmount) + ' (-10%)');
             }
-
             if (calc.birthdayGift) {
                 addDetailRow('Подарок от заведения:', calc.birthdayGift);
             }
@@ -594,42 +611,43 @@ function initReservationInteractivity() {
                 addDetailRow('Пожелания:', requestsVal);
             }
 
-            const demoAlert = document.createElement('div');
-            demoAlert.className = 'alert alert-warning py-3 mt-3 mb-0';
+            /*
+             * COMMENT ON BROWSER VS SERVER VALIDATION:
+             * Client-side JavaScript validation serves purely as immediate UX guidance.
+             * It NEVER replaces server validation because malicious users can bypass the browser
+             * environment entirely using tools like Postman, curl, or custom HTTP requests,
+             * directly submitting invalid data, malicious payloads, or bypassing capacity rules.
+             */
+            const $demoAlert = $('<div>', { class: 'alert alert-warning py-3 mt-3 mb-0' });
+            $demoAlert.append($('<strong>', { class: 'd-block mb-1', text: '⚠️ Демонстрационный режим учебного проекта:' }))
+                      .append($('<p>', {
+                          class: 'small mb-0',
+                          text: 'Форма успешно прошла валидацию на стороне клиента. Реальная отправка на сервер не производилась, бронь и оплата не регистрируются в боевой системе.'
+                      }));
 
-            const alertTitle = document.createElement('strong');
-            alertTitle.className = 'd-block mb-1';
-            alertTitle.textContent = '⚠️ Демонстрационный режим учебного проекта:';
-
-            const alertMsg = document.createElement('p');
-            alertMsg.className = 'small mb-0';
-            alertMsg.textContent = 'Форма успешно прошла валидацию на стороне клиента. Реальная отправка данных на сервер не производилась, бронь и оплата не регистрируются в реальной системе Frau Muller.';
-
-            demoAlert.appendChild(alertTitle);
-            demoAlert.appendChild(alertMsg);
-
-            const actionDiv = document.createElement('div');
-            actionDiv.className = 'mt-3 d-flex gap-2';
-
-            const printBtn = document.createElement('button');
-            printBtn.type = 'button';
-            printBtn.className = 'btn btn-outline-dark btn-sm';
-            printBtn.textContent = 'Распечатать квитанцию';
-            printBtn.addEventListener('click', function () {
+            const $actionDiv = $('<div>', { class: 'mt-3 d-flex gap-2' });
+            const $printBtn = $('<button>', {
+                type: 'button',
+                class: 'btn btn-outline-dark btn-sm',
+                text: 'Распечатать квитанцию'
+            }).on('click', function () {
                 window.print();
             });
+            $actionDiv.append($printBtn);
 
-            actionDiv.appendChild(printBtn);
+            $card.append($cardHeader).append($detailsList).append($demoAlert).append($actionDiv);
+            $confirmationContainer.append($card);
 
-            card.appendChild(cardHeader);
-            card.appendChild(detailsList);
-            card.appendChild(demoAlert);
-            card.appendChild(actionDiv);
+            // Effect with duration (400ms) and completion callback
+            $card.slideDown(400, function () {
+                // Callback scrolls confirmation smoothly into viewport
+                $('html, body').animate({
+                    scrollTop: $confirmationContainer.offset().top - 80
+                }, 400);
+            });
 
-            confirmationContainer.appendChild(card);
-            confirmationContainer.scrollIntoView({ behavior: 'smooth' });
-
-            bookingForm.reset();
+            // Reset form afterwards
+            $bookingForm.trigger('reset');
             updateLiveSummary();
         }
     });
@@ -637,6 +655,7 @@ function initReservationInteractivity() {
     updateLiveSummary();
 }
 
-document.addEventListener('DOMContentLoaded', function () {
+// Global initialization inside $(document).ready()
+$(document).ready(function () {
     initReservationInteractivity();
 });
