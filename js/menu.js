@@ -1,6 +1,12 @@
 /**
- * Frau Muller Resto-Pub - Menu Page Script (menu.html)
- * Assignment 4-5: Interactive Dish Stepper, Live Search & Cart Order Calculator
+ * Frau Muller Resto-Pub — Menu Page Script (menu.html)
+ * Student: Alan Baiguzhinov (SE-2531)
+ * Assignment 6: jQuery Migration (Selectors, Traversal, Effects, Delegation)
+ * 
+ * jQuery Version: 3.7.1
+ * Why $(document).ready() is needed:
+ * Ensures all table rows, modals, and input fields are available in the DOM before
+ * appending quantity steppers, setting up search listeners, and syncing cart counts.
  */
 
 'use strict';
@@ -56,27 +62,25 @@ const MenuCart = {
 
     getTotalPrice() {
         let total = 0;
-        for (const key in this.items) {
-            if (Object.prototype.hasOwnProperty.call(this.items, key)) {
-                total += this.items[key].price * this.items[key].qty;
-            }
-        }
+        $.each(this.items, function (key, item) {
+            total += item.price * item.qty;
+        });
         return total;
     },
 
     getTotalCount() {
         let count = 0;
-        for (const key in this.items) {
-            if (Object.prototype.hasOwnProperty.call(this.items, key)) {
-                count += this.items[key].qty;
-            }
-        }
+        $.each(this.items, function (key, item) {
+            count += item.qty;
+        });
         return count;
     }
 };
 
 /**
  * Format currency helper
+ * @param {number} amount - Numeric price
+ * @returns {string} Formatted price
  */
 function formatKztCurrency(amount) {
     return amount.toLocaleString('ru-RU') + ' ₸';
@@ -84,6 +88,8 @@ function formatKztCurrency(amount) {
 
 /**
  * Parse price string e.g. "8 500 ₸" -> 8500
+ * @param {string} text - Raw price text
+ * @returns {number} Numeric price
  */
 function parsePrice(text) {
     const cleaned = text.replace(/[^\d]/g, '');
@@ -91,101 +97,123 @@ function parsePrice(text) {
 }
 
 /**
- * Enhances all tables in menu with interactive quantity steppers
+ * Enhances all tables in menu with interactive quantity steppers using jQuery
  */
 function initMenuTableSteppers() {
     MenuCart.load();
 
-    const tables = document.querySelectorAll('table.table');
+    const $tables = $('table.table');
 
-    tables.forEach(function (table) {
+    $tables.each(function () {
+        const $table = $(this);
+
         // Add header column for "Заказ"
-        const headerRow = table.querySelector('thead tr');
-        if (headerRow && !headerRow.querySelector('.th-order-col')) {
-            const th = document.createElement('th');
-            th.className = 'th-order-col text-end pe-4';
-            th.scope = 'col';
-            th.textContent = 'Заказ';
-            headerRow.appendChild(th);
+        const $headerRow = $table.find('thead tr');
+        if ($headerRow.length && !$headerRow.find('.th-order-col').length) {
+            $('<th>', {
+                class: 'th-order-col text-end pe-4',
+                scope: 'col',
+                text: 'Заказ'
+            }).appendTo($headerRow);
         }
 
-        // Add quantity stepper to each body row
-        const bodyRows = table.querySelectorAll('tbody tr');
-        bodyRows.forEach(function (row) {
-            if (row.querySelector('.td-order-col')) {
+        // Add quantity stepper to each body row using jQuery traversal
+        $table.find('tbody tr').each(function () {
+            const $row = $(this);
+            if ($row.find('.td-order-col').length) {
                 return;
             }
 
-            const titleEl = row.querySelector('th[scope="row"]');
-            const priceEl = row.querySelector('td.fw-bold');
-            const imgEl = row.querySelector('img');
+            const $titleEl = $row.find('th[scope="row"]');
+            const $priceEl = $row.find('td.fw-bold');
+            const $imgEl = $row.find('img');
 
-            if (!titleEl || !priceEl) {
+            if (!$titleEl.length || !$priceEl.length) {
                 return;
             }
 
-            const dishName = titleEl.textContent.trim();
-            const price = parsePrice(priceEl.textContent);
-            const imgSrc = imgEl ? imgEl.getAttribute('src') : '';
+            const dishName = $.trim($titleEl.text());
+            const price = parsePrice($priceEl.text());
+            const imgSrc = $imgEl.length ? $imgEl.attr('src') : '';
 
-            row.setAttribute('data-dish-name', dishName.toLowerCase());
-            const descEl = row.querySelector('td.text-muted');
-            if (descEl) {
-                row.setAttribute('data-dish-desc', descEl.textContent.toLowerCase());
+            $row.attr('data-dish-name', dishName.toLowerCase());
+            $row.attr('data-raw-name', dishName);
+            $row.attr('data-price', price);
+            $row.attr('data-img', imgSrc);
+
+            const $descEl = $row.find('td.text-muted');
+            if ($descEl.length) {
+                $row.attr('data-dish-desc', $.trim($descEl.text()).toLowerCase());
             }
 
-            const tdOrder = document.createElement('td');
-            tdOrder.className = 'td-order-col text-end pe-4 text-nowrap';
-
-            const stepperContainer = document.createElement('div');
-            stepperContainer.className = 'd-inline-flex align-items-center justify-content-end gap-1';
-
-            const minusBtn = document.createElement('button');
-            minusBtn.type = 'button';
-            minusBtn.className = 'btn btn-sm btn-outline-secondary px-2 py-0';
-            minusBtn.textContent = '−';
-            minusBtn.title = 'Уменьшить количество';
-
-            const qtySpan = document.createElement('span');
-            qtySpan.className = 'fw-bold px-2 item-qty-display';
-            qtySpan.textContent = MenuCart.items[dishName] ? MenuCart.items[dishName].qty : '0';
-
-            const plusBtn = document.createElement('button');
-            plusBtn.type = 'button';
-            plusBtn.className = 'btn btn-sm btn-outline-danger px-2 py-0';
-            plusBtn.textContent = '+';
-            plusBtn.title = 'Добавить в заказ';
-
-            stepperContainer.appendChild(minusBtn);
-            stepperContainer.appendChild(qtySpan);
-            stepperContainer.appendChild(plusBtn);
-            tdOrder.appendChild(stepperContainer);
-            row.appendChild(tdOrder);
-
-            plusBtn.addEventListener('click', function () {
-                MenuCart.addItem(dishName, price, imgSrc);
-                qtySpan.textContent = MenuCart.items[dishName].qty;
-                updateCartBarUI();
+            const $tdOrder = $('<td>', { class: 'td-order-col text-end pe-4 text-nowrap' });
+            const $stepperContainer = $('<div>', {
+                class: 'd-inline-flex align-items-center justify-content-end gap-1'
             });
 
-            minusBtn.addEventListener('click', function () {
-                MenuCart.removeItem(dishName);
-                qtySpan.textContent = MenuCart.items[dishName] ? MenuCart.items[dishName].qty : '0';
-                updateCartBarUI();
+            const $minusBtn = $('<button>', {
+                type: 'button',
+                class: 'btn btn-sm btn-outline-secondary px-2 py-0 btn-stepper-minus',
+                text: '−',
+                title: 'Уменьшить количество'
             });
+
+            const currentQty = MenuCart.items[dishName] ? MenuCart.items[dishName].qty : '0';
+            const $qtySpan = $('<span>', {
+                class: 'fw-bold px-2 item-qty-display',
+                text: currentQty
+            });
+
+            const $plusBtn = $('<button>', {
+                type: 'button',
+                class: 'btn btn-sm btn-outline-danger px-2 py-0 btn-stepper-plus',
+                text: '+',
+                title: 'Добавить в заказ'
+            });
+
+            $stepperContainer.append($minusBtn).append($qtySpan).append($plusBtn);
+            $tdOrder.append($stepperContainer);
+            $row.append($tdOrder);
         });
+    });
+
+    /**
+     * DELEGATED EVENT HANDLER FOR MENU STEPPERS:
+     * Bound to table container to intercept stepper clicks from table rows.
+     */
+    $('table.table').on('click', '.btn-stepper-plus', function (event) {
+        event.preventDefault();
+        const $row = $(this).closest('tr');
+        const dishName = $row.attr('data-raw-name');
+        const price = parseInt($row.attr('data-price'), 10);
+        const imgSrc = $row.attr('data-img');
+
+        MenuCart.addItem(dishName, price, imgSrc);
+        $row.find('.item-qty-display').text(MenuCart.items[dishName].qty);
+        updateCartBarUI();
+    });
+
+    $('table.table').on('click', '.btn-stepper-minus', function (event) {
+        event.preventDefault();
+        const $row = $(this).closest('tr');
+        const dishName = $row.attr('data-raw-name');
+
+        MenuCart.removeItem(dishName);
+        const newQty = MenuCart.items[dishName] ? MenuCart.items[dishName].qty : '0';
+        $row.find('.item-qty-display').text(newQty);
+        updateCartBarUI();
     });
 }
 
 /**
- * Updates floating cart bar UI and values
+ * Updates floating cart bar UI and values with jQuery fadeIn/fadeOut effects
  */
 function updateCartBarUI() {
-    const cartBar = document.getElementById('menu-cart-bar');
-    const totalPriceEl = document.getElementById('cart-total-price');
-    const totalItemsEl = document.getElementById('cart-total-items');
+    const $cartBar = $('#menu-cart-bar');
+    const $totalPriceEl = $('#cart-total-price');
+    const $totalItemsEl = $('#cart-total-items');
 
-    if (!cartBar) {
+    if (!$cartBar.length) {
         return;
     }
 
@@ -193,189 +221,190 @@ function updateCartBarUI() {
     const totalPrice = MenuCart.getTotalPrice();
 
     if (totalCount > 0) {
-        cartBar.classList.remove('d-none');
-        cartBar.classList.add('d-block');
-        if (totalPriceEl) {
-            totalPriceEl.textContent = formatKztCurrency(totalPrice);
+        if (!$cartBar.is(':visible')) {
+            $cartBar.removeClass('d-none').hide().fadeIn(300);
         }
-        if (totalItemsEl) {
-            totalItemsEl.textContent = 'Выбрано позиций: ' + totalCount;
-        }
+        $totalPriceEl.text(formatKztCurrency(totalPrice));
+        $totalItemsEl.text('Выбрано позиций: ' + totalCount);
     } else {
-        cartBar.classList.remove('d-block');
-        cartBar.classList.add('d-none');
+        if ($cartBar.is(':visible')) {
+            $cartBar.fadeOut(300, function () {
+                $(this).addClass('d-none');
+            });
+        }
     }
 }
 
 /**
- * Initializes Menu Search Bar
+ * Initializes Menu Search Bar using jQuery traversal and filter :not()
  */
 function initMenuSearch() {
-    const searchInput = document.getElementById('menu-search-input');
-    const clearBtn = document.getElementById('menu-search-clear');
-    const resultsInfo = document.getElementById('search-results-info');
+    const $searchInput = $('#menu-search-input');
+    const $clearBtn = $('#menu-search-clear');
+    const $resultsInfo = $('#search-results-info');
 
-    if (!searchInput) {
+    if (!$searchInput.length) {
         return;
     }
 
     function doSearch() {
-        const query = searchInput.value.toLowerCase().trim();
-        const rows = document.querySelectorAll('tbody tr[data-dish-name]');
+        const query = $.trim($searchInput.val()).toLowerCase();
+        const $rows = $('tbody tr[data-dish-name]');
         let matchCount = 0;
 
-        rows.forEach(function (row) {
-            const name = row.getAttribute('data-dish-name') || '';
-            const desc = row.getAttribute('data-dish-desc') || '';
+        $rows.each(function () {
+            const $row = $(this);
+            const name = $row.attr('data-dish-name') || '';
+            const desc = $row.attr('data-dish-desc') || '';
 
-            if (query === '' || name.includes(query) || desc.includes(query)) {
-                row.classList.remove('d-none');
+            if (query === '' || name.indexOf(query) !== -1 || desc.indexOf(query) !== -1) {
+                $row.removeClass('d-none');
                 matchCount++;
             } else {
-                row.classList.add('d-none');
+                $row.addClass('d-none');
             }
         });
 
-        // Hide empty sections
-        const sections = document.querySelectorAll('section.card');
-        sections.forEach(function (sec) {
-            const visibleRows = sec.querySelectorAll('tbody tr:not(.d-none)');
-            if (visibleRows.length === 0 && query !== '') {
-                sec.classList.add('d-none');
+        // Hide empty menu sections using :not() filter
+        $('section.card').each(function () {
+            const $sec = $(this);
+            const $visibleRows = $sec.find('tbody tr:not(.d-none)');
+            if ($visibleRows.length === 0 && query !== '') {
+                $sec.addClass('d-none');
             } else {
-                sec.classList.remove('d-none');
+                $sec.removeClass('d-none');
             }
         });
 
         // Update info text
-        if (resultsInfo) {
+        if ($resultsInfo.length) {
             if (query !== '') {
-                resultsInfo.classList.remove('d-none');
-                resultsInfo.textContent = 'Найдено позиций: ' + matchCount;
+                $resultsInfo.removeClass('d-none').text('Найдено позиций: ' + matchCount);
             } else {
-                resultsInfo.classList.add('d-none');
+                $resultsInfo.addClass('d-none');
             }
         }
     }
 
-    searchInput.addEventListener('input', doSearch);
+    $searchInput.on('input', doSearch);
 
-    if (clearBtn) {
-        clearBtn.addEventListener('click', function () {
-            searchInput.value = '';
+    if ($clearBtn.length) {
+        $clearBtn.on('click', function () {
+            $searchInput.val('');
             doSearch();
-            searchInput.focus();
+            $searchInput.focus();
         });
     }
 }
 
 /**
- * Initializes Cart Modal and Checkout Navigation
+ * Initializes Cart Modal and Checkout Navigation using jQuery
  */
 function initCartModalAndCheckout() {
-    const viewDetailsBtn = document.getElementById('cart-view-details-btn');
-    const checkoutBtn = document.getElementById('cart-checkout-btn');
-    const modalCheckoutBtn = document.getElementById('cart-modal-checkout-btn');
-    const clearAllBtn = document.getElementById('cart-clear-all-btn');
-    const modalItemsContainer = document.getElementById('cart-modal-items');
-    const modalTotalEl = document.getElementById('cart-modal-total');
+    const $viewDetailsBtn = $('#cart-view-details-btn');
+    const $checkoutBtn = $('#cart-checkout-btn');
+    const $modalCheckoutBtn = $('#cart-modal-checkout-btn');
+    const $clearAllBtn = $('#cart-clear-all-btn');
+    const $modalItemsContainer = $('#cart-modal-items');
+    const $modalTotalEl = $('#cart-modal-total');
 
     function renderModalItems() {
-        if (!modalItemsContainer) {
+        if (!$modalItemsContainer.length) {
             return;
         }
-        modalItemsContainer.textContent = '';
+        $modalItemsContainer.empty();
 
         const items = MenuCart.items;
         const keys = Object.keys(items);
 
         if (keys.length === 0) {
-            const emptyP = document.createElement('p');
-            emptyP.className = 'text-muted text-center py-3 mb-0';
-            emptyP.textContent = 'Ваша корзина пуста. Добавьте блюда из меню.';
-            modalItemsContainer.appendChild(emptyP);
-            if (modalTotalEl) {
-                modalTotalEl.textContent = '0 ₸';
+            $('<p>', {
+                class: 'text-muted text-center py-3 mb-0',
+                text: 'Ваша корзина пуста. Добавьте блюда из меню.'
+            }).appendTo($modalItemsContainer);
+
+            if ($modalTotalEl.length) {
+                $modalTotalEl.text('0 ₸');
             }
             return;
         }
 
-        keys.forEach(function (dishName) {
+        $.each(keys, function (idx, dishName) {
             const item = items[dishName];
-            const line = document.createElement('div');
-            line.className = 'd-flex justify-content-between align-items-center p-2 border rounded bg-light';
-
-            const leftDiv = document.createElement('div');
-            const nameEl = document.createElement('strong');
-            nameEl.className = 'd-block';
-            nameEl.textContent = item.name;
-
-            const priceEl = document.createElement('small');
-            priceEl.className = 'text-muted';
-            priceEl.textContent = formatKztCurrency(item.price) + ' × ' + item.qty + ' шт = ' + formatKztCurrency(item.price * item.qty);
-
-            leftDiv.appendChild(nameEl);
-            leftDiv.appendChild(priceEl);
-
-            const rightDiv = document.createElement('div');
-            rightDiv.className = 'd-flex align-items-center gap-1';
-
-            const minus = document.createElement('button');
-            minus.type = 'button';
-            minus.className = 'btn btn-sm btn-outline-secondary py-0 px-2';
-            minus.textContent = '−';
-
-            const countSpan = document.createElement('span');
-            countSpan.className = 'px-2 fw-bold';
-            countSpan.textContent = item.qty;
-
-            const plus = document.createElement('button');
-            plus.type = 'button';
-            plus.className = 'btn btn-sm btn-outline-danger py-0 px-2';
-            plus.textContent = '+';
-
-            rightDiv.appendChild(minus);
-            rightDiv.appendChild(countSpan);
-            rightDiv.appendChild(plus);
-
-            line.appendChild(leftDiv);
-            line.appendChild(rightDiv);
-            modalItemsContainer.appendChild(line);
-
-            plus.addEventListener('click', function () {
-                MenuCart.addItem(item.name, item.price, item.image);
-                renderModalItems();
-                updateAllTableQtyDisplays();
-                updateCartBarUI();
+            const $line = $('<div>', {
+                class: 'd-flex justify-content-between align-items-center p-2 border rounded bg-light',
+                'data-dish-name': dishName
             });
 
-            minus.addEventListener('click', function () {
-                MenuCart.removeItem(item.name);
-                renderModalItems();
-                updateAllTableQtyDisplays();
-                updateCartBarUI();
+            const $leftDiv = $('<div>');
+            $('<strong>', { class: 'd-block', text: item.name }).appendTo($leftDiv);
+            $('<small>', {
+                class: 'text-muted',
+                text: formatKztCurrency(item.price) + ' × ' + item.qty + ' шт = ' + formatKztCurrency(item.price * item.qty)
+            }).appendTo($leftDiv);
+
+            const $rightDiv = $('<div>', { class: 'd-flex align-items-center gap-1' });
+
+            const $minus = $('<button>', {
+                type: 'button',
+                class: 'btn btn-sm btn-outline-secondary py-0 px-2 btn-modal-minus',
+                text: '−'
             });
+
+            const $countSpan = $('<span>', { class: 'px-2 fw-bold', text: item.qty });
+
+            const $plus = $('<button>', {
+                type: 'button',
+                class: 'btn btn-sm btn-outline-danger py-0 px-2 btn-modal-plus',
+                text: '+'
+            });
+
+            $rightDiv.append($minus).append($countSpan).append($plus);
+            $line.append($leftDiv).append($rightDiv);
+            $modalItemsContainer.append($line);
         });
 
-        if (modalTotalEl) {
-            modalTotalEl.textContent = formatKztCurrency(MenuCart.getTotalPrice());
+        if ($modalTotalEl.length) {
+            $modalTotalEl.text(formatKztCurrency(MenuCart.getTotalPrice()));
         }
     }
 
+    // Delegated modal button handlers
+    $modalItemsContainer.on('click', '.btn-modal-plus', function () {
+        const dishName = $(this).closest('[data-dish-name]').attr('data-dish-name');
+        const item = MenuCart.items[dishName];
+        if (item) {
+            MenuCart.addItem(item.name, item.price, item.image);
+            renderModalItems();
+            updateAllTableQtyDisplays();
+            updateCartBarUI();
+        }
+    });
+
+    $modalItemsContainer.on('click', '.btn-modal-minus', function () {
+        const dishName = $(this).closest('[data-dish-name]').attr('data-dish-name');
+        const item = MenuCart.items[dishName];
+        if (item) {
+            MenuCart.removeItem(item.name);
+            renderModalItems();
+            updateAllTableQtyDisplays();
+            updateCartBarUI();
+        }
+    });
+
     function updateAllTableQtyDisplays() {
-        const rows = document.querySelectorAll('tbody tr[data-dish-name]');
-        rows.forEach(function (row) {
-            const titleEl = row.querySelector('th[scope="row"]');
-            const qtyDisplay = row.querySelector('.item-qty-display');
-            if (titleEl && qtyDisplay) {
-                const dishName = titleEl.textContent.trim();
-                qtyDisplay.textContent = MenuCart.items[dishName] ? MenuCart.items[dishName].qty : '0';
+        $('tbody tr[data-dish-name]').each(function () {
+            const $row = $(this);
+            const dishName = $row.attr('data-raw-name');
+            const $qtyDisplay = $row.find('.item-qty-display');
+            if (dishName && $qtyDisplay.length) {
+                $qtyDisplay.text(MenuCart.items[dishName] ? MenuCart.items[dishName].qty : '0');
             }
         });
     }
 
-    if (viewDetailsBtn) {
-        viewDetailsBtn.addEventListener('click', function () {
+    if ($viewDetailsBtn.length) {
+        $viewDetailsBtn.on('click', function () {
             renderModalItems();
             const modalEl = document.getElementById('cartModal');
             if (modalEl && window.bootstrap) {
@@ -390,16 +419,16 @@ function initCartModalAndCheckout() {
         window.location.href = 'order.html';
     }
 
-    if (checkoutBtn) {
-        checkoutBtn.addEventListener('click', proceedToCheckout);
+    if ($checkoutBtn.length) {
+        $checkoutBtn.on('click', proceedToCheckout);
     }
 
-    if (modalCheckoutBtn) {
-        modalCheckoutBtn.addEventListener('click', proceedToCheckout);
+    if ($modalCheckoutBtn.length) {
+        $modalCheckoutBtn.on('click', proceedToCheckout);
     }
 
-    if (clearAllBtn) {
-        clearAllBtn.addEventListener('click', function () {
+    if ($clearAllBtn.length) {
+        $clearAllBtn.on('click', function () {
             MenuCart.clear();
             renderModalItems();
             updateAllTableQtyDisplays();
@@ -408,7 +437,8 @@ function initCartModalAndCheckout() {
     }
 }
 
-document.addEventListener('DOMContentLoaded', function () {
+// Global initialization inside $(document).ready()
+$(document).ready(function () {
     initMenuTableSteppers();
     initMenuSearch();
     initCartModalAndCheckout();
