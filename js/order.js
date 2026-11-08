@@ -16,7 +16,8 @@
 document.addEventListener('DOMContentLoaded', function () {
     'use strict';
 
-    // 1. REAL PROJECT DATA AT THE TOP OF THE FILE
+    // 1. REAL PROJECT DATA AT THE TOP OF THE FILE (>= 2 Arrays and >= 2 Objects)
+    // Array 1: Main menu dishes
     const MENU_ITEMS = [
         { id: 'steak', name: 'Стейк Рибай', category: 'Горячее', price: 8500, timeMin: 25 },
         { id: 'sausages', name: 'Баварские колбаски с тушеной капустой', category: 'Горячее', price: 3200, timeMin: 20 },
@@ -25,6 +26,14 @@ document.addEventListener('DOMContentLoaded', function () {
         { id: 'waffles', name: 'Бельгийские вафли с мороженым', category: 'Десерты', price: 1800, timeMin: 15 }
     ];
 
+    // Array 2: Popular food add-ons and compliments
+    const POPULAR_ADDONS = [
+        { id: 'sauce', name: 'Фирменный горчичный соус', price: 300 },
+        { id: 'bretzel', name: 'Традиционный брецель', price: 650 },
+        { id: 'lemonade', name: 'Домашний лимонад 0.5л', price: 1200 }
+    ];
+
+    // Object 1: Delivery thresholds and fee structure
     const DELIVERY_CONFIG = {
         freeDeliveryThreshold: 7000,
         standardDeliveryFee: 1000,
@@ -33,6 +42,15 @@ document.addEventListener('DOMContentLoaded', function () {
         saucePrice: 300,
         currency: '₸'
     };
+
+    // Object 2: Restaurant contact and kitchen operational details
+    const RESTAURANT_INFO = {
+        name: 'Ресто-паб Frau Muller',
+        address: 'г. Астана, ул. Темирбека Жургенова, 18/1',
+        phone: '+7 778 777 00 03',
+        kitchenHours: '12:00 - 01:30'
+    };
+
 
     // DOM Hooks
     const orderForm = document.getElementById('order-form');
@@ -378,7 +396,7 @@ document.addEventListener('DOMContentLoaded', function () {
         receiptHtml += '    <h3 class="h5 mb-0 fw-bold">✅ Заказ № ' + orderNumber + ' успешно оформлен!</h3>';
         receiptHtml += '  </div>';
         receiptHtml += '  <div class="card-body p-4">';
-        receiptHtml += '    <p class="lead mb-3">Спасибо, <strong>' + escapeHtml(nameVal) + '</strong>! Кухня ресто-паба <em>Frau Muller</em> уже приступила к приготовлению.</p>';
+        receiptHtml += '    <p class="lead mb-3">Спасибо, <strong>' + escapeHtml(nameVal) + '</strong>! Кухня ресто-паба <em>' + RESTAURANT_INFO.name + '</em> (' + RESTAURANT_INFO.address + ') уже приступила к приготовлению.</p>';
         receiptHtml += '    <div class="row g-3 mb-3">';
         receiptHtml += '      <div class="col-md-6">';
         receiptHtml += '        <ul class="list-unstyled mb-0">';

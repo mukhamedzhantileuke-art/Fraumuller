@@ -271,11 +271,15 @@ $('table.table').on('click', '.btn-stepper-plus', function (event) { ... });
     * 4 типа событий (`submit`, `input`, `change`, `click`) + **делегированный обработчик событий (`Event Delegation`)** на форме `#order-form`.
     * Полноценная построчная валидация с мгновенным снятием ошибок на `input` и формированием итогового чека в `#order-confirmation` со снятием класса `.hidden`.
   * **`js/reservation.js` (Тилеуке Мухамеджан):**
-    * Массивы и объекты `RESTAURANT_SCHEDULE` и `HALL_ZONES`.
+    * Реальные данные проекта в 2 массивах (`HALL_ZONES`, `OCCASION_OFFERS`) и 2 объектах (`RESTAURANT_SCHEDULE`, `BOOKING_POLICY`) в начале файла.
+    * Генерация выпадающего списка `#zone` динамическим циклом `for` из массива `HALL_ZONES`.
+    * Динамический блок предпросмотра параметров бронирования (`live-reservation-summary`), создаваемый через `document.createElement('div')` и обновляемый в реальном времени при вводе и смене полей.
+    * Чистые функции с параметрами и возвращаемым значением (`formatTenge`, `findZoneById`, `findOccasionById`, `calculateDeposit`, `calculateGroupDiscount`, `validatePhone`, `isTimeWithinOperatingHours`, `generateBookingCode`), вызываемые как в интерактивном предпросмотре, так и при отправке формы.
     * Проверка времени работы ресторана с 12:00 до 02:00 через `isTimeWithinOperatingHours()`.
     * Запрет выбора прошедшей даты.
-    * Расчёт депозита за бронь и генерация уникального кода `TB-XXXX`.
-    * Персональная валидация полей рядом с инпутами и вывод квитанции в `#booking-confirmation`.
+    * Расчёт депозита за бронь, скидка для больших компаний от 8 гостей и генерация уникального кода брони `TB-XXXX`.
+    * 4 типа событий (`submit`, `input`, `change`, `click`) + **делегированный обработчик событий (`Event Delegation`)** на форме `#booking-form`.
+    * Полноценная валидация полей рядом с инпутами с мгновенным снятием ошибок и вывод квитанции в `#booking-confirmation`.
 
 * **Часть 2: jQuery (Недели 9–10)**:
   * **`js/feedback.js` (Алан Байгужинов):**
@@ -298,4 +302,3 @@ $('table.table').on('click', '.btn-stepper-plus', function (event) { ... });
 ## 7. Фиксация релизов в Git (Tags)
 * `midterm`: контрольная точка верстки и семантической разметки HTML5/Bootstrap 5.3.
 * `endterm`: финальная релизная версия с работающим Plain JavaScript и jQuery, 0 ошибок в консоли и полным прохождением User Journeys.
-  Вызвать `HITS_CATALOG.push({ ... })` и выполнить `$cardCol.appendTo($container)`.

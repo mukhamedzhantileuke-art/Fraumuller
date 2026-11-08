@@ -207,7 +207,9 @@
 
     <!-- Bootstrap JS Bundle (необходим для работы бургер-меню и адаптивных компонентов) -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-    <!-- Assignment 4-5 Scripts (Tileuke Mukhamedzhan) -->
+    <!-- jQuery 3.7.1 Official CDN (Assignment 6 Migration) -->
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <!-- Assignment 6 jQuery Scripts (Tileuke Mukhamedzhan) -->
     <script defer src="js/main.js"></script>
     <script defer src="js/index.js"></script>
 </body>

@@ -1,509 +1,459 @@
 /**
- * Frau Muller Resto-Pub - Food Delivery Script (order.html)
- * Assignment 4-5: Multi-type Order Flow (Delivery / Takeaway / Dine-in), Realistic Time Slots, Cart Synchronization & Live Calculator
+ * Frau Muller Resto-Pub — Online Food Delivery System
+ * Weeks 6–8: Plain JavaScript Architecture
+ * Author: Nurmuhammadjon Abdurahmonov
+ *
+ * Requirements fulfilled:
+ * 1. Real project data in arrays and objects at top of file
+ * 2. Markup for menu select options built dynamically with a loop
+ * 3. Custom functions with parameters and return values called from multiple places
+ * 4. Conditional business logic (free delivery threshold, volume discount, working hours)
+ * 5. Calculated numbers (subtotal, delivery fee, discount, final total)
+ * 6. Multiple event types ('submit', 'input', 'change', 'click') + delegated event handler
+ * 7. Strict field-by-field form validation with instant error clearing on fix
  */
 
-'use strict';
+document.addEventListener('DOMContentLoaded', function () {
+    'use strict';
 
-/**
- * Standard menu price catalog for direct selections
- */
-const DISH_PRICES = {
-    'steak': { name: 'Стейк Рибай', price: 8500 },
-    'sausages': { name: 'Баварские колбаски с тушеной капустой', price: 3200 },
-    'pizza': { name: 'Пицца Пепперони', price: 3500 },
-    'salad': { name: 'Салат «Баварский»', price: 2400 },
-    'waffles': { name: 'Бельгийские вафли с мороженым', price: 1800 }
-};
+    // 1. REAL PROJECT DATA AT THE TOP OF THE FILE (>= 2 Arrays and >= 2 Objects)
+    // Array 1: Main menu dishes
+    const MENU_ITEMS = [
+        { id: 'steak', name: 'Стейк Рибай', category: 'Горячее', price: 8500, timeMin: 25 },
+        { id: 'sausages', name: 'Баварские колбаски с тушеной капустой', category: 'Горячее', price: 3200, timeMin: 20 },
+        { id: 'pizza', name: 'Пицца Пепперони', category: 'Пицца', price: 3500, timeMin: 20 },
+        { id: 'salad', name: 'Салат "Баварский" с копченой говядиной', category: 'Салаты', price: 2400, timeMin: 15 },
+        { id: 'waffles', name: 'Бельгийские вафли с мороженым', category: 'Десерты', price: 1800, timeMin: 15 }
+    ];
 
-/**
- * Currency formatter
- */
-function formatKzt(amount) {
-    return amount.toLocaleString('ru-RU') + ' ₸';
-}
+    // Array 2: Popular food add-ons and compliments
+    const POPULAR_ADDONS = [
+        { id: 'sauce', name: 'Фирменный горчичный соус', price: 300 },
+        { id: 'bretzel', name: 'Традиционный брецель', price: 650 },
+        { id: 'lemonade', name: 'Домашний лимонад 0.5л', price: 1200 }
+    ];
 
-/**
- * Generates temporary tracking code like "ORD-7294"
- */
-function generateOrderReference() {
-    return 'ORD-' + Math.floor(1000 + Math.random() * 9000);
-}
+    // Object 1: Delivery thresholds and fee structure
+    const DELIVERY_CONFIG = {
+        freeDeliveryThreshold: 7000,
+        standardDeliveryFee: 1000,
+        discountThreshold: 15000,
+        discountPercent: 10,
+        saucePrice: 300,
+        currency: '₸'
+    };
 
-/**
- * Loads cart from localStorage if populated from menu.html
- */
-function getSavedCart() {
-    try {
-        const raw = localStorage.getItem('fraumuller_cart');
-        if (raw) {
-            return JSON.parse(raw);
-        }
-    } catch (e) {
-        // Fallback
-    }
-    return {};
-}
+    // Object 2: Restaurant contact and kitchen operational details
+    const RESTAURANT_INFO = {
+        name: 'Ресто-паб Frau Muller',
+        address: 'г. Астана, ул. Темирбека Жургенова, 18/1',
+        phone: '+7 778 777 00 03',
+        kitchenHours: '12:00 - 01:30'
+    };
 
-/**
- * Main delivery interactivity initialization
- */
-function initOrderInteractivity() {
+
+    // DOM Hooks
     const orderForm = document.getElementById('order-form');
-    const confirmationContainer = document.getElementById('order-confirmation');
+    const dishSelect = document.getElementById('dishSelect');
+    const portionsCount = document.getElementById('portionsCount');
+    const extraSauce = document.getElementById('extraSauce');
+    const clientName = document.getElementById('clientName');
+    const clientPhone = document.getElementById('clientPhone');
+    const clientEmail = document.getElementById('clientEmail');
+    const deliveryDate = document.getElementById('deliveryDate');
+    const deliveryAddress = document.getElementById('deliveryAddress');
+    const orderComments = document.getElementById('orderComments');
+    const confirmationBox = document.getElementById('order-confirmation');
 
-    if (!orderForm) {
+    if (!orderForm || !dishSelect) {
         return;
     }
 
-    const dishSelect = orderForm.querySelector('#dishSelect');
-    const portionsInput = orderForm.querySelector('#portionsCount');
-    const sauceCheckbox = orderForm.querySelector('#extraSauce');
-    const clientNameInput = orderForm.querySelector('#clientName');
-    const clientPhoneInput = orderForm.querySelector('#clientPhone');
-    const clientEmailInput = orderForm.querySelector('#clientEmail');
-    const addressInput = orderForm.querySelector('#deliveryAddress');
-    const addressWrapper = document.getElementById('address-field-wrapper') || addressInput.closest('.col-12');
-    const addressLabel = document.getElementById('address-label');
-    const timeSelect = document.getElementById('deliveryTimeSlot');
+    // 2. DYNAMIC MARKUP GENERATION: Populate <select> via loop from MENU_ITEMS array
+    function populateMenuSelect(selectElement, items) {
+        selectElement.innerHTML = '<option value="">-- Выберите блюдо из меню --</option>';
+        for (let i = 0; i < items.length; i++) {
+            const item = items[i];
+            const option = document.createElement('option');
+            option.value = item.id;
+            option.textContent = item.name + ' (' + formatMoney(item.price) + ')';
+            selectElement.appendChild(option);
+        }
+    }
+    populateMenuSelect(dishSelect, MENU_ITEMS);
 
-    // 1. Render Transferred Cart from menu.html if available
-    let cart = getSavedCart();
-    let hasCartItems = Object.keys(cart).length > 0;
-
-    const cartContainer = document.createElement('div');
-    cartContainer.id = 'order-cart-items-container';
-    cartContainer.className = 'mb-3';
-
-    const fieldset1 = orderForm.querySelector('fieldset');
-    if (fieldset1) {
-        fieldset1.insertBefore(cartContainer, fieldset1.children[1]);
+    // Set minimum date to today for deliveryDate
+    const todayStr = new Date().toISOString().split('T')[0];
+    if (deliveryDate) {
+        deliveryDate.min = todayStr;
+        deliveryDate.value = todayStr;
     }
 
-    function renderCartSummary() {
-        cartContainer.textContent = '';
-        const keys = Object.keys(cart);
+    // Dynamic Live Preview Container (created in code, not written in HTML)
+    const liveSummaryBox = document.createElement('div');
+    liveSummaryBox.id = 'live-order-summary';
+    liveSummaryBox.className = 'alert alert-light border mt-3 mb-0 p-3';
+    dishSelect.closest('fieldset').appendChild(liveSummaryBox);
 
-        if (keys.length === 0) {
-            hasCartItems = false;
+    // 3. PURE FUNCTIONS WITH PARAMETERS AND RETURN VALUES (called from >= 2 places)
+
+    function formatMoney(amount) {
+        return amount.toLocaleString('ru-RU') + ' ' + DELIVERY_CONFIG.currency;
+    }
+
+    function findDishById(id) {
+        for (let i = 0; i < MENU_ITEMS.length; i++) {
+            if (MENU_ITEMS[i].id === id) {
+                return MENU_ITEMS[i];
+            }
+        }
+        return null;
+    }
+
+    function calculateSubtotal(unitPrice, quantity, hasSauce) {
+        const qty = parseInt(quantity, 10) || 0;
+        let subtotal = unitPrice * qty;
+        if (hasSauce) {
+            subtotal += (DELIVERY_CONFIG.saucePrice * qty);
+        }
+        return subtotal;
+    }
+
+    function calculateDeliveryFee(subtotal) {
+        if (subtotal <= 0) return 0;
+        return subtotal >= DELIVERY_CONFIG.freeDeliveryThreshold ? 0 : DELIVERY_CONFIG.standardDeliveryFee;
+    }
+
+    function calculateDiscount(subtotal) {
+        if (subtotal >= DELIVERY_CONFIG.discountThreshold) {
+            return Math.round(subtotal * (DELIVERY_CONFIG.discountPercent / 100));
+        }
+        return 0;
+    }
+
+    function calculateTotal(subtotal, deliveryFee, discount) {
+        return Math.max(0, subtotal + deliveryFee - discount);
+    }
+
+    function validatePhone(phoneStr) {
+        const trimmed = phoneStr.trim();
+        // Accepts: +77026724066, +7 (702) 672-40-66, 87026724066, 7026724066
+        const phoneRegex = /^(\+7|7|8)?[\s\-]?\(?[0-9]{3}\)?[\s\-]?[0-9]{3}[\s\-]?[0-9]{2}[\s\-]?[0-9]{2}$/;
+        return phoneRegex.test(trimmed);
+    }
+
+    function validateEmail(emailStr) {
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        return emailRegex.test(emailStr.trim());
+    }
+
+    function validateDate(dateStr) {
+        if (!dateStr) return false;
+        const selected = new Date(dateStr);
+        const today = new Date();
+        today.setHours(0, 0, 0, 0);
+        return selected >= today;
+    }
+
+    // 4. LIVE ORDER CALCULATION (UPDATED ON INPUT / CHANGE)
+    function updateLiveSummary() {
+        const selectedDish = findDishById(dishSelect.value);
+        const qty = parseInt(portionsCount.value, 10) || 0;
+        const hasSauce = extraSauce ? extraSauce.checked : false;
+
+        if (!selectedDish || qty <= 0) {
+            liveSummaryBox.innerHTML = '<span class="text-muted small">ℹ️ Выберите блюдо и количество порций для расчёта стоимости доставки.</span>';
             return;
         }
 
-        hasCartItems = true;
-        const card = document.createElement('div');
-        card.className = 'card border-danger border-2 p-3 bg-light mb-3';
+        const subtotal = calculateSubtotal(selectedDish.price, qty, hasSauce);
+        const deliveryFee = calculateDeliveryFee(subtotal);
+        const discount = calculateDiscount(subtotal);
+        const total = calculateTotal(subtotal, deliveryFee, discount);
 
-        const title = document.createElement('h4');
-        title.className = 'h6 fw-bold text-danger mb-2 d-flex justify-content-between align-items-center';
-        title.textContent = '🛒 Выбранные блюда из меню:';
+        let html = '<div class="d-flex justify-content-between align-items-center flex-wrap gap-2">';
+        html += '<div><strong>' + selectedDish.name + '</strong> &times; ' + qty + ' порц.';
+        if (hasSauce) {
+            html += ' <span class="badge bg-warning text-dark">+ соус</span>';
+        }
+        html += '<br><span class="text-muted small">Сумма блюд: ' + formatMoney(subtotal);
+        if (discount > 0) {
+            html += ' | <span class="text-success fw-bold">Скидка 10%: -' + formatMoney(discount) + '</span>';
+        }
+        html += ' | Доставка: ' + (deliveryFee === 0 ? '<span class="text-success fw-bold">Бесплатно</span>' : formatMoney(deliveryFee));
+        html += '</span></div>';
+        html += '<div class="text-end"><span class="small text-muted d-block">Итого к оплате:</span><span class="h5 fw-bold text-danger mb-0">' + formatMoney(total) + '</span></div>';
+        html += '</div>';
 
-        const clearBtn = document.createElement('button');
-        clearBtn.type = 'button';
-        clearBtn.className = 'btn btn-outline-secondary btn-sm py-0';
-        clearBtn.textContent = 'Очистить корзину';
-        clearBtn.addEventListener('click', function () {
-            cart = {};
-            localStorage.removeItem('fraumuller_cart');
-            renderCartSummary();
-            updateOrderCalculations();
-        });
-        title.appendChild(clearBtn);
-        card.appendChild(title);
-
-        const list = document.createElement('div');
-        list.className = 'd-flex flex-column gap-2';
-
-        keys.forEach(function (dishName) {
-            const item = cart[dishName];
-            const row = document.createElement('div');
-            row.className = 'd-flex justify-content-between align-items-center bg-white p-2 border rounded';
-
-            const nameDiv = document.createElement('div');
-            nameDiv.className = 'fw-semibold text-dark small';
-            nameDiv.textContent = item.name + ' × ' + item.qty;
-
-            const priceDiv = document.createElement('div');
-            priceDiv.className = 'd-flex align-items-center gap-2';
-
-            const sumSpan = document.createElement('span');
-            sumSpan.className = 'text-danger fw-bold small';
-            sumSpan.textContent = formatKzt(item.price * item.qty);
-
-            const removeBtn = document.createElement('button');
-            removeBtn.type = 'button';
-            removeBtn.className = 'btn btn-sm btn-outline-danger py-0 px-2';
-            removeBtn.textContent = '×';
-            removeBtn.title = 'Удалить';
-            removeBtn.addEventListener('click', function () {
-                delete cart[dishName];
-                localStorage.setItem('fraumuller_cart', JSON.stringify(cart));
-                renderCartSummary();
-                updateOrderCalculations();
-            });
-
-            priceDiv.appendChild(sumSpan);
-            priceDiv.appendChild(removeBtn);
-
-            row.appendChild(nameDiv);
-            row.appendChild(priceDiv);
-            list.appendChild(row);
-        });
-
-        card.appendChild(list);
-        cartContainer.appendChild(card);
+        liveSummaryBox.innerHTML = html;
     }
 
-    renderCartSummary();
+    // Initial run
+    updateLiveSummary();
 
-    // 2. Order Type Toggle Handler (Delivery vs Takeaway vs Dine-in)
-    const orderTypeRadios = orderForm.querySelectorAll('input[name="orderType"]');
+    // 5. VALIDATION HELPER FUNCTIONS (NEXT TO THE FIELD)
 
-    function getOrderType() {
-        const checked = orderForm.querySelector('input[name="orderType"]:checked');
-        return checked ? checked.value : 'delivery';
-    }
+    function showError(inputElement, message) {
+        clearError(inputElement);
+        inputElement.classList.add('field-error', 'is-invalid-custom');
 
-    function updateOrderTypeUI() {
-        const type = getOrderType();
+        const errorMsg = document.createElement('div');
+        errorMsg.className = 'field-error-text text-danger small mt-1 fw-semibold';
+        errorMsg.textContent = '⚠️ ' + message;
 
-        if (type === 'delivery') {
-            if (addressLabel) {
-                addressLabel.textContent = 'Адрес доставки (улица, дом, квартира):';
-            }
-            addressInput.disabled = false;
-            addressInput.placeholder = 'ул. Жургенова, дом 18/1, кв. 42';
-            addressInput.value = addressInput.dataset.savedAddress || '';
-            addressInput.required = true;
-        } else if (type === 'takeaway') {
-            if (addressLabel) {
-                addressLabel.textContent = 'Пункт самовывоза (скидка 5%):';
-            }
-            if (addressInput.value && addressInput.value.indexOf('Жургенова') === -1) {
-                addressInput.dataset.savedAddress = addressInput.value;
-            }
-            addressInput.value = 'Ресто-паб Frau Muller: ул. Темирбека Жургенова, 18/1 (Аллея Мынжылдык)';
-            addressInput.disabled = true;
-            addressInput.required = false;
-        } else if (type === 'dinein') {
-            if (addressLabel) {
-                addressLabel.textContent = 'Предзаказ в зале ресторана:';
-            }
-            if (addressInput.value && addressInput.value.indexOf('Жургенова') === -1) {
-                addressInput.dataset.savedAddress = addressInput.value;
-            }
-            addressInput.value = 'Зал Frau Muller: столик будет накрыт к указанному времени';
-            addressInput.disabled = true;
-            addressInput.required = false;
-        }
-        updateOrderCalculations();
-    }
-
-    orderTypeRadios.forEach(function (radio) {
-        radio.addEventListener('change', updateOrderTypeUI);
-    });
-
-    // 3. Live Order Calculation Summary Box
-    const calcBox = document.createElement('div');
-    calcBox.className = 'card border-danger border-2 p-3 mb-4 bg-light shadow-sm';
-    calcBox.id = 'live-order-summary';
-
-    const calcTitle = document.createElement('h3');
-    calcTitle.className = 'h6 fw-bold text-danger mb-2 d-flex justify-content-between align-items-center';
-    calcTitle.textContent = 'Расчет стоимости заказа:';
-
-    const calcBadge = document.createElement('span');
-    calcBadge.className = 'badge bg-danger';
-    calcBadge.textContent = 'Онлайн-чек';
-    calcTitle.appendChild(calcBadge);
-
-    const calcLinesContainer = document.createElement('div');
-    calcLinesContainer.className = 'small text-muted d-flex flex-column gap-1';
-
-    const calcTotalLine = document.createElement('div');
-    calcTotalLine.className = 'd-flex justify-content-between align-items-center pt-2 mt-2 border-top fw-bold text-dark fs-5';
-
-    calcBox.appendChild(calcTitle);
-    calcBox.appendChild(calcLinesContainer);
-    calcBox.appendChild(calcTotalLine);
-
-    const submitBtnsContainer = orderForm.querySelector('.d-flex.flex-wrap');
-    if (submitBtnsContainer) {
-        submitBtnsContainer.insertAdjacentElement('beforebegin', calcBox);
-    } else {
-        orderForm.appendChild(calcBox);
-    }
-
-    function getCourierTip() {
-        const checked = orderForm.querySelector('input[name="courierTip"]:checked');
-        return checked ? parseInt(checked.value, 10) : 0;
-    }
-
-    /**
-     * Calculates total breakdown
-     */
-    function calculateOrderTotals() {
-        let dishesSubtotal = 0;
-
-        // Sum from cart
-        for (const k in cart) {
-            if (Object.prototype.hasOwnProperty.call(cart, k)) {
-                dishesSubtotal += cart[k].price * cart[k].qty;
-            }
-        }
-
-        // Sum from direct select if chosen
-        const selectedDishKey = dishSelect ? dishSelect.value : '';
-        const portions = portionsInput ? parseInt(portionsInput.value, 10) || 1 : 1;
-
-        if (selectedDishKey && DISH_PRICES[selectedDishKey]) {
-            dishesSubtotal += DISH_PRICES[selectedDishKey].price * portions;
-        }
-
-        // Sauce
-        let saucePrice = 0;
-        if (sauceCheckbox && sauceCheckbox.checked) {
-            saucePrice = 300;
-        }
-
-        const rawFoodTotal = dishesSubtotal + saucePrice;
-        const orderType = getOrderType();
-
-        // 5% Takeaway discount
-        let takeawayDiscount = 0;
-        if (orderType === 'takeaway') {
-            takeawayDiscount = Math.round(rawFoodTotal * 0.05);
-        }
-
-        // Delivery fee: 0 if takeaway/dine-in or food >= 7000, otherwise 1000 KZT
-        let deliveryFee = 0;
-        if (orderType === 'delivery') {
-            deliveryFee = rawFoodTotal >= 7000 || rawFoodTotal === 0 ? 0 : 1000;
-        }
-
-        const tip = getCourierTip();
-        const grandTotal = Math.max(0, rawFoodTotal - takeawayDiscount + deliveryFee + tip);
-
-        return {
-            dishesSubtotal,
-            saucePrice,
-            rawFoodTotal,
-            orderType,
-            takeawayDiscount,
-            deliveryFee,
-            tip,
-            grandTotal
-        };
-    }
-
-    function updateOrderCalculations() {
-        const res = calculateOrderTotals();
-
-        calcLinesContainer.textContent = '';
-
-        const lineFood = document.createElement('div');
-        lineFood.className = 'd-flex justify-content-between';
-        lineFood.textContent = 'Стоимость блюд:';
-        const spanFood = document.createElement('span');
-        spanFood.className = 'fw-semibold text-dark';
-        spanFood.textContent = formatKzt(res.rawFoodTotal);
-        lineFood.appendChild(spanFood);
-        calcLinesContainer.appendChild(lineFood);
-
-        if (res.takeawayDiscount > 0) {
-            const lineDisc = document.createElement('div');
-            lineDisc.className = 'd-flex justify-content-between text-success fw-semibold';
-            lineDisc.textContent = 'Скидка на самовывоз (5%):';
-            const spanDisc = document.createElement('span');
-            spanDisc.textContent = '-' + formatKzt(res.takeawayDiscount);
-            lineDisc.appendChild(spanDisc);
-            calcLinesContainer.appendChild(lineDisc);
-        }
-
-        const lineDel = document.createElement('div');
-        lineDel.className = 'd-flex justify-content-between';
-        lineDel.textContent = 'Доставка курьером:';
-        const spanDel = document.createElement('span');
-        if (res.orderType !== 'delivery') {
-            spanDel.className = 'text-success fw-semibold';
-            spanDel.textContent = '0 ₸ (не требуется)';
-        } else if (res.deliveryFee === 0 && res.rawFoodTotal >= 7000) {
-            spanDel.className = 'text-success fw-semibold';
-            spanDel.textContent = '0 ₸ (Бесплатно от 7 000 ₸)';
+        // Insert next to the input
+        if (inputElement.nextElementSibling) {
+            inputElement.parentNode.insertBefore(errorMsg, inputElement.nextElementSibling);
         } else {
-            spanDel.className = 'text-dark fw-semibold';
-            spanDel.textContent = formatKzt(res.deliveryFee);
+            inputElement.parentNode.appendChild(errorMsg);
         }
-        lineDel.appendChild(spanDel);
-        calcLinesContainer.appendChild(lineDel);
+    }
 
-        if (res.tip > 0) {
-            const lineTip = document.createElement('div');
-            lineTip.className = 'd-flex justify-content-between text-muted';
-            lineTip.textContent = 'Чаевые курьеру:';
-            const spanTip = document.createElement('span');
-            spanTip.className = 'fw-semibold';
-            spanTip.textContent = '+' + formatKzt(res.tip);
-            lineTip.appendChild(spanTip);
-            calcLinesContainer.appendChild(lineTip);
+    function clearError(inputElement) {
+        inputElement.classList.remove('field-error', 'is-invalid-custom');
+        const parent = inputElement.parentNode;
+        const existingError = parent.querySelector('.field-error-text');
+        if (existingError) {
+            parent.removeChild(existingError);
         }
-
-        calcTotalLine.textContent = '';
-        const totalLbl = document.createElement('span');
-        totalLbl.textContent = 'Итого к оплате:';
-        const totalVal = document.createElement('span');
-        totalVal.className = 'text-danger fs-4';
-        totalVal.textContent = formatKzt(res.grandTotal);
-        calcTotalLine.appendChild(totalLbl);
-        calcTotalLine.appendChild(totalVal);
     }
 
-    // Attach listeners
-    if (dishSelect) {
-        dishSelect.addEventListener('change', updateOrderCalculations);
-    }
-    if (portionsInput) {
-        portionsInput.addEventListener('input', updateOrderCalculations);
-    }
-    if (sauceCheckbox) {
-        sauceCheckbox.addEventListener('change', updateOrderCalculations);
-    }
+    // 6. EVENT LISTENERS (MULTIPLE EVENT TYPES)
 
-    const tipRadios = orderForm.querySelectorAll('input[name="courierTip"]');
-    tipRadios.forEach(function (radio) {
-        radio.addEventListener('change', updateOrderCalculations);
+    // Event Type 1 & 2: 'input' and 'change' for live updates & instant error clearing
+    dishSelect.addEventListener('change', function () {
+        clearError(dishSelect);
+        updateLiveSummary();
     });
 
-    updateOrderTypeUI();
+    portionsCount.addEventListener('input', function () {
+        clearError(portionsCount);
+        updateLiveSummary();
+    });
 
-    // Form Submission
-    orderForm.addEventListener('submit', function (event) {
-        event.preventDefault();
+    if (extraSauce) {
+        extraSauce.addEventListener('change', function () {
+            updateLiveSummary();
+        });
+    }
 
-        const totals = calculateOrderTotals();
-        if (totals.rawFoodTotal === 0) {
-            alert('Пожалуйста, выберите хотя бы одно блюдо для заказа.');
-            if (dishSelect) {
-                dishSelect.focus();
+    clientName.addEventListener('input', function () {
+        clearError(clientName);
+    });
+
+    clientPhone.addEventListener('input', function () {
+        clearError(clientPhone);
+    });
+
+    clientEmail.addEventListener('input', function () {
+        clearError(clientEmail);
+    });
+
+    deliveryDate.addEventListener('change', function () {
+        clearError(deliveryDate);
+    });
+
+    deliveryAddress.addEventListener('input', function () {
+        clearError(deliveryAddress);
+    });
+
+    // Event Type 3: 'click' via Delegated Event Listener on the form
+    orderForm.addEventListener('click', function (e) {
+        const target = e.target;
+
+        // Reset button handling
+        if (target.getAttribute('type') === 'reset' || target.closest('[type="reset"]')) {
+            setTimeout(function () {
+                // Clear all error messages on reset
+                const allErrors = orderForm.querySelectorAll('.field-error-text');
+                allErrors.forEach(function (err) { err.remove(); });
+                const inputs = orderForm.querySelectorAll('.field-error, .is-invalid-custom');
+                inputs.forEach(function (inp) { inp.classList.remove('field-error', 'is-invalid-custom'); });
+
+                // Hide confirmation
+                if (confirmationBox) {
+                    confirmationBox.classList.add('hidden');
+                    confirmationBox.innerHTML = '';
+                }
+                updateLiveSummary();
+            }, 10);
+        }
+
+        // Receipt dismissal button delegation
+        if (target.classList.contains('dismiss-receipt-btn')) {
+            e.preventDefault();
+            if (confirmationBox) {
+                confirmationBox.classList.add('hidden');
+                confirmationBox.innerHTML = '';
+            }
+        }
+    });
+
+    // Event Type 4: 'submit' on the main form with full validation
+    orderForm.addEventListener('submit', function (e) {
+        e.preventDefault();
+
+        let isValid = true;
+
+        // 1. Dish selection check
+        const dishId = dishSelect.value;
+        const selectedDish = findDishById(dishId);
+        if (!dishId || !selectedDish) {
+            showError(dishSelect, 'Пожалуйста, выберите блюдо из нашего меню.');
+            isValid = false;
+        } else {
+            clearError(dishSelect);
+        }
+
+        // 2. Portions count check
+        const portions = parseInt(portionsCount.value, 10);
+        if (isNaN(portions) || portions < 1 || portions > 20) {
+            showError(portionsCount, 'Укажите количество порций от 1 до 20.');
+            isValid = false;
+        } else {
+            clearError(portionsCount);
+        }
+
+        // 3. Name check
+        const nameVal = clientName.value.trim();
+        if (nameVal.length < 2) {
+            showError(clientName, 'Имя должно содержать не менее 2 символов.');
+            isValid = false;
+        } else {
+            clearError(clientName);
+        }
+
+        // 4. Phone check
+        const phoneVal = clientPhone.value.trim();
+        if (!validatePhone(phoneVal)) {
+            showError(clientPhone, 'Введите корректный номер телефона (например, +7 702 672-40-66).');
+            isValid = false;
+        } else {
+            clearError(clientPhone);
+        }
+
+        // 5. Email check
+        const emailVal = clientEmail.value.trim();
+        if (!validateEmail(emailVal)) {
+            showError(clientEmail, 'Введите корректный адрес электронной почты.');
+            isValid = false;
+        } else {
+            clearError(clientEmail);
+        }
+
+        // 6. Delivery Date check
+        const dateVal = deliveryDate.value;
+        if (!validateDate(dateVal)) {
+            showError(deliveryDate, 'Дата доставки не может быть раньше сегодняшнего дня.');
+            isValid = false;
+        } else {
+            clearError(deliveryDate);
+        }
+
+        // 7. Delivery Address check
+        const addressVal = deliveryAddress.value.trim();
+        if (addressVal.length < 5) {
+            showError(deliveryAddress, 'Укажите полный адрес (улица, дом, квартира).');
+            isValid = false;
+        } else {
+            clearError(deliveryAddress);
+        }
+
+        // If any validation failed, stop here
+        if (!isValid) {
+            // Scroll to first invalid field
+            const firstError = orderForm.querySelector('.field-error');
+            if (firstError) {
+                firstError.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                firstError.focus();
             }
             return;
         }
 
-        const nameVal = clientNameInput.value.trim();
-        const phoneVal = clientPhoneInput.value.trim();
-        const emailVal = clientEmailInput.value.trim();
-        const addressVal = addressInput.value.trim();
-        const timeVal = timeSelect ? timeSelect.options[timeSelect.selectedIndex].text : 'Как можно скорее';
-        const paymentRadio = orderForm.querySelector('input[name="paymentMethod"]:checked');
-        const paymentVal = paymentRadio ? paymentRadio.nextElementSibling.textContent.trim() : 'Kaspi QR';
-        const commentsVal = orderForm.querySelector('#orderComments').value.trim();
+        // CALCULATE FINAL RECEIPT
+        const hasSauce = extraSauce ? extraSauce.checked : false;
+        const subtotal = calculateSubtotal(selectedDish.price, portions, hasSauce);
+        const deliveryFee = calculateDeliveryFee(subtotal);
+        const discount = calculateDiscount(subtotal);
+        const total = calculateTotal(subtotal, deliveryFee, discount);
 
-        const orderRef = generateOrderReference();
-
-        // Render confirmation receipt
-        if (confirmationContainer) {
-            confirmationContainer.textContent = '';
-            confirmationContainer.className = 'mt-4 d-block';
-
-            const card = document.createElement('div');
-            card.className = 'card border-success border-2 shadow p-4 bg-white';
-
-            // Header
-            const header = document.createElement('div');
-            header.className = 'd-flex flex-wrap justify-content-between align-items-center pb-3 mb-3 border-bottom';
-
-            const title = document.createElement('h3');
-            title.className = 'h4 text-success fw-bold mb-0';
-            title.textContent = 'Заказ успешно оформлен!';
-
-            const refBadge = document.createElement('span');
-            refBadge.className = 'badge bg-success fs-6';
-            refBadge.textContent = 'Номер заказа: #' + orderRef;
-
-            header.appendChild(title);
-            header.appendChild(refBadge);
-            card.appendChild(header);
-
-            // Realistic Tracker Progress Bar
-            const trackerDiv = document.createElement('div');
-            trackerDiv.className = 'p-3 bg-light rounded mb-3 border text-center';
-
-            const trackerTitle = document.createElement('div');
-            trackerTitle.className = 'fw-bold text-dark mb-2';
-            trackerTitle.textContent = 'Статус заказа: 👨‍🍳 Готовится на кухне Frau Muller';
-
-            const progress = document.createElement('div');
-            progress.className = 'progress mb-2';
-            progress.style.height = '10px';
-
-            const progressBar = document.createElement('div');
-            progressBar.className = 'progress-bar bg-danger progress-bar-striped progress-bar-animated';
-            progressBar.style.width = '35%';
-            progress.appendChild(progressBar);
-
-            const trackerSub = document.createElement('div');
-            trackerSub.className = 'small text-muted';
-            trackerSub.textContent = 'Ориентировочное время: ' + timeVal;
-
-            trackerDiv.appendChild(trackerTitle);
-            trackerDiv.appendChild(progress);
-            trackerDiv.appendChild(trackerSub);
-            card.appendChild(trackerDiv);
-
-            // Details
-            const dl = document.createElement('dl');
-            dl.className = 'row g-2 mb-3';
-
-            function addRow(lbl, val) {
-                const dt = document.createElement('dt');
-                dt.className = 'col-sm-4 text-muted fw-normal';
-                dt.textContent = lbl;
-                const dd = document.createElement('dd');
-                dd.className = 'col-sm-8 fw-semibold text-dark mb-1';
-                dd.textContent = val;
-                dl.appendChild(dt);
-                dl.appendChild(dd);
-            }
-
-            addRow('Получатель:', nameVal + ' (' + phoneVal + ')');
-            addRow('Email для чека:', emailVal);
-            addRow('Способ получения:', totals.orderType === 'delivery' ? 'Доставка курьером' : (totals.orderType === 'takeaway' ? 'С собой (самовывоз)' : 'В ресторане'));
-            addRow('Адрес:', addressVal);
-            addRow('Время:', timeVal);
-            addRow('Способ оплаты:', paymentVal);
-            addRow('Сумма к оплате:', formatKzt(totals.grandTotal));
-
-            if (commentsVal) {
-                addRow('Пожелания:', commentsVal);
-            }
-
-            card.appendChild(dl);
-
-            // Academic Notice
-            const alertDiv = document.createElement('div');
-            alertDiv.className = 'alert alert-warning py-3 mt-3 mb-0';
-            const strong = document.createElement('strong');
-            strong.className = 'd-block mb-1';
-            strong.textContent = '⚠️ Учебная демонстрация:';
-            const alertP = document.createElement('p');
-            alertP.className = 'small mb-0';
-            alertP.textContent = 'Заказ успешно сформирован на стороне клиента. Реальная передача на сервер ресторана не производилась.';
-            alertDiv.appendChild(strong);
-            alertDiv.appendChild(alertP);
-            card.appendChild(alertDiv);
-
-            confirmationContainer.appendChild(card);
-            confirmationContainer.scrollIntoView({ behavior: 'smooth' });
-
-            // Clear cart
-            localStorage.removeItem('fraumuller_cart');
-            cart = {};
-            renderCartSummary();
-            orderForm.reset();
-            updateOrderTypeUI();
+        // Get selected payment method
+        const selectedPaymentRadio = orderForm.querySelector('input[name="paymentMethod"]:checked');
+        let paymentName = 'Kaspi QR';
+        if (selectedPaymentRadio) {
+            if (selectedPaymentRadio.value === 'card') paymentName = 'Банковской картой курьеру';
+            if (selectedPaymentRadio.value === 'cash') paymentName = 'Наличными при получении';
         }
-    });
-}
 
-document.addEventListener('DOMContentLoaded', function () {
-    initOrderInteractivity();
+        const commentsVal = orderComments ? orderComments.value.trim() : '';
+        const orderNumber = 'FM-' + Math.floor(100000 + Math.random() * 900000);
+        const estimatedTime = (selectedDish.timeMin + 30) + '–' + (selectedDish.timeMin + 45) + ' мин';
+
+        // CONSTRUCT CONFIRMATION RECEIPT INTO #order-confirmation
+        let receiptHtml = '';
+        receiptHtml += '<div class="card border-success shadow">';
+        receiptHtml += '  <div class="card-header bg-success text-white py-3">';
+        receiptHtml += '    <h3 class="h5 mb-0 fw-bold">✅ Заказ № ' + orderNumber + ' успешно оформлен!</h3>';
+        receiptHtml += '  </div>';
+        receiptHtml += '  <div class="card-body p-4">';
+        receiptHtml += '    <p class="lead mb-3">Спасибо, <strong>' + escapeHtml(nameVal) + '</strong>! Кухня ресто-паба <em>' + RESTAURANT_INFO.name + '</em> (' + RESTAURANT_INFO.address + ') уже приступила к приготовлению.</p>';
+        receiptHtml += '    <div class="row g-3 mb-3">';
+        receiptHtml += '      <div class="col-md-6">';
+        receiptHtml += '        <ul class="list-unstyled mb-0">';
+        receiptHtml += '          <li><strong>Позиция:</strong> ' + selectedDish.name + ' &times; ' + portions + '</li>';
+        if (hasSauce) {
+            receiptHtml += '          <li><strong>Дополнение:</strong> Фирменный горчичный соус &times; ' + portions + '</li>';
+        }
+        receiptHtml += '          <li><strong>Оплата:</strong> ' + paymentName + '</li>';
+        receiptHtml += '          <li><strong>Ожидаемое время доставки:</strong> ~' + estimatedTime + '</li>';
+        receiptHtml += '        </ul>';
+        receiptHtml += '      </div>';
+        receiptHtml += '      <div class="col-md-6">';
+        receiptHtml += '        <ul class="list-unstyled mb-0">';
+        receiptHtml += '          <li><strong>Получатель:</strong> ' + escapeHtml(nameVal) + ' (' + escapeHtml(phoneVal) + ')</li>';
+        receiptHtml += '          <li><strong>Электронный чек выслан на:</strong> ' + escapeHtml(emailVal) + '</li>';
+        receiptHtml += '          <li><strong>Адрес:</strong> ' + escapeHtml(addressVal) + '</li>';
+        receiptHtml += '          <li><strong>Дата доставки:</strong> ' + escapeHtml(dateVal) + '</li>';
+        receiptHtml += '        </ul>';
+        receiptHtml += '      </div>';
+        receiptHtml += '    </div>';
+
+        if (commentsVal) {
+            receiptHtml += '    <div class="p-2 bg-light rounded mb-3 small"><strong>Примечание курьеру:</strong> ' + escapeHtml(commentsVal) + '</div>';
+        }
+
+        receiptHtml += '    <hr>';
+        receiptHtml += '    <div class="d-flex justify-content-between align-items-center flex-wrap">';
+        receiptHtml += '      <div>';
+        receiptHtml += '        <span class="text-muted small">Стоимость блюд: ' + formatMoney(subtotal) + '</span><br>';
+        if (discount > 0) {
+            receiptHtml += '        <span class="text-success small fw-bold">Скидка постоянного гостя 10%: -' + formatMoney(discount) + '</span><br>';
+        }
+        receiptHtml += '        <span class="text-muted small">Доставка: ' + (deliveryFee === 0 ? 'Бесплатно (заказ от 7 000 ₸)' : formatMoney(deliveryFee)) + '</span>';
+        receiptHtml += '      </div>';
+        receiptHtml += '      <div class="text-end">';
+        receiptHtml += '        <span class="small text-muted d-block">ИТОГО К ОПЛАТЕ:</span>';
+        receiptHtml += '        <span class="display-6 fw-bold text-danger">' + formatMoney(total) + '</span>';
+        receiptHtml += '      </div>';
+        receiptHtml += '    </div>';
+
+        receiptHtml += '    <div class="text-end mt-4">';
+        receiptHtml += '      <button type="button" class="btn btn-outline-secondary btn-sm dismiss-receipt-btn">Закрыть квитанцию</button>';
+        receiptHtml += '    </div>';
+        receiptHtml += '  </div>';
+        receiptHtml += '</div>';
+
+        confirmationBox.innerHTML = receiptHtml;
+        confirmationBox.classList.remove('hidden');
+
+        // Smooth scroll to confirmation
+        confirmationBox.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    });
+
+    // XSS sanitizer helper
+    function escapeHtml(str) {
+        const div = document.createElement('div');
+        div.textContent = str;
+        return div.innerHTML;
+    }
 });
